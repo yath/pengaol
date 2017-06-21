@@ -1,4 +1,4 @@
-ctextlinux.o: ctextlinux.cpp ctextlinux.h cmsgerror.h \
+ctextlinux.o: ctextlinux.cpp ctextlinux.h ../config.h main.h cmsgerror.h \
   /usr/lib/gcc-lib/i586-mandrake-linux/2.96/include/stdarg.h \
   /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h \
   /usr/include/gnu/stubs.h \
@@ -10,6 +10,8 @@ ctextlinux.o: ctextlinux.cpp ctextlinux.h cmsgerror.h \
   /usr/include/syslog.h /usr/include/sys/syslog.h
 ctextlinux.cpp :
 ctextlinux.h :
+../config.h :
+main.h :
 cmsgerror.h :
 /usr/lib/gcc-lib/i586-mandrake-linux/2.96/include/stdarg.h :
 /usr/include/stdio.h :

@@ -146,7 +146,7 @@ dlopen_self=no
 dlopen_self_static=unknown
 
 # Compiler flag to prevent dynamic linking.
-link_static_flag="-static"
+link_static_flag=""
 
 # Compiler flag to turn off builtin functions.
 no_builtin_flag=" -fno-builtin -fno-rtti -fno-exceptions"

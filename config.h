@@ -5,7 +5,7 @@
 #define PACKAGE "pengaol2"
 
 /* Version number of package */
-#define VERSION "0.55"
+#define VERSION "1.0"
 
 /* C++ compiler supports template repository */
 #define HAVE_TEMPLATE_REPOSITORY 1
@@ -14,3 +14,4 @@
 #define WITH_CABLE
 #define WITH_PPP
 #define WITH_TUNTAP
+#define WITH_GUI

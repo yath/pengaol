@@ -15,4 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "config.h"
+#ifndef MAIN_H
+#define MAIN_H
+
+
+#ifdef WITH_GUI
+#ifdef __cplusplus
+	extern "C" {
+#endif
+void connection();
+void DelUser(char *login);
+char* GetPass(char *login);
+char **LoginList();
+void QuitPeng();
+void disconnect();
+void AddUser(char *login, char *password);
+#ifdef __cplusplus
+	}
+#endif
+
+void *StartKernel(void *);
+void EcritConnect(char *texte);
+#endif
 void Exit(int sig);
+#endif

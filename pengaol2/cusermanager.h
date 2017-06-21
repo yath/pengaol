@@ -55,11 +55,15 @@ public:
   char* GetPass(char *sUser);
   /** efface les \n */
   void KillRet(char *sLigne);
+  /** retourne la liste des user */
+  char** GetLogin();
 protected: // Protected attributes
   /** gestion des message */
   CMsgError *Msg;
   /** Numero de l'erreur */
   int NbError;
+  /** utilisateurs */
+  char *sUser[100];
 };
 
 #endif

@@ -98,7 +98,7 @@
 #include <arpa/inet.h>
 
 #include <linux/ppp_defs.h>
-#include "if_ppp.h"
+#include <linux/if_ppp.h>
 
 #define ok_error(num) ((num)==EIO)
 #define KVERSION(j,n,p)	((j)*1000000 + (n)*1000 + (p))

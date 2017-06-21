@@ -14,17 +14,17 @@ install=false
 install_location=
 type=DATA
 [Config for BinMakefileAm]
-addcxxflags=-D_REENTRANT
+addcxxflags=-D_REENTRANT `gtk-config --cflags`
 bin_program=pengaol2
 cxxflags=-O0 -g3 -Wall
 ldadd=-lstdc++ -lpthread
-ldflags=
+ldflags=`gtk-config --libs`
 [General]
 AMChanged=false
 author=stephane (birdy57)
 email=birdy57@pengaol.org
 kdevprj_version=1.3
-lfv_open_groups=Autres,Sources
+lfv_open_groups=Autres,En-têtes,Sources
 make_options=-j1
 makefiles=Makefile.am,pengaol2/Makefile.am,pengaol2/docs/Makefile.am,pengaol2/docs/en/Makefile.am
 modifyMakefiles=true
@@ -33,7 +33,7 @@ project_type=normal_cpp
 sgml_file=/opt/pengaol2/pengaol2/docs/en/index.sgml
 short_info=
 sub_dir=pengaol2/
-version=0.55
+version=1.0
 version_control=CVS
 workspace=1
 [INSTALL]
@@ -97,7 +97,7 @@ install=false
 install_location=
 type=HEADER
 [pengaol2/Makefile.am]
-files=pengaol2/main.cpp,pengaol2/CableDriver.cpp,pengaol2/CableDriver.h,pengaol2/TunTapErrors.cpp,pengaol2/ctuntapdriver.cpp,pengaol2/ctuntapdriver.h,pengaol2/if_tun.h,pengaol2/modemdriver.cpp,pengaol2/modemdriver.h,pengaol2/type.h,pengaol2/cconfig.cpp,pengaol2/cconfig.h,pengaol2/cparamconfig.cpp,pengaol2/cparamconfig.h,pengaol2/nulldriver.cpp,pengaol2/nulldriver.h,pengaol2/cloader.cpp,pengaol2/cloader.h,pengaol2/cmsgerror.cpp,pengaol2/cmsgerror.h,pengaol2/PengMessages.txt,pengaol2/ccommand.cpp,pengaol2/ccommand.h,pengaol2/ciptools.cpp,pengaol2/ciptools.h,pengaol2/ctextlinux.cpp,pengaol2/ctextlinux.h,pengaol2/kernel30.cpp,pengaol2/kernel30.h,pengaol2/ckernel.cpp,pengaol2/ckernel.h,pengaol2/cvjcompress.cpp,pengaol2/cvjcompress.h,pengaol2/vjcompress.c,pengaol2/vjcompress.h,pengaol2/ppp_defs.h,pengaol2/ctcpipheader.cpp,pengaol2/ctcpipheader.h,pengaol2/caoltoclient30.cpp,pengaol2/caoltoclient30.h,pengaol2/caolheader30.cpp,pengaol2/caolheader30.h,pengaol2/cclienttoaol30.cpp,pengaol2/cclienttoaol30.h,pengaol2/caolcmd30.cpp,pengaol2/caolcmd30.h,pengaol2/crouteur.cpp,pengaol2/crouteur.h,pengaol2/crouteurlinux.cpp,pengaol2/crouteurlinux.h,pengaol2/cusermanager.cpp,pengaol2/cusermanager.h,pengaol2/ccrypto.cpp,pengaol2/ccrypto.h,pengaol2/cppp.cpp,pengaol2/cppp.h,pengaol2/cppptools.cpp,pengaol2/cppptools.h,pengaol2/threadELV3.cpp,pengaol2/threadELV3.h,pengaol2/caim.cpp,pengaol2/caim.h,pengaol2/if_ppp.h,pengaol2/main.h
+files=pengaol2/main.cpp,pengaol2/CableDriver.cpp,pengaol2/CableDriver.h,pengaol2/TunTapErrors.cpp,pengaol2/ctuntapdriver.cpp,pengaol2/ctuntapdriver.h,pengaol2/modemdriver.cpp,pengaol2/modemdriver.h,pengaol2/type.h,pengaol2/cconfig.cpp,pengaol2/cconfig.h,pengaol2/cparamconfig.cpp,pengaol2/cparamconfig.h,pengaol2/nulldriver.cpp,pengaol2/nulldriver.h,pengaol2/cloader.cpp,pengaol2/cloader.h,pengaol2/cmsgerror.cpp,pengaol2/cmsgerror.h,pengaol2/PengMessages.txt,pengaol2/ccommand.cpp,pengaol2/ccommand.h,pengaol2/ciptools.cpp,pengaol2/ciptools.h,pengaol2/ctextlinux.cpp,pengaol2/ctextlinux.h,pengaol2/kernel30.cpp,pengaol2/kernel30.h,pengaol2/ckernel.cpp,pengaol2/ckernel.h,pengaol2/cvjcompress.cpp,pengaol2/cvjcompress.h,pengaol2/vjcompress.c,pengaol2/vjcompress.h,pengaol2/ctcpipheader.cpp,pengaol2/ctcpipheader.h,pengaol2/caoltoclient30.cpp,pengaol2/caoltoclient30.h,pengaol2/caolheader30.cpp,pengaol2/caolheader30.h,pengaol2/cclienttoaol30.cpp,pengaol2/cclienttoaol30.h,pengaol2/caolcmd30.cpp,pengaol2/caolcmd30.h,pengaol2/crouteur.cpp,pengaol2/crouteur.h,pengaol2/crouteurlinux.cpp,pengaol2/crouteurlinux.h,pengaol2/cusermanager.cpp,pengaol2/cusermanager.h,pengaol2/ccrypto.cpp,pengaol2/ccrypto.h,pengaol2/cppp.cpp,pengaol2/cppp.h,pengaol2/cppptools.cpp,pengaol2/cppptools.h,pengaol2/threadELV3.cpp,pengaol2/threadELV3.h,pengaol2/caim.cpp,pengaol2/caim.h,pengaol2/main.h,pengaol2/connect.xpm,pengaol2/left.xpm,pengaol2/pengemul.c,pengaol2/pengemul.h,pengaol2/up.xpm,pengaol2/window1.c,pengaol2/window1.h,pengaol2/window2.c,pengaol2/window2.h,pengaol2/window3.c,pengaol2/window3.h,pengaol2/window.h
 sub_dirs=docs
 type=prog_main
 [pengaol2/PengMessages.txt]
@@ -230,6 +230,11 @@ dist=true
 install=false
 install_location=
 type=HEADER
+[pengaol2/connect.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
 [pengaol2/cparamconfig.cpp]
 dist=true
 install=false
@@ -372,16 +377,6 @@ dist=true
 install=false
 install_location=
 type=DATA
-[pengaol2/if_ppp.h]
-dist=true
-install=false
-install_location=
-type=HEADER
-[pengaol2/if_tun.h]
-dist=true
-install=false
-install_location=
-type=HEADER
 [pengaol2/kernel30.cpp]
 dist=true
 install=false
@@ -392,6 +387,11 @@ dist=true
 install=false
 install_location=
 type=HEADER
+[pengaol2/left.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
 [pengaol2/main.cpp]
 dist=true
 install=true
@@ -422,7 +422,12 @@ dist=true
 install=false
 install_location=
 type=HEADER
-[pengaol2/ppp_defs.h]
+[pengaol2/pengemul.c]
+dist=true
+install=false
+install_location=
+type=SOURCE
+[pengaol2/pengemul.h]
 dist=true
 install=false
 install_location=
@@ -442,12 +447,52 @@ dist=true
 install=false
 install_location=
 type=HEADER
+[pengaol2/up.xpm]
+dist=true
+install=false
+install_location=
+type=DATA
 [pengaol2/vjcompress.c]
 dist=true
 install=false
 install_location=
 type=SOURCE
 [pengaol2/vjcompress.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+[pengaol2/window.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+[pengaol2/window1.c]
+dist=true
+install=false
+install_location=
+type=SOURCE
+[pengaol2/window1.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+[pengaol2/window2.c]
+dist=true
+install=false
+install_location=
+type=SOURCE
+[pengaol2/window2.h]
+dist=true
+install=false
+install_location=
+type=HEADER
+[pengaol2/window3.c]
+dist=true
+install=false
+install_location=
+type=SOURCE
+[pengaol2/window3.h]
 dist=true
 install=false
 install_location=

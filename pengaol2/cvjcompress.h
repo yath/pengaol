@@ -22,7 +22,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "ppp_defs.h"
+#if __GLIBC__ >= 2
+#include <asm/types.h>
+#else		/* glibc 2 conflicts with linux/types.h */
+#include <linux/types.h>
+#endif
+#include <linux/ppp_defs.h>
 #include "vjcompress.h"
 #include "ctcpipheader.h"
 

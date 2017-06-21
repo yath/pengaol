@@ -58,6 +58,7 @@ bStopTunneling=false;
 bNeedAck=false;
 VjcompressOut=new CVjcompress;
 KernelName="Kernel ELV3 V0.5";
+m_nLastAolInet=0;
 }
 
 Kernel30::~Kernel30()
@@ -92,7 +93,7 @@ memcpy(sLogin,Login,nLoginLen);
 if (nLoginLen<10) nLoginLen=10;
 sLogin[nLoginLen]='\0';
 
-m_cMsgIn->Printf("%M%t\n",54);
+m_cMsgIn->Printf("%M%C%t\n",54);
 
 // Envoie la premiere trame
 nLon=HexToSeq(sBuffer,(char *) CData->dat1,(m_nSpeed/10000));
@@ -105,14 +106,14 @@ ReadAolTrame(sBuffer,1500);
 
 //Verification du mot de passe
 
-m_cMsgIn->Printf("%M%t\n",55);
+m_cMsgIn->Printf("%M%C%t\n",55);
 nLon=HexToSeq(sBuffer,(char *) CData->dat2,nLoginLen,sLogin,nPassLen,PassWord);
 WriteRawIn(sBuffer,nLon);
 
 nLon=HexToSeq(sBuffer,(char *) CData->dat5);
 WaitForIn(sBuffer,nLon);
 
-m_cMsgIn->Printf("%M%t\n",56);
+m_cMsgIn->Printf("%M%C%t\n",56);
 
 //Envoie la requete IP
 

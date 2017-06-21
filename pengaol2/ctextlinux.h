@@ -17,6 +17,8 @@
 
 #ifndef CTEXTLINUX_H
 #define CTEXTLINUX_H
+#include "config.h"
+#include "main.h"
 
 #include <cmsgerror.h>
 #include <stdio.h>

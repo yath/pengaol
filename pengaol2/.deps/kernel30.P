@@ -20,21 +20,21 @@ kernel30.o: kernel30.cpp kernel30.h nulldriver.h cparamconfig.h \
   /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
   /usr/include/bits/posix2_lim.h /usr/include/bits/sockaddr.h \
   /usr/include/asm/socket.h /usr/include/asm/sockios.h \
-  /usr/include/bits/in.h /usr/include/bits/byteswap.h main.h \
-  caolheader30.h cvjcompress.h /usr/include/netinet/ip.h ppp_defs.h \
-  vjcompress.h ctcpipheader.h /usr/include/netdb.h \
-  /usr/include/rpc/netdb.h /usr/include/bits/netdb.h \
-  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
-  /usr/include/bits/confname.h /usr/include/getopt.h \
-  /usr/include/termios.h /usr/include/bits/termios.h \
-  /usr/include/sys/ttydefaults.h /usr/include/sys/fcntl.h \
-  /usr/include/fcntl.h /usr/include/bits/fcntl.h /usr/include/sys/ioctl.h \
-  /usr/include/bits/ioctls.h /usr/include/asm/ioctls.h \
-  /usr/include/asm/ioctl.h /usr/include/bits/ioctl-types.h \
-  caoltoclient30.h caim.h caolcmd30.h cclienttoaol30.h \
-  /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h \
-  threadELV3.h /usr/include/pthread.h /usr/include/sched.h \
-  /usr/include/signal.h /usr/include/bits/initspin.h \
+  /usr/include/bits/in.h /usr/include/bits/byteswap.h main.h ../config.h \
+  caolheader30.h cvjcompress.h /usr/include/netinet/ip.h \
+  /usr/include/asm/types.h /usr/include/linux/ppp_defs.h vjcompress.h \
+  ctcpipheader.h /usr/include/netdb.h /usr/include/rpc/netdb.h \
+  /usr/include/bits/netdb.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h /usr/include/termios.h \
+  /usr/include/bits/termios.h /usr/include/sys/ttydefaults.h \
+  /usr/include/sys/fcntl.h /usr/include/fcntl.h /usr/include/bits/fcntl.h \
+  /usr/include/sys/ioctl.h /usr/include/bits/ioctls.h \
+  /usr/include/asm/ioctls.h /usr/include/asm/ioctl.h \
+  /usr/include/bits/ioctl-types.h caoltoclient30.h caim.h caolcmd30.h \
+  cclienttoaol30.h /usr/include/g++-3/iostream.h \
+  /usr/include/g++-3/streambuf.h threadELV3.h /usr/include/pthread.h \
+  /usr/include/sched.h /usr/include/signal.h /usr/include/bits/initspin.h \
   /usr/include/bits/sigthread.h
 kernel30.cpp :
 kernel30.h :
@@ -87,10 +87,12 @@ ciptools.h :
 /usr/include/bits/in.h :
 /usr/include/bits/byteswap.h :
 main.h :
+../config.h :
 caolheader30.h :
 cvjcompress.h :
 /usr/include/netinet/ip.h :
-ppp_defs.h :
+/usr/include/asm/types.h :
+/usr/include/linux/ppp_defs.h :
 vjcompress.h :
 ctcpipheader.h :
 /usr/include/netdb.h :

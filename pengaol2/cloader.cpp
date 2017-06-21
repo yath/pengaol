@@ -30,7 +30,7 @@ CLoader::CLoader()
 	m_cAnotherDNS=new char[30];
 	m_sStart=new char[30];
 
-	m_cParam=new CParamConfig[6];
+	m_cParam=new CParamConfig[7];
 	m_cParam[0].DriverClass="Loader";
 	m_cParam[0].Msg="Vers 0.5 Linux";
 	m_cParam[0].Author="birdy57";

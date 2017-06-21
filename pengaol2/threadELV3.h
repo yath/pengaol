@@ -14,10 +14,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+ #include "config.h"
 #ifndef PTHREADELV3_H
 #define PTHREADELV3_H
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

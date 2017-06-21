@@ -27,7 +27,7 @@ CPpp::CPpp()
 {
 	m_sDevice=new char[30];
 
-	m_cParam=new CParamConfig[2];
+	m_cParam=new CParamConfig[3];
 	m_cParam[0].DriverClass="CPppDriver";
 	m_cParam[0].Msg="Vers 0.55 Linux";
 	m_cParam[0].Author="Birdy57";

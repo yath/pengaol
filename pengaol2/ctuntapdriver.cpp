@@ -27,7 +27,7 @@
 #include        <sys/fcntl.h>
 #include        <sys/ioctl.h>
 #include        <net/if.h>
-#include        "if_tun.h"
+#include        <linux/if_tun.h>
 #endif
 
 
@@ -35,7 +35,7 @@ CTunTapDriver::CTunTapDriver()
 {
 	sDeviceName=new char[30];
 
-	m_cParam=new CParamConfig[2];
+	m_cParam=new CParamConfig[3];
 	m_cParam[0].DriverClass="CTunTapDriver";
 	m_cParam[0].Msg="Vers 0.5 Linux";
 	m_cParam[0].Author="birdy57";

@@ -15,10 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "threadELV3.h"
-
-
 CAolCmd30 *GCmd;
 CAolToClient30 *GAolClient;
 CClientToAol30 *GClientAol;
@@ -67,3 +64,4 @@ void KillELV3Sub()
 pthread_cancel(Thread2);
 pthread_cancel(Thread3);
 }
+

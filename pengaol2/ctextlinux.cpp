@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #include "ctextlinux.h"
 
 CTextLinux::CTextLinux(){
@@ -46,6 +47,7 @@ bool bMess=false;
 bool bLog=false;
 bool bSysLog=false;
 bool bDebugLog=false;
+bool bGuiConnect=false;
 char buffer[200];
 char *buf=&buffer[0];
 char *StartBuf=buf;
@@ -104,6 +106,16 @@ while     (*texte)
 				bDebugLog=!bDebugLog;
 				break;
 
+				#ifdef WITH_GUI
+				case 'C':     // active/desactive les LOGS
+				bGuiConnect=!bGuiConnect;
+				bMess=false;
+				break;
+				#else
+				case 'C':     // active/desactive les LOGS
+				break;
+				#endif				
+
 				case 't':     // affiche un texte traduit
 				d = va_arg (ap,int);
 				sprintf(buf,"%s",GetMsg(d));
@@ -131,6 +143,10 @@ if ((bDebugLog) && (m_bWriteDebug))
 			MessPrint(StartBuf);
 if (bSysLog)
 			syslog(LOG_INFO,StartBuf);
+#ifdef WITH_GUI
+if (bGuiConnect)
+			EcritConnect(StartBuf);
+#endif
 
 va_end (ap);
 }

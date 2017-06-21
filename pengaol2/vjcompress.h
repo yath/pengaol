@@ -14,7 +14,39 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+/*
+ * Routines to compress and uncompess tcp packets (for transmission
+ * over low speed serial lines.
+ *
+ * Copyright (c) 1989 Regents of the University of California.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms are permitted
+ * provided that the above copyright notice and this paragraph are
+ * duplicated in all such forms and that any documentation,
+ * advertising materials, and other materials related to such
+ * distribution and use acknowledge that the software was developed
+ * by the University of California, Berkeley.  The name of the
+ * University may not be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *	Van Jacobson (van@helios.ee.lbl.gov), Dec 31, 1989:
+ *	- Initial distribution.
+ *
+ * Modified June 1993 by Paul Mackerras, paulus@cs.anu.edu.au,
+ * so that the entire packet being decompressed doesn't have
+ * to be in contiguous memory (just the compressed header).
+ */
 
+/*
+ * This version is used under SunOS 4.x, Digital UNIX, AIX 4.x,
+ * and SVR4 systems including Solaris 2.
+ *
+ * $Id: vjcompress.c,v 1.10 1999/09/15 23:49:06 masputra Exp $
+ */
 #ifdef __cplusplus
 	extern "C" {
 	#endif

@@ -55,7 +55,7 @@ CModemDriver::CModemDriver()
 	m_sDevice=new char[30];
 	m_sUSR=new char[30];
 
-	m_cParam=new CParamConfig[13];
+	m_cParam=new CParamConfig[14];
 	m_cParam[0].DriverClass="CModemDriver";
 	m_cParam[0].Author="Birdy57";
 	m_cParam[0].Msg="Vers 0.5 Linux";
@@ -158,7 +158,7 @@ bool CModemDriver::Connect()
 	// Numerote
 			if (Dial())
 			{
-			m_cMsg->Printf("%M%t\n",131);
+			m_cMsg->Printf("%M%C%t\n",131);
 				if (!WaitFor("ogin:",800,NULL,NULL))					
 				{
 						m_nErrorNbr=13;
@@ -459,7 +459,7 @@ Byte *sTempBuffer= new Byte[200];
 int nLongueur;
 int nLon;
 
-m_cMsg->Printf("%M%t%s\n",130,m_sPhoneNbr);
+m_cMsg->Printf("%M%C%t%s\n",130,m_sPhoneNbr);
 
 // Normalise la ligne
 sprintf((char *) sTempBuffer,"%s%s",(char*) m_sDialCommand,(char *) m_sPhoneNbr);

@@ -73,7 +73,12 @@ typedef u_long  n_long;
 
 #include <netinet/ip.h>
 
-#include "ppp_defs.h"
+#if __GLIBC__ >= 2
+#include <asm/types.h>
+#else		/* glibc 2 conflicts with linux/types.h */
+#include <linux/types.h>
+#endif
+#include <linux/ppp_defs.h>
 #include "vjcompress.h"
 
 

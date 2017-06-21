@@ -49,7 +49,7 @@ cloader.o: cloader.cpp /usr/include/string.h /usr/include/features.h \
   /usr/include/net/if.h /usr/include/net/if_arp.h \
   /usr/include/net/route.h /usr/include/netinet/if_ether.h \
   /usr/include/linux/if_ether.h /usr/include/net/ethernet.h \
-  /usr/include/linux/ppp_defs.h if_ppp.h
+  /usr/include/linux/ppp_defs.h /usr/include/linux/if_ppp.h
 cloader.cpp :
 /usr/include/string.h :
 /usr/include/features.h :
@@ -164,4 +164,4 @@ cppptools.h :
 /usr/include/linux/if_ether.h :
 /usr/include/net/ethernet.h :
 /usr/include/linux/ppp_defs.h :
-if_ppp.h :
+/usr/include/linux/if_ppp.h :

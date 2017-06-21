@@ -47,6 +47,15 @@
 #include "cppp.h"
 #include <signal.h>
 #include <arpa/inet.h>
+#include <pthread.h>
+
+// GUI
+//#include "pfdoc.h"
+#ifdef WITH_GUI
+#include "window1.h"
+#include "window2.h"
+#include "window3.h"
+#endif
 
 //#include "cnewparamconfig.h"
 
@@ -76,6 +85,70 @@ char Language[3];
 char sTmp[200];
 struct in_addr adresse;
 char *Lan;
+char *Login=NULL;
+char *PassWord=NULL;
+pthread_t ThreadGUI;
+bool Started=false;
+int res;
+
+#ifdef WITH_GUI
+
+void DelUser(char *login)
+{
+if (!(UserManager->DeleteUser(login)))
+	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
+       else
+		Msg->Printf("%M%t\n",144);
+}
+
+void AddUser(char *login, char *password)
+{
+	if (!(UserManager->AddUser(login,password)))
+	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
+       else
+		Msg->Printf("%M%t\n",143);
+}
+
+void QuitPeng()
+{
+Exit(0);
+}
+
+void disconnect()
+{
+Exit(0);
+}
+
+char** LoginList()
+{
+ return(UserManager->GetLogin());
+}
+
+char* GetPass(char *login)
+{
+return(UserManager->GetPass(login));
+}
+
+void EcritConnect(char *texte)
+{
+connect_window_set_text(texte);
+}
+
+void connection()
+{
+printf("Connection !!!\n");
+if (!Started)
+	{
+	Started=true;
+	}
+return;
+}
+
+void *StartKernel(void *)
+{
+RunGTK();
+}
+#endif
 
 void Exit(int sig)
 {
@@ -102,9 +175,6 @@ if (!bStop)
 int main(int argc, char *argv[])
 {
 int i;
-char *Login;
-char *PassWord;
-
 Loader=new CLoader;
 
 UserManager=new CUserManager;
@@ -153,6 +223,7 @@ if (!bReady)
 
 bReady=true;
 
+
 #ifdef WITH_PPP
 Loader->AddDriver(new CPpp);
 #endif
@@ -168,6 +239,7 @@ Loader->AddDriver(new CModemDriver);
 
 // Traitement des options
 
+#ifndef WITH_GUI
 if (argc==1) // Pas d'options alors liste
 	{
 	Msg->SetMessage(true);
@@ -175,6 +247,7 @@ if (argc==1) // Pas d'options alors liste
 		Msg->Printf("%M%t\n",i);
     exit(0);
 	}
+#endif
 
 // sinon on les traites
 
@@ -296,6 +369,7 @@ if (Command->Check((char *) "-Restore"))
 	exit(0);
 	}
 
+
 // Si on demande pas une connection alors arrete
 if (Command->CheckOpt2((char *) "-User"))
 	{
@@ -312,18 +386,35 @@ if (Command->CheckOpt((char *) "-Connect"))
 		exit(0);
 		}
 	}
+#ifndef WITH_GUI
 	else
-exit(0);
+	exit(0);
+#endif
 
 //charge les drivers
 
+#ifdef WITH_GUI
+res=pthread_create(&ThreadGUI,NULL,StartKernel,NULL);
+
+while (!Started)
+	{
+	printf("wait !! \n");
+	sleep(1);
+	}
+
+Login=selected_user();
+	if ((PassWord=UserManager->GetPass(Login))==NULL)
+		{
+		Msg->Printf("%M%t\n",146);
+		Exit(0);
+		}
+#endif
 
 if (!Loader->LoadDriver())
 	{
 	Msg->Printf("%M%t\n",51);
 	exit(0);	
 	}
-
 // Memorise les drivers recut
 
 Input=Loader->GetDriverIn();
@@ -332,9 +423,12 @@ Output=Loader->GetDriverOut();
 bDriver=true;
 
 // Lance la connection
+Msg->Printf("%M%S%C%t\n",52);
 
-Msg->Printf("%M%S%t\n",52);
-
+#ifdef WITH_GUI
+Window1_hide();
+connect_window_show();
+#endif
 
 if (!Input->Connect())
 	{
@@ -353,7 +447,7 @@ if (!Output->Connect())
 
 // Donne la vitesse de connection si possible
 if (Input->GetSpeed())
-	Msg->Printf("%M%S%t:%d\n",53,Input->GetSpeed());
+	Msg->Printf("%M%S%C%t:%d\n",53,Input->GetSpeed());
 
 
 // Charge et initialise le noyau
@@ -405,7 +499,7 @@ if (!Kernel->Connect(Login,PassWord))
 		else
 	    {
 		// Demmarer le kernel
-	   Msg->Printf("%M%S%t%s\n",57,Kernel->GetName());
+	   Msg->Printf("%M%S%C%t%s\n",57,Kernel->GetName());
 		bKernel=true;
 		system("wavplay -q /usr/share/sound/welcome.wav &");
        // Demmarrage du prog auto
@@ -414,6 +508,10 @@ if (!Kernel->Connect(Login,PassWord))
 		    sprintf((char *) &sTmp,"%s &\n",Loader->GetStart());
 			 system((char *) &sTmp);
 			}
+		#ifdef WITH_GUI
+		connect_window_hide();
+		active_window_show();
+		#endif
 		Kernel->Start();
 		if (bStop)
 		   Msg->Printf("%M%S%t\n",79);
@@ -436,9 +534,12 @@ delete MsgI;
 delete MsgO;
 delete UserManager;
 delete Kernel;
-
 if (bAolMerde)
 	exit(-1);
-	
+#ifdef WITH_GUI
+gtk_main_quit();
+_exit(0);
+#else	
 exit(0);
+#endif
 }

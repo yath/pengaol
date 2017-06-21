@@ -44,7 +44,8 @@ cppp.o: cppp.cpp cppp.h ../config.h nulldriver.h cparamconfig.h \
   /usr/include/netinet/in.h /usr/include/stdint.h /usr/include/bits/in.h \
   /usr/include/bits/byteswap.h /usr/include/netinet/if_ether.h \
   /usr/include/linux/if_ether.h /usr/include/net/ethernet.h \
-  /usr/include/arpa/inet.h /usr/include/linux/ppp_defs.h if_ppp.h
+  /usr/include/arpa/inet.h /usr/include/linux/ppp_defs.h \
+  /usr/include/linux/if_ppp.h
 cppp.cpp :
 cppp.h :
 ../config.h :
@@ -150,4 +151,4 @@ type.h :
 /usr/include/net/ethernet.h :
 /usr/include/arpa/inet.h :
 /usr/include/linux/ppp_defs.h :
-if_ppp.h :
+/usr/include/linux/if_ppp.h :

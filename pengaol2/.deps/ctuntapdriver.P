@@ -29,7 +29,7 @@ ctuntapdriver.o: ctuntapdriver.cpp ctuntapdriver.h ../config.h \
   /usr/include/asm/ioctl.h /usr/include/bits/ioctl-types.h \
   /usr/include/sys/ttydefaults.h /usr/include/net/if.h \
   /usr/include/sys/socket.h /usr/include/sys/uio.h \
-  /usr/include/bits/uio.h if_tun.h
+  /usr/include/bits/uio.h /usr/include/linux/if_tun.h
 ctuntapdriver.cpp :
 ctuntapdriver.h :
 ../config.h :
@@ -98,4 +98,4 @@ type.h :
 /usr/include/sys/socket.h :
 /usr/include/sys/uio.h :
 /usr/include/bits/uio.h :
-if_tun.h :
+/usr/include/linux/if_tun.h :

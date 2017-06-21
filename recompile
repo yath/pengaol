@@ -9,11 +9,23 @@ cp *.wav /usr/share/sound
 cd ..
 
 export CXXFLAGS="-D_REENTRANT"
+#clear
+
+
+#echo "Souhaitez vous integrer l'interface graphique ? (y/n)"
+#read Rep
+#if [ "$Rep" = "y" ]
+#	then
+#	echo "#define WITH_GUI" >> config.h
+#	export CXXFLAGS="-D_REENTRANT -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include"
+#	export LDFLAGS="-L/usr/lib -L/usr/X11R6/lib -lgtk -lgdk -rdynamic -lgmodule -lglib -ldl -lXi -lXext -lX11 -lm"
+
+#fi
+	
 ./configure
 make clean
 
 clear
-
 echo "PengAol V0.9 By Guth Stephane (birdy57)"
 echo "---------------------------------------"
 echo 
@@ -83,6 +95,7 @@ then
 	fi
 
 fi
+	echo "#define WITH_GUI" >> config.h
 
 make
 
@@ -113,6 +126,11 @@ chown root /usr/bin/pengaol
 chmod +s /usr/bin/pengaol
 chmod 600 /dev/ttyS0
 chmod 600 /dev/ttyS1
+
+
+
+
+
 
 
 
