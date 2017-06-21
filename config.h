@@ -2,15 +2,15 @@
 /* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Name of package */
-#define PACKAGE "pengaol2"
+#define PACKAGE "peng"
 
 /* Version number of package */
-#define VERSION "0.95"
+#define VERSION "1.0"
 
 /* C++ compiler supports template repository */
 #define HAVE_TEMPLATE_REPOSITORY 1
 
-#define WITH_MODEM
-#define WITH_CABLE
 #define WITH_PPP
+#define WITH_MODEM
 #define WITH_TUNTAP
+#define WITH_CABLE

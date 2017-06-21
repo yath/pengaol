@@ -36,9 +36,9 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/pengaol2
-pkglibdir = $(libdir)/pengaol2
-pkgincludedir = $(includedir)/pengaol2
+pkgdatadir = $(datadir)/peng
+pkglibdir = $(libdir)/peng
+pkgincludedir = $(includedir)/peng
 
 top_builddir = .
 
@@ -134,7 +134,7 @@ NOOPT_CXXFLAGS =  -D_REENTRANT
 NOREPO = -fno-repo
 OBJDUMP = @OBJDUMP@
 OBJEXT = o
-PACKAGE = pengaol2
+PACKAGE = peng
 PAMINC = @PAMINC@
 PAMLIBPATHS = @PAMLIBPATHS@
 PAMLIBS = @PAMLIBS@
@@ -151,7 +151,7 @@ USER_LDFLAGS =
 USE_EXCEPTIONS = -fexceptions
 USE_NLS = @USE_NLS@
 USE_RTTI = -frtti
-VERSION = 0.95
+VERSION = 1.0
 XGETTEXT = @XGETTEXT@
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
@@ -185,9 +185,9 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-SUBDIRS = pengaol2 Doc&Aide 
+SUBDIRS = peng 
 
-EXTRA_DIST = pengaol2.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO pengaol2.lsm 
+EXTRA_DIST = peng.kdevprj 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if
@@ -197,10 +197,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = 
-DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
-Makefile.am Makefile.in TODO acconfig.h acinclude.m4 aclocal.m4 \
-config.guess config.h.in config.sub configure configure.in install-sh \
-ltconfig ltmain.sh missing mkinstalldirs
+DIST_COMMON =  ./stamp-h.in Makefile.am Makefile.in acconfig.h \
+acinclude.m4 aclocal.m4 config.guess config.h.in config.sub configure \
+configure.in install-sh ltconfig ltmain.sh missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

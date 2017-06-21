@@ -10,7 +10,7 @@ dnl AC_CONFIG_AUX_DIR(admin)
 AC_CANONICAL_SYSTEM
 AC_ARG_PROGRAM
 
-AM_INIT_AUTOMAKE(pengaol2,0.95)
+AM_INIT_AUTOMAKE(peng, 1.0)
 
 AC_PREFIX_DEFAULT(/usr/local)
 if test "x$prefix" = "xNONE"; then
@@ -62,4 +62,4 @@ dnl perform program name transformation
 AC_ARG_PROGRAM
 
 dnl add here all your Makefiles. These will be created by configure
-AC_OUTPUT(Makefile pengaol2/Makefile pengaol2/docs/Makefile pengaol2/docs/en/Makefile Doc&Aide/Makefile )
+AC_OUTPUT(Makefile peng/Makefile)

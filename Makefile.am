@@ -1,8 +1,8 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = pengaol2 Doc&Aide 
+SUBDIRS = peng 
 
-EXTRA_DIST = pengaol2.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO pengaol2.lsm 
+EXTRA_DIST = peng.kdevprj 
 
 ####### kdevelop will overwrite this part!!! (end)############
 # not a GNU package. You can remove this line, if
