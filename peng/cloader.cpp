@@ -159,17 +159,19 @@ bool CLoader::ListDriver()
 	// Charge le table des configs
 	pParam = pDriver->GetRequest();
 	m_pConfig->Load(pParam);
+
 	// et liste..
+
 	MsgInput->Printf("%M%t : %s \n", 60, pParam->DriverClass);
 	MsgInput->Printf("%M%t : %s \n", 61, pParam->Author);
 	MsgInput->Printf("%M%t : %s \n", 62, pParam->Msg);
 	MsgInput->Printf("%M%t : %x \n", 63, pParam->Guid);
-	MsgInput->Printf("%M%t :", 64);
+	MsgInput->Printf("%t :", 64); 
 
 	if (pDriver->IsAvailable())
-	    MsgInput->Printf("%M%t\n\n", 65);
+	   MsgInput->Printf("%M%t\n\n", 65); 
 	else
-	    MsgInput->Printf("%M%t\n\n", 66);
+	   MsgInput->Printf("%M%t\n\n", 66); 
 
 	// Passe au driver suivant
 

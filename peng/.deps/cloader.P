@@ -54,8 +54,8 @@ cloader.o: cloader.cpp globals.h /usr/include/stdio.h \
  /usr/include/linux/if_ether.h /usr/include/net/ethernet.h \
  /usr/include/linux/ppp_defs.h /usr/include/linux/if_ppp.h \
  /usr/include/netinet/in_systm.h ../config.h cloader.h cparamconfig.h \
- cconfig.h nulldriver.h cmsgerror.h modemdriver.h CableDriver.h \
- ctuntapdriver.h cppp.h cppptools.h /usr/include/memory.h
+ cconfig.h nulldriver.h cmsgerror.h modemdriver.h cppp.h cppptools.h \
+ /usr/include/memory.h
 cloader.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -176,8 +176,6 @@ cconfig.h :
 nulldriver.h :
 cmsgerror.h :
 modemdriver.h :
-CableDriver.h :
-ctuntapdriver.h :
 cppp.h :
 cppptools.h :
 /usr/include/memory.h :

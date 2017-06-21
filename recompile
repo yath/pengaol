@@ -10,7 +10,7 @@ mv configure.tmp configure
 make clean
 
 clear
-echo "Peng lite 1.0.4"
+echo "Peng lite 1.0.5"
 echo "---------------"
 echo 
 if [ $LANG ];
@@ -87,7 +87,7 @@ fi
 echo '#define CONFIG_DIR "/etc/Pengaol"' >> config.h
 
 clear	
-echo "Please wait while Peng lite 1.0.4 is compiling -> make.log"
+echo "Please wait while Peng lite 1.0.5 is compiling -> make.log"
 echo " "
 echo "Peng's commands (log you as root to use peng)"
 echo ""
@@ -103,7 +103,6 @@ echo "-s --still"
 echo "-v --version"
 echo "-x --log"
 echo ""
-echo "Extra: do a make in XCounter-1.0.6/ and monitoring your bandwith"
 echo ""
 echo "Configuration files location: /etc/PengAol/"
 

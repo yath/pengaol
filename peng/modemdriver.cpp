@@ -547,7 +547,7 @@ bool CModemDriver::IsAvailable()
     return bRet;
 }
 
-/** controle le modem **/
+/** controle si le modem supporte les commandes AT **/
 bool CModemDriver::sn_modem(char *escapechar, char *command)
 {
 
@@ -557,7 +557,11 @@ bool CModemDriver::sn_modem(char *escapechar, char *command)
     bRet = SendCommand(command);
     if (bRet == true) {
 	while (read(m_nFdPort, &loc_buff, 50) < 1);
+	if (loc_buff) {
 	fprintf(stdout, "%s \n", loc_buff);
+	} else {
+	fprintf(stdout, "Windmodem is not support \n");
+	}
     }
 
     return (bRet);

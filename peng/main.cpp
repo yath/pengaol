@@ -346,16 +346,14 @@ int main(int argc, char *argv[])
     bReady = true;
 
     // Traitement des options
-
     Command->Set(argc, argv);
+
+    Msg->SetMessage(true);      // mode verbose
     Msg->GetFastLoad(Status);
     MsgI->SetFastLoad(Status);
     MsgO->SetFastLoad(Status);
     UserManager->GetMsg(Msg);
-    Loader->SetMessage(MsgI, MsgO);
-    Msg->SetMessage(true);	// mode verbose
-    Msg->SetDebug(true);	// mode debug
-
+    Loader->SetMessage(MsgI,MsgO);
 
     while ((option =
 	    getopt_long(argc, argv, optstring, longopts,
@@ -390,7 +388,7 @@ int main(int argc, char *argv[])
 	case 'i':
 	    fprintf(stdout, "Drivers list\n");
 	    Loader->ListDriver();
-	    Loader->MakeConfig(false);
+	    Loader->MakeConfig(false); 
 	    exit(0);
 
 	case 'k':
@@ -431,12 +429,12 @@ int main(int argc, char *argv[])
 	    break;
 
 	case 'v':
-	    fprintf(stdout, "Peng lite 1.0.4 (GPL)\n");
+	    fprintf(stdout, "Peng lite 1.0.5 (GPL)\n");
 	    exit(0);
 
 	case 'x':
 # ifdef WITH_DEBUG
-	    Msg->SetLog(true);
+	    Msg->SetLog(true); 
 	    Msg->SetDebug(true);
 # else
 	    fprintf(stderr, "Compilez avec Debug pour loguer\n");

@@ -1,8 +1,0 @@
-INSTALL
-
-Type 'make install' to install XCounter.
-Type 'XCounter -i interface' to monitor defined by you interface,
-e.g. 'XCounter -i eth0' makes XCounter to monitor eth0.
-For more command line options type 'XCounter -h'.
-Type 'make uninstall' to uninstall XCounter.
-Read README for additional information about hotkeys.

@@ -53,8 +53,7 @@ CableDriver.o: CableDriver.cpp globals.h /usr/include/stdio.h \
  /usr/include/net/route.h /usr/include/netinet/if_ether.h \
  /usr/include/linux/if_ether.h /usr/include/net/ethernet.h \
  /usr/include/linux/ppp_defs.h /usr/include/linux/if_ppp.h \
- /usr/include/netinet/in_systm.h CableDriver.h ../config.h \
- nulldriver.h cparamconfig.h cmsgerror.h
+ /usr/include/netinet/in_systm.h CableDriver.h ../config.h
 CableDriver.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -170,6 +169,3 @@ linuxconf.h :
 /usr/include/netinet/in_systm.h :
 CableDriver.h :
 ../config.h :
-nulldriver.h :
-cparamconfig.h :
-cmsgerror.h :

@@ -10,8 +10,7 @@
 /* C++ compiler supports template repository */
 #define HAVE_TEMPLATE_REPOSITORY 1
 
-#define WITH_PPP
 #define WITH_MODEM
-#define WITH_TUNTAP
-#define WITH_CABLE
+#define WITH_PPP
+#define WITH_DEBUG
 #define CONFIG_DIR "/etc/Pengaol"

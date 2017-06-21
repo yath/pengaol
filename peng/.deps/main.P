@@ -62,8 +62,7 @@ main.o: main.cpp globals.h /usr/include/stdio.h \
  caoltoclient30.h caim.h caolcmd30.h cclienttoaol30.h crouteurlinux.h \
  crouteur.h /usr/include/memory.h cusermanager.h ccrypto.h \
  /usr/lib/gcc-lib/i386-slackware-linux/2.95.3/../../../../include/g++-3/fstream.h \
- threadELV3.h cgui.h modemdriver.h CableDriver.h ctuntapdriver.h \
- cppp.h cppptools.h
+ threadELV3.h cgui.h modemdriver.h cppp.h cppptools.h
 main.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -208,7 +207,5 @@ ccrypto.h :
 threadELV3.h :
 cgui.h :
 modemdriver.h :
-CableDriver.h :
-ctuntapdriver.h :
 cppp.h :
 cppptools.h :
