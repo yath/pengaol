@@ -1,0 +1,4 @@
+#!/bin/sh
+chown root ./pengaol2
+chmod +s ./pengaol2
+

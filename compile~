@@ -1,0 +1,79 @@
+#!/bin/sh
+
+export CXXFLAGS="-D_REENTRANT"
+./configure
+make clean
+
+clear
+
+echo "PengAol V0.9 By Guth Stephane (birdy57)"
+echo "---------------------------------------"
+echo 
+echo "Cette version permet une compilation conditionnelle"
+echo "Cela impliquer que certains drivers peuvent ne pas etre inclue"
+echo "dans l'executable"
+echo 
+echo "Souhaitez-vous utilisez cette fonction ? (deconseillez au newbies lol)"
+echo "repondez par y (oui) ou n (non)"
+
+read Conditionnelle
+
+if [ "$Conditionnelle" = "y" ]
+then
+	echo "Compilation conditionelle"
+elif [ "$Conditionnelle" = "n" ]; then
+	echo "Compilation standart"
+else
+	echo "Desoler votre reponsse n'est pas comprise"
+	exit 1
+fi
+
+if [ "$Conditionnelle" = "n" ]
+then
+echo "#define WITH_PPP" >> config.h
+echo "#define WITH_MODEM" >> config.h
+echo "#define WITH_TUNTAP" >> config.h
+echo "#define WITH_CABLE" >> config.h
+fi
+
+if [ "$Conditionnelle" = "y" ]
+then
+	echo "Compiler le driver Modem ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_MODEM" >> config.h
+	fi
+
+	echo "Compiler le driver Cable? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_CABLE" >> config.h
+	fi
+
+	echo "Compiler le driver Ppp ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_PPP" >> config.h
+	fi
+
+	echo "Compiler le driver TunTap ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_TUNTAP" >> config.h
+	fi
+
+	echo "Compiler le l'option Debug ? (y/n)"
+	echo "Attention ! cela peut ralentir la connection"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_DEBUG" >> config.h
+	fi
+
+fi
+exit 0
+

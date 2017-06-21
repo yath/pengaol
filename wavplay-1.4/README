@@ -1,0 +1,217 @@
+          _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+          This file announces the release of wavplay 1.4.
+
+                       Warren W. Gay VE3WWG
+                         ve3wwg@home.com
+                  http://members.home.net/ve3wwg
+
+		    GNU GENERAL PUBLIC LICENSE
+		       Version 2, June 1991
+
+		        (See file COPYING)
+
+          -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+
+wavplay-1.4  completely  replaces  wavplay-1.3.  This  release  consists
+mostly  of  improvements  provided  by Jonathan Woithe.  There were some
+additional small  fixes  applied  to  bring the software up to date with
+current  distributions.  This should make it easier for folks to compile
+it.
+
+See also the BUGS file.
+
+------------------------------------------------------------------------
+WHAT'S NOT INCLUDED :
+------------------------------------------------------------------------
+
+Some  of  you  have  asked about compressed formats.  This project still
+lacks support for it unfortunately.  I have been busy holding down a job
+and  writing  Linux books.  I  had  started GnuWave as a replacement for
+wavplay,  but a  general lack of time has prevented me from getting very
+far with it. I don't know what the future holds on this.
+
+------------------------------------------------------------------------
+CHANGES FOR WAVPLAY 1.4 (SINCE WAVEPLAY 1.3) :
+------------------------------------------------------------------------
+
+-  Jonathan  Woithe applied a fix to FilesDlgOKCB()  so it ignored empty
+XmStrings  passed  from  the  file  selector dialog when a directory was
+selected.
+
+-  Jonathan  Woithe:  fixed  some actions immediately after starting the
+program  (eg: setting 8/16  bit sample size)  would not clear all of the
+help strings displayed in the File/type/date/size fields.  This has been
+fixed.
+
+-  Jonathan  Woithe:  During  record,  the  size, duration and number of
+samples is updated as the recording progresses.
+
+- Jonathan Woithe: a time display was added. This allows a user to start
+playback  from  any point in the file.  While playing, this display also
+tracks  the current position within the file.  The display is calibrated
+in 25 fps SMPTE format.
+
+-  Jonathan  Woithe  (24Feb1999):  the  block  size request to the sound
+driver  now  follows the setting of sampling rate, sample size etc since
+doing it before these are set results in undefined behaviour.
+
+-  Warren  Gay:  fixed  the  annoying  problem  with  union  semun being
+undefined. At  one  time it  was  defined by  include  <sys/sem.h>,  but
+according  to recent semctl(2)  man page "according to X/OPEN we have to
+define it ourselves".  This is now auto-detected at compile time, and so
+should still compile on old and new kernels.
+
+-  Warren  Gay: A new -d option was added to the wavplay/wavrec command,
+to allow  the  user to override the device pathname on the command line.
+This  was suggested  by  Jonathan Woithe and added by me (Jonathan, your
+patches talked about it but was missing this code as far as I can tell.)
+Jonathan  indicated that this is useful if you have multiple sound cards
+installed.
+
+------------------------------------------------------------------------
+CHANGES FOR WAVPLAY 1.3 (SINCE WAVPLAY 1.0) :
+------------------------------------------------------------------------
+
+See file NEW for a more complete description.  This release is primarily
+a  bug  fix  release, but  does  include  a few small enhancements.  The
+primary enhancement to this release is the real time scheduling feature,
+which  if  enabled,  can  greatly  improve  the  reliability of wav file
+playing  or  recording  (Thanks  to  Dirk  Pfau  pfau@dkrz.de  for  this
+suggestion).
+
+------------------------------------------------------------------------
+WAVPLAY/WAVREC REQUIREMENTS :
+------------------------------------------------------------------------
+
+	- Probably any kernel released as 1.2.13 or later is a safe bet,
+	  but real time support requires 2.x.x or later.
+	- Requires appropriate and working sound drivers installed
+
+    TESTED ON:
+
+        - egcs-2.91.66
+        - Red Hat 6.0
+        - Kernel release 2.2.10
+
+------------------------------------------------------------------------
+XLTWAVPLAY *ADDITIONAL* REQUIREMENTS :
+------------------------------------------------------------------------
+
+	- Mouse
+	- Working X Server
+	- X based libraries (X, Xt etc.)
+	- libXmu.so (unless you uncomment NO_EDITRES option in Makefile)
+	- libXm.so (LessTif/or MOTIF)
+
+------------------------------------------------------------------------
+HISTORY :
+------------------------------------------------------------------------
+
+1.4	A  release  mostly  based  upon  Jonathan  Woithe's  fixes  and
+	enhancements. I added the -d option and fixed the semun compile
+	problem. Minor adjustments to the Makefile also were made.
+
+1.3	Bug fix release, includes 1.0 + 2 patches, and other small
+	bug fixes. Added sched_setscheduler() call.
+
+1.0	The  current release, which includes:
+
+	wavplay				Improved
+	recplay				Improved
+	xltwavplay			MOTIF/LessTif client (new)
+
+0.22	A modification release by Per Harald Myrvang (perm@bigfoot.com)
+
+	In  this  release,  patched  a  few fixes to the problematic WAV
+	header  code,  as  well as added options -Q, -i and -D for quiet
+	mode, information display only mode, and debug modes.
+
+0.21w1	A   modification   release   by   myself   of  Andre  Fuechsel's
+	(af1@irz.inf.tu-dresden.de) work.
+
+	For  the  most part, this release did not change the WAV aspects
+	of  the  program,  but merely added semaphore locking facilities
+	and made the  program  more shell friendly.  The executable name
+	was changed from the original 'play' to 'wavplay'.
+
+	Andre's  Xplay  was  dropped  from  this  release,  since it was
+	available in his original work.
+
+0.21	Andre Fuechsel (af1@irz.inf.tu-dresden.de)
+
+	Apparently  a bug fix release for Xplay.  This appears to be the
+	first public release.
+
+0.2	Andre Fuechsel (af1@irz.inf.tu-dresden.de)
+
+	According  to  Andre's  README, it was "(not announced)".  Andre
+	also notes that:
+
+	"Some  code  comes  from  the  recplay.c written by Liam Corner,
+	posted in the 'Audio Utilities for Linux 2.0' - Package."
+
+------------------------------------------------------------------------
+WAVPLAY USAGE :
+------------------------------------------------------------------------
+
+Usage:	wavplay [options] [files...]
+
+Options:
+	-h	This info (or use --help)
+	-q	Quiet mode (no messages)
+	-s rate	Sampling rate
+	-S	Stereo (undoes -M)
+	-M	Mono (undoes -S)
+	-b bits	Set number of bits (8/16)
+	-k key	Set IPC Key for lock
+	-R	Remove and recreate semaphore locks.
+	-l	Lock for play.
+	-u	Unlock for play.
+	-L	Lock for record.
+	-U	Unlock for record.
+	-i	Display info about wav file(s) only
+
+	-V	Display version and Copyright info (or use --version)
+
+WAV parameters are normally taken from the input file(s),
+but command line options can override them if required.
+
+------------------------------------------------------------------------
+WAVREC USAGE :
+------------------------------------------------------------------------
+
+Usage:	wavrec [options] output_file
+
+Options:
+	-h	This info (or use --help)
+	-q	Quiet mode (no messages)
+	-s rate	Sampling rate
+	-S	Stereo (undoes -M)
+	-M	Mono (undoes -S)
+	-t secs	Set time limit
+	-b bits	Set number of bits (8/16)
+	-k key	Set IPC Key for lock
+	-R	Remove and recreate semaphore locks.
+	-l	Lock for play.
+	-u	Unlock for play.
+	-L	Lock for record.
+	-U	Unlock for record.
+
+	-V	Display version and Copyright info (or use --version)
+
+------------------------------------------------------------------------
+XLTWAVPLAY USAGE :
+------------------------------------------------------------------------
+
+	xltwavplay &
+
+
+------------------------------------------------------------------------
+INSTALLATION :
+------------------------------------------------------------------------
+
+See the included file INSTALL for details about installation.
+
+End of README.

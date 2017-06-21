@@ -1,0 +1,118 @@
+#!/bin/sh
+
+cd wavplay-1.4
+make clean
+make wavplay
+cp wavplay /usr/bin
+mkdir /usr/share/sound
+cp *.wav /usr/share/sound
+cd ..
+
+export CXXFLAGS="-D_REENTRANT"
+./configure
+make clean
+
+clear
+
+echo "PengAol V0.9 By Guth Stephane (birdy57)"
+echo "---------------------------------------"
+echo 
+echo "Cette version permet une compilation conditionnelle"
+echo "Cela impliquer que certains drivers peuvent ne pas etre inclue"
+echo "dans l'executable"
+echo 
+echo "Souhaitez-vous utilisez cette fonction ? (deconseillez au newbies lol)"
+echo "repondez par y (oui) ou n (non)"
+
+read Conditionnelle
+
+if [ "$Conditionnelle" = "y" ]
+then
+	echo "Compilation conditionelle"
+elif [ "$Conditionnelle" = "n" ]; then
+	echo "Compilation standart"
+else
+	echo "Desoler votre reponsse n'est pas comprise"
+	exit 1
+fi
+
+if [ "$Conditionnelle" = "n" ]
+then
+echo "#define WITH_PPP" >> config.h
+echo "#define WITH_MODEM" >> config.h
+echo "#define WITH_TUNTAP" >> config.h
+echo "#define WITH_CABLE" >> config.h
+fi
+
+if [ "$Conditionnelle" = "y" ]
+then
+	echo "Compiler le driver Modem ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_MODEM" >> config.h
+	fi
+
+	echo "Compiler le driver Cable? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_CABLE" >> config.h
+	fi
+
+	echo "Compiler le driver Ppp ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_PPP" >> config.h
+	fi
+
+	echo "Compiler le driver TunTap ? (y/n)"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_TUNTAP" >> config.h
+	fi
+
+	echo "Compiler le l'option Debug ? (y/n)"
+	echo "Attention ! cela peut ralentir la connection"
+	read Rep
+	if [ "$Rep" = "y" ]
+	then
+		echo "#define WITH_DEBUG" >> config.h
+	fi
+
+fi
+
+make
+
+f cat /proc/version | grep -q 2.2.
+then
+ if [ -e "/dev/tap0" ]
+ then
+ echo "Le fichier /dev/tap0 existe : OK"
+ else
+ echo "Creation de /dev/tap0"
+ mknod /dev/tap0 c 36 16
+ fi
+fi
+
+# on change les droit de pengaol et on copie
+
+cd pengaol2
+chmod 755 pengaol2
+chmod +s pengaol2
+
+echo "copy pengaol --> /usr/bin"
+cp pengaol2 /usr/bin/pengaol
+echo "copy PengMessages.txt --> /etc/"
+cp PengMessages.txt /etc/
+echo "Creating Drivers Configuration file"
+pengaol -MakeInit
+chown root /usr/bin/pengaol
+chmod +s /usr/bin/pengaol
+chmod 600 /dev/ttyS0
+chmod 600 /dev/ttyS1
+
+
+

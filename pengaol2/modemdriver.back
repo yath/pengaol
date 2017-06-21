@@ -1,0 +1,508 @@
+/***************************************************************************
+                          CModemDriver.cpp  -  description
+                             -------------------
+    begin                : Sun Apr 29 2001
+    copyright            : (C) 2001 by Birdy57 (Stephane)
+    email                : birdy57@multimania.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "modemdriver.h"
+
+//#if defined(linux)
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+#include <errno.h>
+#include <syslog.h>
+#include <signal.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <termios.h>
+//#endif
+
+
+#include "string.h"
+
+CModemDriver::CModemDriver()
+{
+	
+	m_cParam=new CParamConfig[11];
+	m_cParam[0].DriverClass="CModemDriver";
+	m_cParam[0].Author="Birdy57";
+	m_cParam[0].Msg="Vers 0.5 Linux";
+	m_cParam[0].Guid=0x1711; //xxyz y=systeme z=1 drivers in
+	m_cParam[1].Request="FullDuplex";
+	m_cParam[1].InitStr=new char[30];;
+	m_cParam[1].Default="No";
+	m_cParam[1].MaxBufferLen=30;
+	m_cParam[2].Request="Device";
+	m_cParam[2].InitStr=new char[30];
+	m_cParam[2].Default="/dev/modem";
+	m_cParam[2].MaxBufferLen=30;
+	m_cParam[3].Request="InitStr1";
+	m_cParam[3].InitStr=new char[30];
+	m_cParam[3].Default="ATZ";
+	m_cParam[3].MaxBufferLen=30;
+	m_cParam[4].Request="InitStr2";
+	m_cParam[4].InitStr=new char[30];
+	m_cParam[4].Default="ATM1L1";
+	m_cParam[4].MaxBufferLen=30;
+	m_cParam[5].Request="PhoneNbr";
+	m_cParam[5].InitStr=new char[30];
+	m_cParam[5].Default="0860704444";
+	m_cParam[5].MaxBufferLen=30;
+	m_cParam[6].Request="ModemSpeed";
+	m_cParam[6].InitStr=new char[30];
+	m_cParam[6].Default="115200";
+	m_cParam[6].MaxBufferLen=30;
+	m_cParam[7].Request="DialCommand";
+	m_cParam[7].InitStr=new char[30];
+	m_cParam[7].Default="ATDT";
+	m_cParam[7].MaxBufferLen=30;
+	m_cParam[8].Request="CheckString";
+	m_cParam[8].InitStr=new char[50];
+	m_cParam[8].Default=SSTRING;
+	m_cParam[8].MaxBufferLen=30;
+	m_cParam[9].Request="*ConnectSpeed";
+	m_cParam[9].InitStr=new char[30];
+	m_cParam[9].Default="Unknow";
+	m_cParam[9].MaxBufferLen=30;
+	m_cParam[10].Request="ForceDetect";
+	m_cParam[10].InitStr=new char[30];
+	m_cParam[10].Default="No";
+	m_cParam[10].MaxBufferLen=30;
+	m_cParam[11].Request=NULL;
+	m_cParam[11].InitStr=NULL;
+	m_cParam[11].Default=NULL;
+	m_cParam[11].MaxBufferLen=0;
+
+  // on place dans des pointeurs utilisables
+	m_sDEV=m_cParam[2].InitStr;
+	m_sInitString1=m_cParam[3].InitStr;
+	m_sInitString2=m_cParam[4].InitStr;
+ 	m_sPhoneNbr=m_cParam[5].InitStr;
+ 	m_sSpeed=m_cParam[6].InitStr;
+	m_sDialCommand=m_cParam[7].InitStr;
+	m_sCheckString=m_cParam[8].InitStr;
+	m_sConnectSpeed=m_cParam[9].InitStr;
+	m_sForceDetect=m_cParam[10].InitStr;
+
+	m_bIsConnected=false;
+	m_MutexR=false;
+	m_MutexW=false;
+}
+
+CModemDriver::~CModemDriver()
+{
+//delete(m_cParam);
+}
+
+/** Demmarre la connection */
+bool CModemDriver::Connect()
+{
+	bool bRet=false;
+	const char *sLogin="aol\n";
+	const char *sPass="aol\n";
+
+
+	// Determine si il est fullduplex ou non
+	if (strstr(m_cParam[1].InitStr,"Yes")!=NULL)
+		m_bFullDuplex=true;
+		else
+		m_bFullDuplex=false;
+
+	// initialise le port
+	if (InitPort())
+	// initialise le modem
+		if (InitModem())
+	// Numerote
+			if (Dial())
+			{
+			m_cMsg->Printf("%M%t\n",131);
+				if (!WaitFor("ogin:",30,NULL,NULL))					
+				{
+						m_nErrorNbr=13;
+				}
+				else
+					if (write(m_nFdPort,(char *) sLogin,strlen((const char*) sLogin))<0)
+					{			
+						m_nErrorNbr=14;
+					}
+					else
+						if (!WaitFor("assword:",20,NULL,NULL))					
+						{
+						m_nErrorNbr=13;
+						}
+						else
+							if (write(m_nFdPort,(char *) sPass,strlen((const char*) sPass))<0)
+							{			
+							m_nErrorNbr=14;
+							}
+							else
+								if (!WaitFor("onnected",20,NULL,NULL))					
+								{
+								m_nErrorNbr=13;
+								}
+									else
+									{
+										bRet=1;
+										m_bIsConnected=true;
+										fcntl(m_nFdPort, F_SETFL, 0);
+										}
+	        }
+return bRet;
+}
+
+/** Deconnection */
+bool CModemDriver::Disconnect()
+{
+	bool bRet=false;
+	bRet=ClosePort();
+	
+	m_bIsConnected=false;	
+	return bRet;
+}
+
+/** lecture */
+int CModemDriver::Read(char *pData,int nSize)
+{
+int nRet=ERROR;
+
+// Teste si mutex ou non
+//while ((!m_bFullDuplex) && m_MutexR)
+//		usleep(1000);
+
+m_MutexR=true;
+
+	if (!m_bIsConnected)
+	{
+		m_nErrorNbr=15;
+	}
+	else	
+	if ((nRet=read(m_nFdPort,pData,nSize))<0)
+	{
+		nRet=0;
+	}
+
+m_MutexR=false;
+return nRet;
+}
+
+/** ecriture sur le peripherique */
+int CModemDriver::Write(char *pData,int nSize)
+{
+int nRet=ERROR;
+	
+// Teste si mutex ou non
+while ((!m_bFullDuplex) && m_MutexW)
+		usleep(1000);
+
+m_MutexW=true;
+
+	if (!m_bIsConnected)
+	{
+		m_nErrorNbr=15;
+	}
+	else
+	{
+	nRet=write(m_nFdPort,pData,nSize);
+	}
+
+m_MutexW=false;
+return nRet;
+}
+
+/** Initialisation du Port */
+bool CModemDriver::InitPort()
+{
+	bool bRet=false;
+	unsigned long nSpeed;
+	int i;
+	
+	nSpeed=strtol(m_sSpeed,NULL,10);
+
+	if ((m_sDEV==NULL) ||  (nSpeed==0))
+	{
+		m_nErrorNbr=7;
+	}
+	else
+  	if( (m_nFdPort=open(m_sDEV,O_RDWR | O_NDELAY )) <0 )
+  	
+	{
+		m_nErrorNbr=1;
+	}
+	else
+	{
+	m_bPortIsOpen=true;
+	/* Lecture des parametres courants */
+	tcgetattr(m_nFdPort,&t);
+	tcgetattr(m_nFdPort,&oldt);
+
+   t.c_cflag |=(CREAD );
+   t.c_cflag &= ~CLOCAL;
+   // pas de parité 8 bits
+   t.c_cflag &= ~( CSIZE | PARENB );
+   t.c_cflag &= ~ CSTOPB;
+   t.c_cflag |= CS8;
+   // controle de flux RTSCTS
+   t.c_cflag |= CRTSCTS;
+   // RAW input
+   t.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG ); //| IEXTEN | XCASE | ECHONL | ECHOCTL | ECHOPRT | ECHOKE | PENDIN | TOSTOP);
+   t.c_lflag |= NOFLSH;
+   // pas de controle de flux
+   t.c_iflag &= ~(IXON | IXOFF | IXANY );
+   t.c_iflag |= (IGNPAR | IGNCR | IGNBRK | IGNCR );
+   // sortie RAW
+   t.c_oflag &= ~(OPOST | OLCUC | ONLCR | OCRNL);
+    // 1 caractere mini 10 de temp
+    t.c_cc[VMIN]=1;
+    t.c_cc[VTIME]=10;
+	 tcsetattr(m_nFdPort,TCSANOW,&t);
+/*
+	 t.c_cflag     &= ~(CSIZE | CSTOPB | PARENB | CLOCAL);
+    t.c_cflag     |= CS8 | CREAD | HUPCL;
+
+    t.c_iflag      = IGNBRK | IGNPAR;
+	t.c_cflag |= CRTSCTS;
+    t.c_oflag      = 0;
+    t.c_lflag      = 0;
+    t.c_cc[VMIN]   = 1;
+    t.c_cc[VTIME]  = 1;
+	 tcsetattr(m_nFdPort,TCSANOW,&t);
+*/
+// Send a few returns to make sure the modem is "good and zonked".
+   if (cfgetospeed(&t) != B0)
+   {
+	for( i=0; i<5; i++ )
+		{
+		write(m_nFdPort, "\r", 1 );
+	   	usleep( 10 * 1000 );
+		}
+	 }
+
+    // Set the baud rate to 0 for half a second to drop DTR...
+	cfsetispeed( &t, B0 );
+	cfsetospeed( &t, B0 );
+	cfmakeraw( &t );
+    t.c_cc[VMIN]=1;
+    t.c_cc[VTIME]=10;
+
+	tcsetattr( m_nFdPort, TCSANOW, &t );
+	usleep( 500 * 1000 );
+
+	cfsetispeed( &t, B115200 ); // auto-match to output speed
+	cfsetospeed( &t, B115200 );
+	tcsetattr( m_nFdPort, TCSANOW, &t );
+	bRet=true;
+	}
+	return bRet;
+}
+
+/** Initialise le modem */
+bool CModemDriver::InitModem(){
+bool bRet=false;
+
+if ((m_sInitString1==NULL) || (m_sInitString2==NULL))
+	{
+		m_nErrorNbr=4;
+	}
+	else
+// envoie des sequences d'initialisation
+// 1ere
+if (!SendCommand(m_sInitString1))
+	{	
+		m_nErrorNbr=5;
+	}
+	else
+	sleep(1);
+	{
+// 2eme
+if (!SendCommand(m_sInitString2))
+	{	
+		m_nErrorNbr=6;
+	}
+	sleep(1);
+	bRet=true;
+    }
+
+return bRet;
+}
+/** Ferme le port de communication */
+bool CModemDriver::ClosePort(){
+bool bRet=false;
+
+if (!m_bPortIsOpen)
+	bRet=false;
+	else
+	{
+	tcsetattr(m_nFdPort,TCSANOW,&oldt);
+	close(m_nFdPort);
+    }
+
+m_bPortIsOpen=false;
+return bRet;
+}
+
+/** Attend Timeout sec de recevoir la sequence Seq */
+bool CModemDriver::WaitFor(char *sSeq,int nTimeout,char *sRetour,int *nLongueur)
+{
+bool bRet=false;
+int nLon,nDebLon;
+char *sTempBuffer= new char[200];
+char *sDebBuffer=sTempBuffer;
+char *sDebSeq=sSeq;
+char c;
+nLon=strlen(sSeq);
+nDebLon=nLon;
+memset(sTempBuffer,0,200);
+
+while ((nLon) && (sTempBuffer<(sDebBuffer+199)))
+	{
+	if  (nTimeout!=0) c=TMread(nTimeout); else c=Mread();
+	*sTempBuffer=toupper(c);
+	if (sRetour) sTempBuffer++;
+	if (c==*sSeq)
+		{
+		sSeq++;
+		nLon--;
+		}
+		else
+		{
+		sSeq=sDebSeq;
+		nLon=nDebLon;
+		}
+	}	
+
+if (sRetour) memcpy(sRetour,sDebBuffer,(sTempBuffer-sDebBuffer));
+if (nLongueur) *nLongueur=(sTempBuffer-sDebBuffer);
+if (!nLon) bRet=true;
+
+delete(sDebBuffer);	 	
+return bRet;
+}
+/** Compose le numero et se connecte au fournisseur */
+bool CModemDriver::Dial(){
+bool bRet=false;
+Byte *sTempBuffer= new Byte[200];
+int nLongueur;
+int nLon;
+
+m_cMsg->Printf("%M%t%s\n",130,m_sPhoneNbr);
+
+// Normalise la ligne
+sprintf((char *) sTempBuffer,"%s%s",(char*) m_sDialCommand,(char *) m_sPhoneNbr);
+
+// Numerote
+if (!SendCommand((char *) sTempBuffer))
+	{	
+		m_nErrorNbr=11;
+	}
+	else
+if (!WaitFor((char *) "ONNECT",6000,(char *) sTempBuffer,&nLongueur))
+	{
+		m_nErrorNbr=12;
+	}	
+else
+ 	{
+ 	// deduit la vitesse de connection
+	if (WaitFor((char *) "\r",200,(char *) sTempBuffer,&nLongueur))
+			{
+			nLon=nLongueur-1;
+			memcpy(m_sConnectSpeed,sTempBuffer,nLon);
+			m_sConnectSpeed[nLon]=0;
+			}
+			else
+			sprintf(m_sConnectSpeed,"unknow");
+ 	bRet=true;
+ 	}
+delete(sTempBuffer);
+return bRet;
+}
+/** Teste si le modem est present */
+bool CModemDriver::IsAvailable()
+{
+bool bRet=false;
+char cCheck[200];
+
+if (strstr(m_sForceDetect,"Yes")!=NULL)
+	bRet=true;
+	else
+	{
+	sprintf(cCheck,"%s\r",m_sCheckString);
+	
+	// teste un open sur le device
+	if (InitPort())
+		{
+		// ici le port est ouvert alors on teste si c un modem
+		if (write(m_nFdPort,cCheck,strlen((const char*) m_sCheckString))>(-1))
+		//if (WaitFor("OK",200,NULL,NULL))					
+				bRet=true;
+		}
+	}
+return bRet;
+}
+/** Fournit le pointeur sur la structure des parametres */
+CParamConfig* CModemDriver::GetRequest()
+{
+return m_cParam;
+}
+/** envoie une commande au modem */
+bool CModemDriver::SendCommand(char *buffer)
+{
+bool bRet=false;
+char *pTmpBuffer=new char[30];
+
+sprintf((char *) pTmpBuffer,"%s\r",buffer);
+
+if (write(m_nFdPort,pTmpBuffer,strlen((const char*) pTmpBuffer))>(-1))
+	bRet=true;
+
+delete(pTmpBuffer);
+return bRet;
+}
+/** fournit la vitesse */
+int CModemDriver::GetSpeed()
+{
+return atoi(m_sConnectSpeed);
+}
+
+/** force la lecture de 1 caratere */
+Byte CModemDriver::Mread()
+{
+char cRet;
+while (read(m_nFdPort,&cRet,1)<1);
+return cRet;
+}	
+
+/** force la lecture de 1 caractere avec un timeout */
+Byte CModemDriver::TMread(int nTimeout)
+{
+Byte cRet=0;
+int nTime=0;
+
+while ((read(m_nFdPort,&cRet,1)<1) && (nTime<nTimeout))
+{
+usleep(1000);
+nTime++;
+}
+
+return cRet;
+}
+/** definie si connecter ou non */
+bool CModemDriver::IsConnected()
+{
+return m_bIsConnected;
+}

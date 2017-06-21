@@ -1,0 +1,11 @@
+#!/bin/sh
+Ret=-2
+
+until   ./pengaol2 -Connect "$1" -Debug  
+	do
+	sleep 10
+done
+
+
+
+

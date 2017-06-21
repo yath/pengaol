@@ -1,0 +1,205 @@
+‰		    INSTALLATION INSTRUCTIONS
+		       wavplay-1.4.tar.gz
+		      Warren W. Gay VE3WWG
+                    Fri Dec  3 23:38:37 1999
+
+1.	Find a suitable directory to start from (best done from a
+	non root account for overall safety:
+
+		$ cd $HOME
+
+		$ tar tzvf wavplay-1.4.tar.gz | less
+
+	This displays the contents of the archive (you should always
+	do this before unpacking a tar file)
+
+2.	Unpack the archive:
+
+		$ tar xzvf wavplay-1.4.tar.gz
+
+	This creates a subdirectory ./wavplay-1.4 where all the
+	extracted files should go.
+
+3.	Change to the new directory:
+
+		$ cd wavplay-1.4
+
+4.	Make some decisions about this install (there are
+	more than this, but these are the important ones):
+
+	4.1 Are you installing everything (default)? Or
+	    are you installing only wavplay and wavrec,
+	    because you don't support X, or lack MOTIF/LessTif?
+	    (just decide at this point)
+
+	4.2 What CPU(s) will this software run on? If it is to
+	    run on any platform (or 386), then comment out the
+	    line that specifies 'CPU=-m486'.
+
+	4.3 Where do you want wavplay, wavrec and optionally
+	    xltwavplay executables intalled? By default:
+
+		INSTDIR=/usr/local/bin
+
+	4.4 Where is your sound interface device installed?
+	    Default is DSPPATH= -DAUDIODEV=\"/dev/dsp\"
+	    (ie. /dev/dsp)
+
+	    IF INSTALLING XLTWAVPLAY :
+
+	4.5 If installing X based xltwavplay, do you want
+	    to compile it with builtin fallback resources
+	    (default and easiest/laziest)?  Or instead, would
+	    you rather have the resource file installed for
+	    it so that you can customize colours and fonts
+	    etc.? (See USERES=-DINSTALLED_RESOURCE_FILE)
+
+	4.6 If installing the resource file in 4.5, where
+	    would you like it installed? Default is:
+
+		RESDIR=/usr/X11R6/lib/X11/app-defaults
+
+	4.7 If installing xltwavplay, do you want it to
+	    be EDITRES capable? If not sure, leave it as
+	    default (yes). (See NOEDITRES=-DNO_EDITRES,
+	    and LIBXMU=-lXmu)
+
+	4.8 You may need to alter the library search
+	    paths to pick up your MOTIF/LessTif libraries.
+	    Review the macro XLDOPTS= in the Makefile.
+
+	4.9 You may also need to fix your symlinks for
+	    X and LessTif/MOTIF include files. Alternatively
+	    you may just want to edit the Makefile macro
+	    CUSTINCL= to specify some custom include file
+	    directories to the compiler.
+
+5.	Edit the Makefile to reflect your decisions above:
+
+		$ emacs Makefile
+
+	or	$ vi Makefile
+
+	Each configurable item has comment text above it for
+	explanation, so I won't repeat it all here.
+
+6.	Check Makefile settings: some things _MUST_ be set
+	properly before the make can be successful:
+
+	CPU=-m486		Change you're using a 386
+				(by commenting it out)
+
+	INSTDIR=/usr/local/bin	Change if you don't want to
+				install here!
+
+	RESDIR=/usr/X11R6/lib/X11/app-defaults
+				Change this if you chose to
+				install a resource file for
+				xltwavplay (if you're not
+				installing xltwavplay, then
+				ignore this)
+	
+	DSPPATH=-DAUDIODEV=\"/dev/dsp\"
+				Change this line if your
+				audio device is not /dev/dsp
+
+	DSPLOCKS= -DAUDIOLCK=0x33333333
+				Change this if you want to use
+				a different IPC Key for your
+				semaphores. Normally, this
+				default is probably fine.
+
+	XLDOPTS= 		Most will want to alter this
+				macro to specify the correct
+				directories for the libraries
+				needed (if you are compiling
+				the X based client only).
+
+7.	Before starting, and/or if you've made changes to the
+	Makefile, start clean by doing:
+
+		$ make clobber
+
+8.	If you are making all of the source, just type:
+
+		$ make
+
+	or	$ make all
+
+	This should compile wavplay, wavrec and xltwavplay. If
+	you have problems linking xltwavplay, check the top
+	portion of the Makefile. There are some hints about
+	things to check there.
+
+	If you don't want the X Window client, then use:
+
+		$ make no_x
+
+9.	Gain root privileges:
+
+		$ su
+
+	(or login in as root)
+
+10.A	If installing everything, just type:
+
+		# make install
+
+	If not installing the X based client program, then
+	use:
+
+		# make install_no_x
+
+
+10.B	If you compiled with the SCHED_PRIORITY macro
+	defined in the Makefile (default), then you'll
+        be asked to make the program setuid root. You
+        can ignore this (the program will emit a small
+        warning to stderr however).
+
+		# make setuid_root
+
+
+11.A	Adjust your volume level(s).
+
+11.B	Test. Try wavplay on your existing wav file (wave
+        file not included) :
+
+		$ wavplay diddly.wav
+
+	If you don't hear anything, please check your mixer
+	(volume settings etc.)
+
+	Also check that you don't have another older one
+	installed:
+
+		$ wavplay --version
+
+	should indicate version 1.4.
+
+	Make sure you're invoking the correct executable
+	another way:
+
+		$ type wavplay
+		wavplay is /usr/local/bin/wavplay
+
+	You should see something like the above. This shows you
+	what is used when wavplay is typed at the command prompt.
+
+
+	FOR XLTWAVPLAY:
+
+	From an xterm session try:
+
+		$ xltwavplay &
+
+	IF that works, edit your .fvwm2rc file (or whatever)
+	and add it there, so that it will be at your beckon
+	call.
+
+12.	Get more milk and cookies.
+
+13.	Read the file BUGS! There are some things in there
+	that you should know about.
+
+End INSTALL
