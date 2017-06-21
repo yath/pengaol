@@ -60,7 +60,7 @@ CLoader::CLoader()
 	m_cParam[3].Default="Yes";
 	m_cParam[3].InitStr=m_cAnotherDNS;
 	m_cParam[3].MaxBufferLen=30;
-	m_cParam[4].Request="DnsIP";
+	m_cParam[4].Request="*DnsIP";
 	m_cParam[4].Default="152.163.201.4";
 	m_cParam[4].InitStr=m_cIpDns;
 	m_cParam[4].MaxBufferLen=30;
@@ -353,8 +353,52 @@ while (pListDriver->m_pDriver!=NULL)
 /** fournit le dns choisie */
 char* CLoader::GetDns()
 {
+FILE *fFichier;
+FILE *fResolv;
+bool bStartFind=false;
+bool bRet=false;
+int hp=-1;
+char *cBuffer=new char[200];
+char *pPosEgal;
+sleep(2);
+
 if (strstr(m_cAnotherDNS,"Yes")!=NULL)
+{
+	if ((fFichier=fopen("/etc/Pengaol/Dns","r"))!=NULL)
+	{
+		while ((fgets((char *) cBuffer,200,fFichier)!=NULL) && (hp<0))
+		{
+		if ((cBuffer[0]=='#') || (strlen(cBuffer)<8)) continue;
+		if ((pPosEgal=strstr((char *) cBuffer,(char *) "\n"))!=NULL) *pPosEgal='\0';
+		if ((pPosEgal=strstr((char *) cBuffer,(char *) "\r"))!=NULL) *pPosEgal='\0' ;
+   		// Teste le DNS
+      MsgInput->Printf("%M%t %s \n",83,cBuffer);
+		unlink("/etc/resolv.conf");
+		if ((fResolv=fopen("/etc/resolv.conf","w"))!=NULL)
+			{
+			fprintf(fResolv,"nameserver %s\n",cBuffer);
+			fclose(fResolv);
+			}
+
+		unlink("/etc/Pengaol/ping");		
+		system("ping -c 1 www.aol.com 1>/etc/Pengaol/ping 2>/dev/null");
+
+		if ((fResolv=fopen("/etc/Pengaol/ping","r"))!=NULL)
+			{
+			fgets((char *) cBuffer,200,fResolv);
+			if (strstr(cBuffer,"PING")!=NULL) hp=1;
+			fclose(fResolv);
+			}
+
+		unlink("/etc/Pengaol/ping");	
+		if (hp>0)
+	      MsgInput->Printf("%M%t \n",84);
+		}
+	fclose(fFichier);
+   	}
+	delete(cBuffer);		
 	return m_cIpDns;
+	}
 	else
 	return NULL;
 }

@@ -70,7 +70,11 @@ GClientAol=ClientAol;
 res=pthread_create(&Thread1,NULL,StartCmd,NULL);
 res=pthread_create(&Thread2,NULL,StartATC,NULL);
 res=pthread_create(&Thread3,NULL,StartCTA,NULL);
+}
 
+void WaitELV3()
+{
+int res;
 res=pthread_join(Thread1,NULL);
 }
 
@@ -131,6 +135,11 @@ void StartELV3Sub(CAolCmd30 *Cmd,CAolToClient30 *AolClient,CClientToAol30  *Clie
 
 
 	//WaitForMultipleObjects(3,g_nThread,TRUE,INFINITE);
+	WaitForSingleObject(g_nThread[0], INFINITE);
+}
+
+void WaitELV3()
+{
 	WaitForSingleObject(g_nThread[0], INFINITE);
 }
 

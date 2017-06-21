@@ -52,10 +52,11 @@ kernel30.o: kernel30.cpp globals.h /usr/include/stdio.h \
   /usr/include/linux/if_ether.h /usr/include/net/ethernet.h \
   /usr/include/linux/ppp_defs.h /usr/include/linux/if_ppp.h \
   /usr/include/netinet/in_systm.h kernel30.h nulldriver.h cparamconfig.h \
-  cmsgerror.h ckernel.h ciptools.h main.h caolheader30.h cvjcompress.h \
-  ppp_defs.h vjcompress.h ctcpipheader.h caoltoclient30.h caim.h \
-  caolcmd30.h cclienttoaol30.h /usr/include/g++-3/iostream.h \
-  /usr/include/g++-3/streambuf.h threadELV3.h cgui.h
+  cmsgerror.h ckernel.h ciptools.h main.h cloader.h cconfig.h \
+  caolheader30.h cvjcompress.h ppp_defs.h vjcompress.h ctcpipheader.h \
+  caoltoclient30.h caim.h caolcmd30.h cclienttoaol30.h \
+  /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h \
+  threadELV3.h cgui.h
 kernel30.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -176,6 +177,8 @@ cmsgerror.h :
 ckernel.h :
 ciptools.h :
 main.h :
+cloader.h :
+cconfig.h :
 caolheader30.h :
 cvjcompress.h :
 ppp_defs.h :

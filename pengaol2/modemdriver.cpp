@@ -214,6 +214,8 @@ bool CModemDriver::Connect()
 									}
 	        }
 
+if (!bRet) ClosePort();
+
 return bRet;
 }
 

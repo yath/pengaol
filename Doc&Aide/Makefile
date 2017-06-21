@@ -13,6 +13,8 @@
 
 ####### kdevelop will overwrite this part!!! (begin)##########
 
+####### kdevelop will overwrite this part!!! (end)############
+
 
 SHELL = /bin/sh
 
@@ -151,7 +153,7 @@ USER_LDFLAGS =
 USE_EXCEPTIONS = -fexceptions
 USE_NLS = @USE_NLS@
 USE_RTTI = -frtti
-VERSION = 0.55
+VERSION = 0.95
 XGETTEXT = @XGETTEXT@
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
@@ -184,8 +186,6 @@ qt_includes = @qt_includes@
 qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
-
-EXTRA_DIST = Gui.txt 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -290,8 +290,6 @@ all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-
-####### kdevelop will overwrite this part!!! (end)############
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

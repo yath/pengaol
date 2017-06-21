@@ -41,7 +41,7 @@
 #include "ccommand.h"
 #include "ckernel.h"
 #include "kernel30.h"
-#include "crouteurWin.h"
+//#include "crouteurWin.h"
 #include "crouteurlinux.h"
 #include "cusermanager.h"
 #include "threadELV3.h"
@@ -226,7 +226,7 @@ if (!bReady)
 		/*Msg=new CMsgError;
 		MsgI=new CMsgError;
 		MsgO=new CMsgError;*/
-		Routeur=new CRouteurWin;
+		//Routeur=new CRouteurWin;
 	    }
 
 	Lan=getenv("LANG");
@@ -242,10 +242,10 @@ if (!bReady)
 
 	Language[2]=0;
 	printf("Load language : %s \n",Language);
-   	if (!Msg->Load("/etc/PengMessages.txt",(char *) &Language))
+   	if (!Msg->Load("/etc/Pengaol/PengMessages.txt",(char *) &Language))
 		{
 		printf("Error loading Msg for your lang assuming English\n");
-	   	if (!Msg->Load("/etc/PengMessages.txt","en"))
+	   	if (!Msg->Load("/etc/Pengaol/PengMessages.txt","en"))
 			{
 			printf("Error loading Msg FATAL !!\n");
    		 	exit(0);
@@ -530,8 +530,8 @@ if (!Kernel->Connect(Login,PassWord))
 	SendInfo((char *) &sTmp);
 	#endif
 	// Lance le routage
-	if (Loader->GetDns()!=NULL)
-		sDns=Loader->GetDns();
+	//if (Loader->GetDns()!=NULL)
+	//	sDns=Loader->GetDns();
 
 	Routeur->SetDriver(Input,Output);
 	Routeur->SetInfo(sIp,sDns,sDomain);
@@ -559,7 +559,7 @@ if (!Kernel->Connect(Login,PassWord))
 		// Demmande la 2 eme fenetre
 		Gui->SetWindow(3);
 		#endif
-
+       Kernel->SetLoader(Loader);
 		Kernel->Start();
 		if (bStop)
 		   Msg->Printf("%M%S%t\n",79);

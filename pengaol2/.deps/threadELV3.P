@@ -53,9 +53,9 @@ threadELV3.o: threadELV3.cpp globals.h /usr/include/stdio.h \
   /usr/include/linux/ppp_defs.h /usr/include/linux/if_ppp.h \
   /usr/include/netinet/in_systm.h threadELV3.h caolcmd30.h kernel30.h \
   nulldriver.h cparamconfig.h cmsgerror.h ckernel.h ciptools.h main.h \
-  caolheader30.h cvjcompress.h ppp_defs.h vjcompress.h ctcpipheader.h \
-  caoltoclient30.h caim.h cclienttoaol30.h /usr/include/g++-3/iostream.h \
-  /usr/include/g++-3/streambuf.h cgui.h
+  cloader.h cconfig.h caolheader30.h cvjcompress.h ppp_defs.h \
+  vjcompress.h ctcpipheader.h caoltoclient30.h caim.h cclienttoaol30.h \
+  /usr/include/g++-3/iostream.h /usr/include/g++-3/streambuf.h cgui.h
 threadELV3.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -178,6 +178,8 @@ cmsgerror.h :
 ckernel.h :
 ciptools.h :
 main.h :
+cloader.h :
+cconfig.h :
 caolheader30.h :
 cvjcompress.h :
 ppp_defs.h :

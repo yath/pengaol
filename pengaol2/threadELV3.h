@@ -30,4 +30,5 @@ void StartELV3Sub(CAolCmd30 *Cmd,CAolToClient30 *AolClient,CClientToAol30  *Clie
 void KillELV3Sub();
 void StartGui(CGui *Gui);
 void StopGui();
+void WaitELV3();
 #endif

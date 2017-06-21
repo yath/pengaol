@@ -25,6 +25,7 @@
 #include "nulldriver.h"
 #include "ciptools.h"
 #include "main.h"
+#include "cloader.h"
 
 /**structure de base du noyau
   *@author stephane (birdy57)
@@ -61,6 +62,8 @@ public:
   /** arrete le kernel */
   virtual void Stop();
   /** ecrit sur le driver de sortie */
+  /** fournit la classe Loader */
+  void SetLoader(CLoader *Loader);
   virtual void OutputWrite(char *sBuffer,int nLen);
  protected: // Protected attributes
 /** Force la lecture de 1 caractere */
@@ -82,6 +85,8 @@ protected: // Protected methods
   char *KernelName;
   /** Attend indefiniement la sequence */
   virtual void WaitForIn(char *buffer,int Long);
+  /** Loader */
+  CLoader *m_cLoader;
 };
 
 #endif

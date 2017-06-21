@@ -99,14 +99,25 @@ fi
 
 # on change les droit de pengaol et on copie
 
+if [ -e "/etc/Pengaol" ]
+ 	then
+	echo "/etc/Pengaol existe deja"
+else
+	mkdir /etc/Pengaol
+fi
+
+
+
 cd pengaol2
 chmod 755 pengaol2
 chmod +s pengaol2
 
 echo "copy pengaol --> /usr/bin"
 cp pengaol2 /usr/bin/pengaol
-echo "copy PengMessages.txt --> /etc/"
-cp PengMessages.txt /etc/
+echo "copy PengMessages.txt --> /etc/Pengaol"
+cp PengMessages.txt /etc/Pengaol
+echo "copy Dns --> /etc/Pengaol"
+cp Dns /etc/Pengaol
 echo "Creating Drivers Configuration file"
 pengaol -MakeInit
 chown root /usr/bin/pengaol

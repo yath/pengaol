@@ -358,6 +358,8 @@ m_nLastAolAck=0x21;
 
 StartELV3Sub(m_cCmd,m_cAolToClient,m_cClientToAol);
 
+m_cLoader->GetDns();
+WaitELV3();
 
 // Maintenant on attend la fin des threads en bloquant
 

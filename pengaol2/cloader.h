@@ -22,9 +22,10 @@
 #include "cconfig.h"
 #include "nulldriver.h"
 #include "cmsgerror.h"
+#include "linuxconf.h"
 
 // Definition du fichier de configuration
-#define ConfigFile "/etc/PengAol.conf"
+#define ConfigFile "/etc/Pengaol/PengAol.conf"
 
 /**charge et decharge les drivers
   *@author stephane (birdy57)

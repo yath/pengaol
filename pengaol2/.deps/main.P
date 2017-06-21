@@ -55,10 +55,10 @@ main.o: main.cpp globals.h /usr/include/stdio.h /usr/include/features.h \
   nulldriver.h cparamconfig.h cmsgerror.h cloader.h cconfig.h \
   ctextlinux.h main.h ccommand.h ckernel.h ciptools.h kernel30.h \
   caolheader30.h cvjcompress.h ppp_defs.h vjcompress.h ctcpipheader.h \
-  caoltoclient30.h caim.h caolcmd30.h cclienttoaol30.h crouteurWin.h \
-  crouteur.h crouteurlinux.h /usr/include/memory.h cusermanager.h \
-  ccrypto.h /usr/include/g++-3/fstream.h threadELV3.h cgui.h \
-  modemdriver.h CableDriver.h ctuntapdriver.h cppp.h cppptools.h if_ppp.h
+  caoltoclient30.h caim.h caolcmd30.h cclienttoaol30.h crouteurlinux.h \
+  crouteur.h /usr/include/memory.h cusermanager.h ccrypto.h \
+  /usr/include/g++-3/fstream.h threadELV3.h cgui.h modemdriver.h \
+  CableDriver.h ctuntapdriver.h cppp.h cppptools.h if_ppp.h
 main.cpp :
 globals.h :
 /usr/include/stdio.h :
@@ -195,9 +195,8 @@ caoltoclient30.h :
 caim.h :
 caolcmd30.h :
 cclienttoaol30.h :
-crouteurWin.h :
-crouteur.h :
 crouteurlinux.h :
+crouteur.h :
 /usr/include/memory.h :
 cusermanager.h :
 ccrypto.h :

@@ -5,7 +5,7 @@
 #define PACKAGE "pengaol2"
 
 /* Version number of package */
-#define VERSION "0.55"
+#define VERSION "0.95"
 
 /* C++ compiler supports template repository */
 #define HAVE_TEMPLATE_REPOSITORY 1

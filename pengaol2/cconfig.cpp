@@ -23,7 +23,7 @@
 
 CConfig::CConfig()
 {
-m_sFile="/etc/PengAOL.conf";
+m_sFile="/etc/Pengaol/PengAOL.conf";
 }
 
 CConfig::~CConfig(){

@@ -14,27 +14,23 @@ install=false
 install_location=
 type=DATA
 [Config for BinMakefileAm]
-addcxxflags=-D_REENTRANT
+addcxxflags=-D_REENTRANT 
 bin_program=pengaol2
-cxxflags=-O0 -g3 -Wall
+cxxflags= -O0 -g3 -Wall
 ldadd=-lstdc++ -lpthread
 ldflags=
-[Doc&Aide/Gui.txt]
-dist=true
-install=false
-install_location=
-type=DATA
 [Doc&Aide/Makefile.am]
-files=Doc&Aide/Gui.txt
+files=
 sub_dirs=
 type=normal
 [General]
 AMChanged=false
 author=stephane (birdy57)
+configure_args=
 email=birdy57@pengaol.org
 kdevprj_version=1.3
 lfv_open_groups=Autres,En-têtes,Sources
-make_options=-j1
+make_options= -j1
 makefiles=Makefile.am,pengaol2/Makefile.am,pengaol2/docs/Makefile.am,pengaol2/docs/en/Makefile.am,Doc&Aide/Makefile.am
 modifyMakefiles=true
 project_name=Pengaol2
@@ -42,7 +38,7 @@ project_type=normal_cpp
 sgml_file=/opt/pengaol2/pengaol2/docs/en/index.sgml
 short_info=
 sub_dir=pengaol2/
-version=0.55
+version=0.95
 version_control=CVS
 workspace=1
 [INSTALL]
@@ -357,37 +353,37 @@ files=pengaol2/docs/en/index.html,pengaol2/docs/en/index-1.html,pengaol2/docs/en
 sub_dirs=
 type=normal
 [pengaol2/docs/en/index-1.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index-2.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index-3.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index-4.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index-5.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index-6.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA
 [pengaol2/docs/en/index.html]
-dist=true
+dist=false
 install=false
 install_location=
 type=DATA

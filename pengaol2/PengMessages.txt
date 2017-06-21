@@ -67,6 +67,9 @@
 80=Arret suite à une erreur grave
 81=La derniere session de Pengaol à ete interrompue : restoration de la config originale
 82=Perte de la connexion : reconnexion dans 5 seconde
+83=Teste du dns :
+84=Ok
+85=echec
 
 #textes d'explications
 
@@ -194,6 +197,9 @@
 80=Stopped following a serious error
 81=The last session of pengaol was interrupted: restoring original config
 82=Connection reseted by peer , please wait reconnecting
+83=Trying Dns :
+84=Ok
+85=error
 
 100=Pengaol V0.7 Linux Version by GUTH Stéphane (Birdy57)
 101=-------------------------------------------------
@@ -319,6 +325,9 @@
 80= Beenden nach einem Fehler
 81= Die letzte Sitzung von PengAol wurde beendet: Restauriere die Original Konfiguration
 82= Verbindung fehler: bitte warten, neu starten
+83=Probierung dns :
+84=Ok
+85=fehler
 
 # textes dexplication
 

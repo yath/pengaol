@@ -217,3 +217,8 @@ if (nCrcOut==nCrcIn)
 #endif
 		
 }
+/** fournit la classe Loader */
+void CKernel::SetLoader(CLoader *Loader)
+{
+m_cLoader=Loader;
+}
