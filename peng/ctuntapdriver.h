@@ -37,43 +37,43 @@
 #define ERROR -1
 #define EthertapHeader {0x00,0x00,0xfe,0xfd,0x00,0x00,0x00,0x00,0xfe,0xfd,0x00,0x00,0x00,0x00,0x08,0x00};
 
-class CTunTapDriver : public CNullDriver  {
-public: 
-	CTunTapDriver();
-	~CTunTapDriver();
+class CTunTapDriver:public CNullDriver {
+  public:
+    CTunTapDriver();
+    ~CTunTapDriver();
   /** configuration de tun/tap */
 
   /** Deconnecte le peripherique */
-  bool Disconnect();
+    bool Disconnect();
   /** Connection au peripherique */
-  bool Connect();
+    bool Connect();
   /** lit sur le peripherique */
-  int Read(char *pData,int nSize);
+    int Read(char *pData, int nSize);
   /** ecriture sur le peripherique */
-  int Write(char *pData,int nSize);
+    int Write(char *pData, int nSize);
   /** teste si c possible */
-  bool IsAvailable();
+    bool IsAvailable();
   /** donne la config */
-  CParamConfig* GetRequest();
+    CParamConfig *GetRequest();
   /** connecte ? */
-  bool IsConnected();
+    bool IsConnected();
   /** lecture en non bloquant */
-  int NbRead(char *pData,int nSize);
-private: // Private methods
+    int NbRead(char *pData, int nSize);
+  private:			// Private methods
   /** recherche le nom du peripherique à utiliser */
-  bool OpenDevice();
-private: // Private attributes
+     bool OpenDevice();
+  private:			// Private attributes
   /** TunTap est deja ouvert ? */
-  bool bIsTunTapOpen;
-private: // Private attributes
+     bool bIsTunTapOpen;
+  private:			// Private attributes
   /**  */
-  int nEtfdTunTap;
+    int nEtfdTunTap;
   /** Nombre d'octets à ignorer dans l'entete */
-  int nIgnoreByte;
+    int nIgnoreByte;
   /** Nom du peripherique à ouvrir */
-  char *sDeviceName;
-	/* Structure des parametres */
-	CParamConfig *m_cParam;
+    char *sDeviceName;
+    /* Structure des parametres */
+    CParamConfig *m_cParam;
 };
 
 #endif

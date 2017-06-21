@@ -31,32 +31,31 @@ ZEON
   */
 
 class CGui {
-public: 
-	CGui();
-	~CGui();
+  public:
+    CGui();
+    ~CGui();
   /** envoie une commande a PengGui */
-  bool SendCommand(char *sCommand);
+    bool SendCommand(char *sCommand);
   /** Connection a PengGui */
-  bool Connect();
+    bool Connect();
   /** Lecture des demande du GUI */
-  void Receiver();
+    void Receiver();
   /** definie la fenetre à afficher */
-  void SetWindow(int nWin);
-protected: // Protected attributes
+    void SetWindow(int nWin);
+  protected:			// Protected attributes
   /** Fd du client */
-  int nClientFd;
+    int nClientFd;
   /** Fd du serveur */
-  int nServeurFd;
+    int nServeurFd;
   /** Status de la connection */
-  bool bConnected;
+    bool bConnected;
 /** nr de fenetre */
-  int nWindow;
+    int nWindow;
    /** pour le serveur */
-	struct sockaddr_in adresse_serveur;
-	struct sockaddr_in adresse_client;
-	int long_serveur,long_client;
-	bool bGood;
-
+    struct sockaddr_in adresse_serveur;
+    struct sockaddr_in adresse_client;
+    int long_serveur, long_client;
+    bool bGood;
 
 };
 #endif

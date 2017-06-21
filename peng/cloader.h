@@ -24,84 +24,81 @@
 #include "cmsgerror.h"
 #include "linuxconf.h"
 
-// Definition du fichier de configuration
-#define ConfigFile "/etc/Pengaol/PengAol.conf"
-
 /**charge et decharge les drivers
   *@author stephane (birdy57)
   */
 
 class CLoader {
-public: 
-	CLoader();
-	~CLoader();
+  public:
+    CLoader();
+    ~CLoader();
 
-private: // Private attributes
+  private:			// Private attributes
 
-	class m_cListDriver {
-   				public:
-				CNullDriver *m_pDriver;
-				m_cListDriver *m_pNextDriver;
-				};
+    class m_cListDriver {
+      public:
+	CNullDriver * m_pDriver;
+	m_cListDriver *m_pNextDriver;
+    };
 
    /** Premiere entree de la table des drivers */
-	m_cListDriver *m_pFirstDriver;
+    m_cListDriver *m_pFirstDriver;
 	/** Pointeur actuel du driver */
-	m_cListDriver *m_pActualDriver;
+    m_cListDriver *m_pActualDriver;
 	/** parametre de base */
-  CParamConfig *m_cParam;;
+    CParamConfig *m_cParam;;
    /** driver d'entree */
-  CNullDriver *m_cDriverIn;;
+    CNullDriver *m_cDriverIn;;
   /** driver de sortie */
-  CNullDriver *m_cDriverOut;
+    CNullDriver *m_cDriverOut;
   /**  Nom du driver d'entree*/
-  char *m_cDriverInName;
+    char *m_cDriverInName;
   /** nim du driver de sortie */
-  char *m_cDriverOutName;
+    char *m_cDriverOutName;
 	/** DNS autre ? */
-	char *m_cAnotherDNS;
+    char *m_cAnotherDNS;
 	/** Ip du dns */
-	char *m_cIpDns;
+    char *m_cIpDns;
 	/** le Loader pour les fichiers de config */
-	CConfig *m_pConfig;
+    CConfig *m_pConfig;
 	/** Fichier de configuration */
-	char *m_sConfigFile;
-public: // Public attributes
+    char *m_sConfigFile;
+  public:			// Public attributes
   /** Ajoute un driver universelle à la liste */
-  bool AddDriver(CNullDriver *pDriver);
-public: // Public attributes
+    bool AddDriver(CNullDriver * pDriver);
+  public:			// Public attributes
   /** Donne une liste des drivers charger et leur accessibilité */
-  bool ListDriver();
+    bool ListDriver();
   /** Charge les drivers */
-  bool LoadDriver();
+    bool LoadDriver();
   /** Donne le driver de sortie */
-  CNullDriver* GetDriverOut();
+    CNullDriver *GetDriverOut();
   /** Fournit le driver d'entree */
-  CNullDriver* GetDriverIn();
+    CNullDriver *GetDriverIn();
   /** Genere le fichier de configuration */
   /** designe le fichier de configuration */
-  void SetConfigFile(char *fichier);
+    void SetConfigFile(char *fichier);
   /** Donne le numero de l'erreur */
-  int GetErrorNbr();
-  bool MakeConfig(bool bNew);
+    int GetErrorNbr();
+    bool MakeConfig(bool bNew);
   /** transmet les classe */
-  void SetMessage(CMsgError *MIn,CMsgError *Mout);
+    void SetMessage(CMsgError * MIn, CMsgError * Mout);
   /** detruit tous les drivers */
-  void KillDriver();
+    void KillDriver();
   /** fournit le dns choisie */
-  char* GetDns();
+    char *GetDns();
   /** fournit le programme  */
-  char* GetStart();
-private:
+    char *GetStart();
+  private:
   /** Classe pour les messages d'entree */
-  CMsgError *MsgInput;
+    CMsgError * MsgInput;
   /** et pour la sortie */
-  CMsgError *MsgOutput;
+    CMsgError *MsgOutput;
   /** numero d'erreur */
-  int m_nError;
-public: // Public attributes
+    int m_nError;
+  public:			// Public attributes
   /** programme a demmarrer à la connection */
-  char *m_sStart;
+    char *m_sStart;
 };
 
 #endif

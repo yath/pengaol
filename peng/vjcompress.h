@@ -14,17 +14,17 @@
 #ifndef _VJCOMPRESS_H_
 #define _VJCOMPRESS_H_
 
-#define MAX_STATES 16   /* must be >2 and <255 */
-#define MAX_HDR 128     /* max TCP+IP hdr length (by protocol def) */
+#define MAX_STATES 16		/* must be >2 and <255 */
+#define MAX_HDR 128		/* max TCP+IP hdr length (by protocol def) */
 
 /* packet types */
 #define TYPE_IP 0x40
 #define TYPE_UNCOMPRESSED_TCP 0x70
 #define TYPE_COMPRESSED_TCP 0x80
-#define TYPE_ERROR 0x00 /* this is not a type that ever appears on
-                         * the wire.  The receive framer uses it to
-                         * tell the decompressor there was a packet
-                         * transmission error. */
+#define TYPE_ERROR 0x00		/* this is not a type that ever appears on
+				 * the wire.  The receive framer uses it to
+				 * tell the decompressor there was a packet
+				 * transmission error. */
 
 /*
  * Bits in first octet of compressed packet
@@ -41,8 +41,8 @@
 #define NEW_U  0x01
 
 /* reserved, special-case values of above */
-#define SPECIAL_I (NEW_S|NEW_W|NEW_U)        /* echoed interactive traffic */
-#define SPECIAL_D (NEW_S|NEW_A|NEW_W|NEW_U)  /* unidirectional data */
+#define SPECIAL_I (NEW_S|NEW_W|NEW_U)	/* echoed interactive traffic */
+#define SPECIAL_D (NEW_S|NEW_A|NEW_W|NEW_U)	/* unidirectional data */
 #define SPECIALS_MASK (NEW_S|NEW_A|NEW_W|NEW_U)
 
 /*
@@ -52,14 +52,14 @@
  * locate saved header.
  */
 struct cstate {
-   struct cstate *cs_next;  /* next most recently used cstate (xmit only) */
-   u_short cs_hlen;         /* size of hdr (receive only) */
-   u_char cs_id;            /* connection # associated with this state */
-   u_char cs_filler;
-   union {
-      char hdr[MAX_HDR];
-      struct ip csu_ip;   /* ip/tcp hdr from most recent packet */
-   } slcs_u;
+    struct cstate *cs_next;	/* next most recently used cstate (xmit only) */
+    u_short cs_hlen;		/* size of hdr (receive only) */
+    u_char cs_id;		/* connection # associated with this state */
+    u_char cs_filler;
+    union {
+	char hdr[MAX_HDR];
+	struct ip csu_ip;	/* ip/tcp hdr from most recent packet */
+    } slcs_u;
 };
 
 #define cs_ip slcs_u.csu_ip
@@ -69,16 +69,16 @@ struct cstate {
  * all the state data for one serial line (we need one of these per line).
  */
 struct slcompress {
-    struct cstate *last_cs;            /* most recently used tstate */
-    u_char last_recv;                  /* last rcvd conn. id */
-    u_char last_xmit;                  /* last sent conn. id */
+    struct cstate *last_cs;	/* most recently used tstate */
+    u_char last_recv;		/* last rcvd conn. id */
+    u_char last_xmit;		/* last sent conn. id */
     u_short flags;
-    struct cstate tstate[MAX_STATES];  /* xmit connection states */
-    struct cstate rstate[MAX_STATES];  /* receive connection states */
+    struct cstate tstate[MAX_STATES];	/* xmit connection states */
+    struct cstate rstate[MAX_STATES];	/* receive connection states */
 };
 
 /* flag values */
-#define SLF_TOSS 1       /* tossing rcvd frames because of input err */
+#define SLF_TOSS 1		/* tossing rcvd frames because of input err */
 
 /*
  * The following macros are used to encode and decode numbers.  They all
@@ -146,7 +146,7 @@ struct slcompress {
              (f) = htons((u_long)*cp++); \
         } \
    }
-	
+
 #ifndef VJ_NO_STATS
 #define INCR(counter) ++comp->stats.counter
 #else
@@ -170,38 +170,35 @@ struct slcompress {
 
 
 struct mbuf {
-   u_char *m_off; /* pointer to start of data */
-   int m_len;  /* length of data */
+    u_char *m_off;		/* pointer to start of data */
+    int m_len;			/* length of data */
 };
 
 typedef u_int32_t tcp_seq;
- 
+
 struct tcphdr {
-   u_int16_t th_sport;         /* source port */
-   u_int16_t th_dport;         /* destination port */
-   tcp_seq th_seq;             /* sequence number */
-   tcp_seq th_ack;             /* acknowledgement number */
+    u_int16_t th_sport;		/* source port */
+    u_int16_t th_dport;		/* destination port */
+    tcp_seq th_seq;		/* sequence number */
+    tcp_seq th_ack;		/* acknowledgement number */
 #if __BYTE_ORDER == __LITTLE_ENDIAN
-   u_int8_t th_x2:4;           /* (unused) */
-   u_int8_t th_off:4;          /* data offset */
+    u_int8_t th_x2:4;		/* (unused) */
+    u_int8_t th_off:4;		/* data offset */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-   u_int8_t th_off:4;          /* data offset */
-   u_int8_t th_x2:4;           /* (unused) */
+    u_int8_t th_off:4;		/* data offset */
+    u_int8_t th_x2:4;		/* (unused) */
 #endif
-   u_int8_t th_flags;
+    u_int8_t th_flags;
 #define TH_FIN  0x01
 #define TH_SYN  0x02
 #define TH_RST  0x04
 #define TH_PUSH 0x08
 #define TH_ACK  0x10
 #define TH_URG  0x20
-   u_int16_t th_win;           /* window */
-   u_int16_t th_sum;           /* checksum */
-   u_int16_t th_urp;           /* urgent pointer */
+    u_int16_t th_win;		/* window */
+    u_int16_t th_sum;		/* checksum */
+    u_int16_t th_urp;		/* urgent pointer */
 };
 
 #endif
-
-
-

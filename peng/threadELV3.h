@@ -26,9 +26,10 @@
 #include "cclienttoaol30.h"
 #include "cgui.h"
 
-void StartELV3Sub(CAolCmd30 *Cmd,CAolToClient30 *AolClient,CClientToAol30  *ClientAol);
+void StartELV3Sub(CAolCmd30 * Cmd, CAolToClient30 * AolClient,
+		  CClientToAol30 * ClientAol);
 void KillELV3Sub();
-void StartGui(CGui *Gui);
+void StartGui(CGui * Gui);
 void StopGui();
 void WaitELV3();
 #endif

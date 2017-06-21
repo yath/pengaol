@@ -1,11 +1,7 @@
 #!/bin/sh
 Ret=-2
 
-until   pengaol -Connect "$1" -Debug  
+until   peng -c "$1" 
 	do
 	sleep 10
 done
-
-
-
-

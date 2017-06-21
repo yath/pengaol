@@ -46,24 +46,21 @@
  * if it exists.
  */
 
-#define SET_SA_FAMILY(addr, family)			\
-    memset ((char *) &(addr), '\0', sizeof(addr));	\
-    addr.sa_family = (family);
+#define SET_SA_FAMILY(addr, family)	 memset ((char *) &(addr), '\0', sizeof(addr));	 addr.sa_family = (family);
 
 /*
  * If PPP_DRV_NAME is not defined, use the default "ppp" as the device name.
  */
 #if !defined(PPP_DRV_NAME)
 #define PPP_DRV_NAME	"ppp"
-#endif /* !defined(PPP_DRV_NAME) */
+#endif				/* !defined(PPP_DRV_NAME) */
 
 #define ok_error(num) ((num)==EIO)
 #define KVERSION(j,n,p)	((j)*1000000 + (n)*1000 + (p))
 
 #define MAX_IFS		100
 #define FLAGS_GOOD (IFF_UP          | IFF_BROADCAST)
-#define FLAGS_MASK (IFF_UP          | IFF_BROADCAST | \
-		    IFF_POINTOPOINT | IFF_LOOPBACK  | IFF_NOARP)
+#define FLAGS_MASK (IFF_UP          | IFF_BROADCAST | IFF_POINTOPOINT | IFF_LOOPBACK  | IFF_NOARP)
 
 #define SIN_ADDR(x)	(((struct sockaddr_in *) (&(x)))->sin_addr.s_addr)
 #define ROUTE_MAX_COLS	12
@@ -72,89 +69,91 @@
   *@author stephane (birdy57)
   */
 
-class CRouteurLinux : public CRouteur
-{
-public: 
-	CRouteurLinux();
-	~CRouteurLinux();
+
+class CRouteurLinux:public CRouteur {
+  public:
+    CRouteurLinux();
+    ~CRouteurLinux();
   /** Demmarre le routage */
-  bool Start();
+    bool Start();
   /** Arrete le routage */
-  bool Stop();
+    bool Stop();
   /** Suprime le routage */
-  bool DelRouteModem();
+    bool DelRouteModem();
   /** copie un fichier en ecrasant la destination */
-  bool FileCopy(char *sSource,char *sDestination);
+    bool FileCopy(char *sSource, char *sDestination);
   /** Teste si un fichier exist */
-  bool FileExist(char *sFile);
+    bool FileExist(char *sFile);
   /** routage specifique aux modems */
-  bool RouteModem();
+    bool RouteModem();
   /** ajoute un texte dans un fichier */
-  void AddToFile(char *sFile,char *sTexte);
+    void AddToFile(char *sFile, char *sTexte);
   /** action ifconfig */
-  int sifaddr (int unit, u_int32_t our_adr, u_int32_t his_adr,       u_int32_t net_mask);
+    int sifaddr(int unit, u_int32_t our_adr, u_int32_t his_adr,
+		u_int32_t net_mask);
   /** initialise le socket */
-  bool sys_init();
+    bool sys_init();
   /** creer un proxy arp pour l'interface */
-  int sifproxyarp (int unit, u_int32_t his_adr);
+    int sifproxyarp(int unit, u_int32_t his_adr);
   /** ajoute une route */
-  void AddRoute(char *sSource,char *sNetmask);
+    void AddRoute(char *sSource, char *sNetmask);
   /** cherche /proc */
-  char* path_to_procfs(const char *tail);
+    char *path_to_procfs(const char *tail);
   /** ifconfig %% down */
-  bool sifdown(int u);
+    bool sifdown(int u);
   /** ouvra la table de routage */
-  int open_route_table(void);
+    int open_route_table(void);
   /** routage par defaut */
-  int sifdefaultroute (int unit, u_int32_t ouraddr, u_int32_t gateway);
+    int sifdefaultroute(int unit, u_int32_t ouraddr, u_int32_t gateway);
   /** arrete la table */
-  void close_route_table(void);
+    void close_route_table(void);
   /** donne l'adresse de l'interface */
-  int get_ip_addr(char *name);
+    int get_ip_addr(char *name);
   /** routage */
-  int sifroute(int unit, u_int32_t ouraddr,u_int32_t gateway);
+    int sifroute(int unit, u_int32_t ouraddr, u_int32_t gateway);
   /** lit l'entree sivante */
-  int  read_route_table(struct rtentry *rt);
+    int read_route_table(struct rtentry *rt);
   /** cherche la route par defaut */
-  int defaultroute_exists (struct rtentry *rt);
+    int defaultroute_exists(struct rtentry *rt);
   /** pour test */
-  bool RouteCable();
+    bool RouteCable();
   /** suuprime la route par defaut */
-  int cifdefaultroute (int unit, u_int32_t ouraddr, u_int32_t gateway);
+    int cifdefaultroute(int unit, u_int32_t ouraddr, u_int32_t gateway);
   /** efface la table de routage du cable */
-  bool DelRouteCable();
+    bool DelRouteCable();
 
-int sock_fd;
-int kernel_version;
-char *ifname;
-int has_proxy_arp;
-char *proxy_arp_dev;
-int proxy_arp_addr;
-char proc_path[200];
-int proc_path_len;
-int ErrorNbr;
+    int sock_fd;
+    int kernel_version;
+    char *ifname;
+    int has_proxy_arp;
+    char *proxy_arp_dev;
+    int proxy_arp_addr;
+    char proc_path[200];
+    int proc_path_len;
+    int ErrorNbr;
   /** ancienne gateway cable */
-  int nOld_gateway;
+    int nOld_gateway;
   /** ip adresse ethernet */
-  int nEtherIp;
+    int nEtherIp;
   /** adresse du tunnel */
-  int nTunnelIp;
-int tune_kernel;
+    int nTunnelIp;
+    int tune_kernel;
 
-protected: // Protected attributes
+  protected:			// Protected attributes
   /** fd du periph */
-  int nPfd;
-FILE *route_fd;
-char route_buffer[512];
-int route_dev_col, route_dest_col, route_gw_col;
-int route_flags_col, route_mask_col;
-int route_num_cols;
-u_int32_t default_route_gateway;
-protected: // Protected methods
+    int nPfd;
+    FILE *route_fd;
+    char route_buffer[512];
+    int route_dev_col, route_dest_col, route_gw_col;
+    int route_flags_col, route_mask_col;
+    int route_num_cols;
+    u_int32_t default_route_gateway;
+  protected:			// Protected methods
   /** ifup */
-  int sifup(int u);
+    int sifup(int u);
   /** fournit l'adresse ether */
-  int get_ether_addr (u_int32_t ipaddr,       struct sockaddr *hwaddr,       char *name, int namelen);
+    int get_ether_addr(u_int32_t ipaddr, struct sockaddr *hwaddr,
+		       char *name, int namelen);
 };
 
 #endif

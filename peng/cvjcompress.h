@@ -34,26 +34,28 @@
   */
 
 class CVjcompress {
-public: 
-  CVjcompress();
-  ~CVjcompress();
+  public:
+    CVjcompress();
+    ~CVjcompress();
   /** Decompresse une trame */
-  unsigned short Deflate(char *sBuffer,int nLen);
+    unsigned short Deflate(char *sBuffer, int nLen);
   /** Compress une trame TCP/IP */
-  int Compress(char *sBuffer,int nLon);
+    int Compress(char *sBuffer, int nLon);
   /** Reduit l'entete à 40 octets */
-  int TcpNormal(char *sBuffer,int nLen);
+    int TcpNormal(char *sBuffer, int nLen);
 
- 
-  u_char sl_compress_tcp(struct mbuf *m,struct slcompress *comp, int compress_cid);
-  u_char * sl_uncompress_tcp(u_char *bufp, int len, u_int type, struct slcompress *comp);
-  void sl_compress_init(struct slcompress *comp);
 
-protected: // Protected attributes
+    u_char sl_compress_tcp(struct mbuf *m, struct slcompress *comp,
+			   int compress_cid);
+    u_char *sl_uncompress_tcp(u_char * bufp, int len, u_int type,
+			      struct slcompress *comp);
+    void sl_compress_init(struct slcompress *comp);
+
+  protected:			// Protected attributes
   /** structure vjcompress */
-  struct slcompress *vjstruct;
+    struct slcompress *vjstruct;
   /** TCP/IP Header */
-  CTcpIpHeader *m_cTcpIpHeader;
+    CTcpIpHeader *m_cTcpIpHeader;
 };
 
 #endif

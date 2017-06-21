@@ -35,230 +35,204 @@
 
 CTunTapDriver::CTunTapDriver()
 {
-	sDeviceName=new char[30];
+    sDeviceName = new char[30];
 
-	m_cParam=new CParamConfig[3];
-	m_cParam[0].DriverClass="CTunTapDriver";
-	m_cParam[0].Msg="Vers 0.5 Linux";
-	m_cParam[0].Author="birdy57";
-	m_cParam[0].Guid=0x4212; //xxyz y=systeme z=2 drivers out
-	m_cParam[1].Request="*Device";
-	m_cParam[1].Default="/dev/tap0";
-	m_cParam[1].InitStr=sDeviceName;
-	m_cParam[1].MaxBufferLen=30;
-	m_cParam[2].Request=NULL;
-	m_cParam[2].Default=NULL;
-	m_cParam[2].MaxBufferLen=0;	
+    m_cParam = new CParamConfig[3];
+    m_cParam[0].DriverClass = "CTunTapDriver";
+    m_cParam[0].Msg = "Vers 0.5 Linux";
+    m_cParam[0].Author = "birdy57";
+    m_cParam[0].Guid = 0x4212;	//xxyz y=systeme z=2 drivers out
+    m_cParam[1].Request = "*Device";
+    m_cParam[1].Default = "/dev/tap0";
+    m_cParam[1].InitStr = sDeviceName;
+    m_cParam[1].MaxBufferLen = 30;
+    m_cParam[2].Request = NULL;
+    m_cParam[2].Default = NULL;
+    m_cParam[2].MaxBufferLen = 0;
 
-bIsTunTapOpen=false;
-nIgnoreByte=0;
+    bIsTunTapOpen = false;
+    nIgnoreByte = 0;
 }
+
 CTunTapDriver::~CTunTapDriver()
 {
-delete sDeviceName;
-delete []m_cParam;
+    delete sDeviceName;
+    delete[]m_cParam;
 }
+
 /** recherche le nom du peripherique à utiliser */
 bool CTunTapDriver::OpenDevice()
 {
-bool bRet=false;	
-struct ifreq	ifr;
-Byte *sDevice;
-	
-	/*
-	  On ouvre /dev/net/tun en lecture/ecriture...
-	 */
-if ((nEtfdTunTap=open("/dev/net/tun",O_RDWR))<0)
-	{
-	//on essaye /dev/tun0 (ancienne version)
-	if ((nEtfdTunTap=open("/dev/tun0",O_RDWR))<0)
-		{
-			// si c pas bon on essaye /dev/tap0
-			if ((nEtfdTunTap=open("/dev/tap0",O_RDWR))<0)
-				{
-					// rien à faire !!!
-					m_nErrorNbr=20;
-				}
-				else
-				// ok c du Etherap (ouf !!)	
-				{
-					sDevice=(Byte *) "tap0";
-					nIgnoreByte=16;
-					bRet=true;
-				}
-		}
-		else
-		{
-		// c du tun/tap ancienne generation
-			sDevice=(Byte *) "tun0";
-			nIgnoreByte=0;
-			bRet=true;
-		}
-	}
-else
-	/*
-	   Arrive a ce stade, on est en presence d'un noyau de type 2.4.x
-	   ou superieur, ou du moins, tun/tap version 1.1 a ete installe.
-	   On force donc le mode tun, et on recupere le nom du device
-	   qu'on a reussi a ouvrir... Pour passer le device ouvert en mode
-	   "tun", j'ai lu ca dans la doc de tun/tap :
-	   Flags: IFF_TUN   - TUN device (no Ethernet headers)
-          IFF_TAP   - TAP device
-          IFF_NO_PI - Do not provide packet information
-	 */
-	{
-	memset(&ifr,0,sizeof(ifr));
-	ifr.ifr_flags=IFF_TUN;
-	if (ioctl(nEtfdTunTap,TUNSETIFF,(void *)&ifr)<0)
-		{
-			m_nErrorNbr=22;
-			close(nEtfdTunTap);
-		}
-	else
-		{
-		sDevice=(Byte *) &ifr.ifr_name;
-		if (ioctl(nEtfdTunTap,TUNSETNOCSUM,1)<0)
-			{
-			m_nErrorNbr=23;
-			close(nEtfdTunTap);
-			}
-			else
-			{
-			// c du tun tap nouvelle generation
-			nIgnoreByte=4;
-			bRet=true;
-			}
-		}
-	}
+    bool bRet = false;
+    struct ifreq ifr;
+    Byte *sDevice;
 
-if (bRet) strcpy((char *) sDeviceName,(char *) sDevice);
+    if ((nEtfdTunTap = open("/dev/net/tun", O_RDWR)) < 0)	// ouverture de tun en lecture/écriture
+    {
+	if ((nEtfdTunTap = open("/dev/tun0", O_RDWR)) >= 0)	// test tun ancienne version
+	{
+	    sDevice = (Byte *) "tun0";
+	    nIgnoreByte = 0;
+	    bRet = true;
+	}
+    } else
+/*
+Arrive a ce stade, on est en presence d'un noyau de type 2.4.x
+ou superieur, ou du moins, tun/tap version 1.1 a ete installe.
+On force donc le mode tun, et on recupere le nom du device
+qu'on a reussi a ouvrir... Pour passer le device ouvert en mode
+"tun", j'ai lu ca dans la doc de tun/tap :
+Flags: IFF_TUN   - TUN device (no Ethernet headers)
+IFF_TAP   - TAP device
+IFF_NO_PI - Do not provide packet information
+*/
 
-return bRet;
+    {
+	memset(&ifr, 0, sizeof(ifr));
+	ifr.ifr_flags = IFF_TUN;
+	if (ioctl(nEtfdTunTap, TUNSETIFF, (void *) &ifr) < 0) {
+	    m_nErrorNbr = 22;
+	    close(nEtfdTunTap);
+	} else {
+	    sDevice = (Byte *) & ifr.ifr_name;
+	    if (ioctl(nEtfdTunTap, TUNSETNOCSUM, 1) < 0) {
+		m_nErrorNbr = 23;
+		close(nEtfdTunTap);
+	    } else		// tun tap nouvelle génération          
+	    {
+		nIgnoreByte = 4;
+		bRet = true;
+	    }
+	}
+    }
+
+    if (bRet)
+	strcpy((char *) sDeviceName, (char *) sDevice);
+
+    return bRet;
 }
 
 /** Connection au peripherique */
 bool CTunTapDriver::Connect()
 {
-bool bRet=false;
-if (!bIsTunTapOpen)
-	{
-	if (OpenDevice())
-		{
-		bRet=true;
-		bIsTunTapOpen=true;
-		}
+    bool bRet = false;
+    if (!bIsTunTapOpen) {
+	if (OpenDevice()) {
+	    bRet = true;
+	    bIsTunTapOpen = true;
 	}
-return bRet;
+    }
+    return bRet;
 }
+
 /** Deconnecte le peripherique */
 bool CTunTapDriver::Disconnect()
 {
-bool bRet=false;
-if (bIsTunTapOpen)
-	{
+    bool bRet = false;
+    if (bIsTunTapOpen) {
 	close(nEtfdTunTap);
-	bIsTunTapOpen=false;
-	bRet=true;
-	}
-return bRet;
+	bIsTunTapOpen = false;
+	bRet = true;
+    }
+    return bRet;
 }
+
 /** lit sur le peripherique */
-int CTunTapDriver::Read(char *pData,int nSize)
+int CTunTapDriver::Read(char *pData, int nSize)
 {
-Byte cBuffer[1800];
-Byte *pBuffer,*pStaticBuffer;
-int nRet=ERROR;
-unsigned short nTmp,nLong;
+    Byte cBuffer[1800];
+    Byte *pBuffer, *pStaticBuffer;
+    int nRet = ERROR;
+    unsigned short nTmp, nLong;
 
-pBuffer=&cBuffer[16];
-pStaticBuffer=pBuffer;
+    pBuffer = &cBuffer[16];
+    pStaticBuffer = pBuffer;
 
-if (bIsTunTapOpen)
-	{
-	switch (nIgnoreByte)
-		{
-		case 0		:	nRet=read(nEtfdTunTap,pData,nSize);
-							break;
-		case 4		:
-		case 16	:	pBuffer-=nIgnoreByte;
-							nRet=(read(nEtfdTunTap,pBuffer,nSize)-nIgnoreByte);
-							memcpy(pData,pStaticBuffer,nRet);
-							break;
-		}
+    if (bIsTunTapOpen) {
+	switch (nIgnoreByte) {
+	case 0:
+	    nRet = read(nEtfdTunTap, pData, nSize);
+	    break;
+
+	case 4:
+
+	case 16:
+	    pBuffer -= nIgnoreByte;
+	    nRet = (read(nEtfdTunTap, pBuffer, nSize) - nIgnoreByte);
+	    memcpy(pData, pStaticBuffer, nRet);
+	    break;
 	}
-
+    }
 // teste si il faut lire la suite
-memcpy(&nTmp,&pData[2],2);
-nLong=ntohs(nTmp);
+    memcpy(&nTmp, &pData[2], 2);
+    nLong = ntohs(nTmp);
 
-if (nLong<1660)
-	if (nLong>nRet)
-		// ici on as un probleme lol
-		{
-		nTmp=nLong;
-		nLong=(nLong-nRet);
-		pData+=nRet;
-		nRet=nTmp;
-		while (nLong>0)
-			{
-			if ((nTmp=read(nEtfdTunTap,pBuffer,nLong))>0)
-				{
-				pData+=nTmp;
-				nLong-=nTmp;
-				}	
-			}
-   		}
-
-return nRet;
-}
-/** ecriture sur le peripherique */
-int CTunTapDriver::Write(char *pData,int nSize)
-{
-Byte cBuffer[1600]=EthertapHeader;
-Byte *pBuffer;
-int nRet=ERROR;
-
-pBuffer=&cBuffer[16];
-
-if (bIsTunTapOpen)
-	{
-	switch (nIgnoreByte)
-		{
-		case 0		:	nRet=write(nEtfdTunTap,pData,nSize);
-							break;
-		case 4		:								
-		case 16	:	memcpy(pBuffer,pData,nSize);
-							pBuffer-=nIgnoreByte;
-							nRet=(write(nEtfdTunTap,pBuffer,nSize+nIgnoreByte)-nIgnoreByte);
-							break;
+    if (nLong < 1660)
+	if (nLong > nRet) {
+	    nTmp = nLong;
+	    nLong = (nLong - nRet);
+	    pData += nRet;
+	    nRet = nTmp;
+	    while (nLong > 0) {
+		if ((nTmp = read(nEtfdTunTap, pBuffer, nLong)) > 0) {
+		    pData += nTmp;
+		    nLong -= nTmp;
 		}
+	    }
 	}
-return nRet;
-
+    return nRet;
 }
+
+/** ecriture sur le peripherique */
+int CTunTapDriver::Write(char *pData, int nSize)
+{
+    Byte cBuffer[1600] = EthertapHeader;
+    Byte *pBuffer;
+    int nRet = ERROR;
+
+    pBuffer = &cBuffer[16];
+
+    if (bIsTunTapOpen) {
+	switch (nIgnoreByte) {
+	case 0:
+	    nRet = write(nEtfdTunTap, pData, nSize);
+	    break;
+
+	case 4:
+	case 16:
+	    memcpy(pBuffer, pData, nSize);
+	    pBuffer -= nIgnoreByte;
+	    nRet =
+		(write(nEtfdTunTap, pBuffer, nSize + nIgnoreByte) -
+		 nIgnoreByte);
+	    break;
+	}
+    }
+    return nRet;
+}
+
 /** teste si c possible */
 bool CTunTapDriver::IsAvailable()
 {
-bool bRet=false;
+    bool bRet = false;
 
-if (OpenDevice())
-	{
+    if (OpenDevice()) {
 	close(nEtfdTunTap);
-	bRet=true;
-	}
+	bRet = true;
+    }
+    return bRet;
+}
 
-return bRet;
-}
 /** donne la config */
-CParamConfig* CTunTapDriver::GetRequest()
+CParamConfig *CTunTapDriver::GetRequest()
 {
-return m_cParam;
+    return m_cParam;
 }
+
 /** connecte ? */
 bool CTunTapDriver::IsConnected()
 {
-return (bIsTunTapOpen);
+    return (bIsTunTapOpen);
 }
 
 #endif
-

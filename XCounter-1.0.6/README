@@ -1,0 +1,44 @@
+
+DESCRIPTION
+
+XCounter is an X-based traffic monitoring program for Linux 
+that displays information about IP traffic on selected interface.
+It returns such information as:
+
+     Bytes count for connection
+     Time of current connection
+     Speed for the last n seconds 
+     (n can be defined by the user)
+
+XCounter works on Ethernet, FDDI, ISDN, PLIP, and SLIP/PPP interfaces.
+
+TECHNICAL NOTES
+
+Kernel has to support /proc file system.
+This program was designed to run on a Linux X Window System.
+
+DOCUMENTATION
+
+To view IP traffic on an interface run XCounter with interface name in
+command line (e.g. XCounter -i eth0). If an interface wasn't enterned 
+XCounter shows traffic on ppp0 interface.
+Use key R to reset timer and bytes count of the current connection, 
+and Q to quit the program. To make XCounter always be on the top press key A.
+If you would like to enable/disable CPU load monitor press C.
+To view information about IP traffic since an interface was up, place mouse
+pointer on the XCounter's window. 
+Press S to save current XCounter's settings into the file $HOME/.XCounter.
+
+COPYING AND DISTRIBUTION
+
+This software is open-source and is distributed under the terms of the GNU
+General Public License.
+
+FEEDBACK
+
+If you find any errors please mail to
+ m_rsi@usa.net
+
+RSI's Page
+ http://members.fortunecity.com/mrsi
+

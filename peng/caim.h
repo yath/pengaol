@@ -25,14 +25,14 @@
   */
 
 class CAim {
-public: 
-	CAim();
-	~CAim();
-public: // Public attributes
+  public:
+    CAim();
+    ~CAim();
+  public:			// Public attributes
   /** premiere demande */
-  bool bFirstBuddy;
+    bool bFirstBuddy;
   /** recherche la buddyliste */
-  int Buddy(unsigned char *sBuffer,int nLen,int nCode);
+    int Buddy(unsigned char *sBuffer, int nLen, int nCode);
 };
 
 #endif

@@ -32,61 +32,69 @@
   */
 
 class CKernel {
-public: 
-	CKernel();
-	virtual ~CKernel();
+  public:
+    CKernel();
+    virtual ~ CKernel();
   /** Permet de transformer un sequence str */
-  int HexToSeq(char *buffer,char *string, ...);
+    int HexToSeq(char *buffer, char *string, ...);
   /** fournit les drivers */
-  virtual void SetDriver(CNullDriver *DriverIn,CNullDriver *DriverOut);
+    virtual void SetDriver(CNullDriver * DriverIn,
+			   CNullDriver * DriverOut);
   /** fournit la vitesse de connection */
-  virtual void SetSpeed(int Speed);
+    virtual void SetSpeed(int Speed);
   /** affecte les classe de message */
-  virtual void SetMessage(CMsgError *MIn,CMsgError *MOut);
+    virtual void SetMessage(CMsgError * MIn, CMsgError * MOut);
   /** Ecrit sur le peripherique d'entree avec log si possible */
-  virtual void InputWrite(char *buffer,int Long);
+    virtual void InputWrite(char *buffer, int Long);
   /** Donne le nom du driver */
-  virtual char* GetName();
+    virtual char *GetName();
   /** Demmare le noyau */
-  virtual void Start();
+    virtual void Start();
   /** Connection */
-  virtual bool Connect(char *Login,char *Pass);
+    virtual bool Connect(char *Login, char *Pass);
   /** Donne le nom de domaine */
-  virtual void GetDomainName(char *sBuffer);
+    virtual void GetDomainName(char *sBuffer);
   /** Donne le DNS */
-  virtual  void GetDns(char *sBuffer);
+    virtual void GetDns(char *sBuffer);
   /** Donne l'adress ip */
-  virtual void GetIp(char *sBuffer);
+    virtual void GetIp(char *sBuffer);
   /** Donne le numero d'erreur */
-  virtual int GetErrorNbr();
+    virtual int GetErrorNbr();
   /** arrete le kernel */
-  virtual void Stop();
+    virtual void Stop();
   /** ecrit sur le driver de sortie */
   /** fournit la classe Loader */
-  void SetLoader(CLoader *Loader);
-  virtual void OutputWrite(char *sBuffer,int nLen);
- protected: // Protected attributes
+    void SetLoader(CLoader * Loader);
+    virtual void OutputWrite(char *sBuffer, int nLen);
+  /** donne la vitesse d'entree */
+    int GetSpeedIn();
+  /** donne la vitesse de sortie */
+    int GetSpeedOut();
+  protected:			// Protected attributes
 /** Force la lecture de 1 caractere */
-  virtual char ForceReadIn();
+     virtual char ForceReadIn();
  /** driverin */
-  CNullDriver *m_cDriverIn;
+    CNullDriver *m_cDriverIn;
   /** driverout */
-  CNullDriver *m_cDriverOut;
+    CNullDriver *m_cDriverOut;
   /** Vitesse de connection */
-  unsigned short m_nSpeed;
+    unsigned short m_nSpeed;
   /** message out */
-  CMsgError *m_cMsgOut;
+    CMsgError *m_cMsgOut;
   /** messages entree */
-  CMsgError *m_cMsgIn;
-protected: // Protected methods
+    CMsgError *m_cMsgIn;
+  protected:			// Protected methods
   /** Numero d'erreur */
-  int m_nErrorNbr;
+    int m_nErrorNbr;
   /** Nom du noyau */
-  char *KernelName;
+    char *KernelName;
   /** Attend indefiniement la sequence */
-  virtual void WaitForIn(char *buffer,int Long);
+    virtual void WaitForIn(char *buffer, int Long);
   /** Loader */
-  CLoader *m_cLoader;
+    CLoader *m_cLoader;
+ /** Vitesse */
+    int SpeedIn;
+    int SpeedOut;
 };
 
 #endif

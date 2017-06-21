@@ -25,15 +25,20 @@
 
 
 #ifdef WIN32
-	#define System 2
+#define System 2
 #else
-	#define System 1
+#define System 1
 #endif
 
 #define LKernel 1
 
 #include <iostream.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "nulldriver.h"
 #include "cloader.h"
 #include "cmsgerror.h"
@@ -41,7 +46,6 @@
 #include "ccommand.h"
 #include "ckernel.h"
 #include "kernel30.h"
-//#include "crouteurWin.h"
 #include "crouteurlinux.h"
 #include "cusermanager.h"
 #include "threadELV3.h"
@@ -67,546 +71,498 @@
 #endif
 #include <signal.h>
 
-//#include "cnewparamconfig.h"
 
 // Toutes les classes sont globales
 
-CNullDriver *Input= new CNullDriver;
-CNullDriver *Output= new CNullDriver;
+CNullDriver *Input = new CNullDriver;
+CNullDriver *Output = new CNullDriver;
 CLoader *Loader;
 CMsgError *Msg;
 CMsgError *MsgI;
 CMsgError *MsgO;
-CMsgError::CStatus *Status=new CMsgError::CStatus;
-CCommand *Command=new CCommand;
+CMsgError::CStatus * Status = new CMsgError::CStatus;
+CCommand *Command = new CCommand;
 CKernel *Kernel;
 CRouteur *Routeur;
 CUserManager *UserManager;
-char *sIp=new char[200];
-char *sDns=new char[200];
-char *sDomain=new char[200];
-bool bDriver=false;
-bool bKernel=false;
-bool bStop=false;
-bool bAolMerde=false;
-bool bReady=false;
+char *sIp = new char[200];
+char *sDns = new char[200];
+char *sDomain = new char[200];
+bool bDriver = false;
+bool bKernel = false;
+bool bStop = false;
+bool bAolMerde = false;
+bool bReady = false;
 unsigned long i;
 char Language[3];
 char sTmp[200];
 struct in_addr adresse;
-char *Lan;
-bool bGui=false;
-bool bStart=false;
-char *Login;
-char *PassWord;
-CGui *Gui= new CGui;
+char *Lan = NULL;
+bool bGui = false;
+bool bStart = false;
+char *Login = NULL;
+char *PassWord = NULL;
+CGui *Gui = new CGui;
+
+const char *Pid_Filename = "/var/run/pengaol.pid";
 
 void Exit(int sig)
 {
-if (sig==0xff)
-	bAolMerde=true;
+    unlink(Pid_Filename);
 
-if (!bStop)
-	{
+    if (sig == 0xff)
+	bAolMerde = true;
+
+    if (!bStop) {
 	// connection etablie ?
 	if (bKernel)
-		Kernel->Stop();
-		else
-	if (bDriver)
-		{
-		Input->Disconnect();
-		Output->Disconnect();
-		Msg->Printf("%M%t\n",78);
-	   exit(EXIT_SUCCESS);
-		}
-		else
-		{
-		if (bGui)
-			StopGui();
+	    Kernel->Stop();
+	else if (bDriver) {
+	    Input->Disconnect();
+	    Output->Disconnect();
+	    Msg->Printf("%M%t\n", 78);
+	    exit(EXIT_SUCCESS);
+	} else {
+	    if (bGui)
+		StopGui();
 
-		delete Loader;
-		delete Routeur;
-		delete Msg;
-		delete MsgI;
-		delete MsgO;
-		delete UserManager;
-		delete Kernel;
-		exit(0);
-		}
-	bStop=true;
+	    delete Loader;
+	    delete Routeur;
+	    delete Msg;
+	    delete MsgI;
+	    delete MsgO;
+	    delete UserManager;
+	    delete Kernel;
+	    exit(0);
 	}
+	bStop = true;
+    }
 }
 
 #ifndef WIN32
+void SendSpeedIn()
+{
+    char sTmp[200];
+    sprintf((char *) &sTmp, "G%d", Kernel->GetSpeedIn());
+    Gui->SendCommand((char *) &sTmp);
+}
+
+void SendSpeedOut()
+{
+    char sTmp[200];
+    sprintf((char *) &sTmp, "H%d", Kernel->GetSpeedOut());
+    Gui->SendCommand((char *) &sTmp);
+}
+
 void SendInfo(char *stexte)
 {
-char sTmp[200];
-if (strlen(stexte)<190)
-	{
-	sprintf((char *) &sTmp,"I%s",stexte);
+    char sTmp[200];
+    if (strlen(stexte) < 190) {
+	sprintf((char *) &sTmp, "I%s", stexte);
 	Gui->SendCommand((char *) &sTmp);
-	}
+    }
 }
 
 
 void DonneUser()
 {
-Gui->SendCommand("C");
-UserManager->ListUserGui();
- }
+    Gui->SendCommand("UserList");
+    UserManager->ListUserGui();
+    Gui->SendCommand("EndOfList");
+}
 
 void AddGuiUser(char *stexte)
 {
-char sTmp[200];
-if (strlen(stexte)<190)
-	{
-	sprintf((char *) &sTmp,"L%s",stexte);
+    char sTmp[200];
+    if (strlen(stexte) < 190) {
+	sprintf((char *) &sTmp, "%s", stexte);
 	Gui->SendCommand((char *) &sTmp);
-	}
+    }
 }
-
 
 void BuddyClear()
 {
-Gui->SendCommand("D");
+    Gui->SendCommand("D");
 }
 
 void BuddyAdd(char *stexte)
 {
-char sTmp[200];
-if (strlen(stexte)<190)
-	{
-	sprintf((char *) &sTmp,"E%s",stexte);
+    char sTmp[200];
+    if (strlen(stexte) < 190) {
+	sprintf((char *) &sTmp, "E%s", stexte);
 	Gui->SendCommand((char *) &sTmp);
-	}
+    }
 }
 
 void GuiMess(char *stexte)
 {
-char sTmp[200];
-if (strlen(stexte)<190)
-	{
-	sprintf((char *) &sTmp,"M%s",stexte);
+    char sTmp[200];
+    if (strlen(stexte) < 190) {
+	sprintf((char *) &sTmp, "M%s", stexte);
 	Gui->SendCommand((char *) &sTmp);
-	}
+    }
 }
 
 void Start(char *sLogin)
 {
-Login=sLogin;
-if ((PassWord=UserManager->GetPass(Login))==NULL)
-	Msg->Printf("%M%t\n",146);
-	else
-	bStart=true;
+    Login = sLogin;
+    if ((PassWord = UserManager->GetPass(Login)) == NULL)
+	Msg->Printf("%M%t\n", 146);
+    else
+	bStart = true;
 }
 
-void KillUser(char *Login,char *PassWord)
+void KillUser(char *Login, char *PassWord)
 {
-UserManager->DeleteUser(Login);
+    UserManager->DeleteUser(Login);
 }
 
-void SaveUser(char *Login,char *PassWord)
+void SaveUser(char *Login, char *PassWord)
 {
-UserManager->AddUser(Login,PassWord);
+    UserManager->AddUser(Login, PassWord);
 }
+
+void Killpid()
+{
+    int pid;
+    char pidbuff[6];
+    int fd_pid;
+
+    fd_pid = open(Pid_Filename, O_RDWR);
+    if (fd_pid < 0) {
+	fprintf(stderr, "Peng is not running \n");
+	exit(1);
+    }
+
+    while (read(fd_pid, &pidbuff, 6) == 0);
+    pid = atoi(pidbuff);
+    kill(pid, SIGTERM);
+    close(fd_pid);
+    unlink(Pid_Filename);
+}
+
+void Regpid()
+{
+
+    char pid[6];
+    int fd_pid;
+
+    fd_pid = open(Pid_Filename, O_RDWR | O_CREAT, 600);
+    if (fd_pid < 0) {
+	fprintf(stderr, "Pid: Write Error \n");
+	exit(1);
+    }
+
+    sprintf(pid, "%i", getpid());
+    write(fd_pid, pid, 6);
+    close(fd_pid);
+}
+
 
 #endif
 
 int main(int argc, char *argv[])
 {
-int i;
-Loader=new CLoader;
+    int i = 0;
+    int longindex;
+    int option;
+    char *optstring = "a:c:d:iklmrsvx";
 
-UserManager=new CUserManager;
+    struct option longopts[] = {
+	{"adduser", 2, NULL, 'a'},
+	{"connect", 1, NULL, 'c'},
+	{"deluser", 1, NULL, 'd'},
+	{"listdriver", 0, NULL, 'i'},
+	{"kill", 0, NULL, 'k'},
+	{"listuser", 0, NULL, 'l'},
+	{"makeinit", 0, NULL, 'm'},
+	{"restore", 0, NULL, 'r'},
+	{"still", 0, NULL, 's'},
+	{"version", 0, NULL, 'v'},
+	{"log", 0, NULL, 'x'},
+	{NULL, 0, NULL, 0},
+    };
 
-if (!bReady)
-{
-		Msg=new CTextLinux;
-		MsgI=new CTextLinux;
-		MsgO=new CTextLinux;
-	if (System==1)
-		{
-#ifndef WIN32
-		/*Msg=new CTextLinux;
-		MsgI=new CTextLinux;
-		MsgO=new CTextLinux;*/
-		Routeur=new CRouteurLinux;
-		(void) signal(SIGINT,Exit);
-		(void) signal(SIGKILL,Exit);
-#endif
-		}
-		else
-		{
-		/*Msg=new CMsgError;
-		MsgI=new CMsgError;
-		MsgO=new CMsgError;*/
-		//Routeur=new CRouteurWin;
-	    }
 
-	Lan=getenv("LANG");
-	if (Lan!=NULL)
-		memcpy(&Language,getenv("LANG"),2);
-		else
-		{
-		memcpy(&Language,"en",2);
-		printf("Can not found your language : assuming English\n");
-		printf("Make sure that you have set the variable LANG with your language\n");
-		printf("ex: export LANG=fr for french\n");
-		}
-
-	Language[2]=0;
-	Language[0]=tolower(Language[0]);
-	Language[1]=tolower(Language[1]);
-
-	printf("Load language : %s \n",Language);
-   	if (!Msg->Load("/etc/Pengaol/PengMessages.txt",(char *) &Language))
-		{
-		printf("Error loading Msg for your lang assuming English\n");
-	   	if (!Msg->Load("/etc/Pengaol/PengMessages.txt","en"))
-			{
-			printf("Error loading Msg FATAL !!\n");
-   		 	exit(0);
-			}
-        }
-}
-
-bReady=true;
+    Loader = new CLoader;
 
 #ifdef WITH_PPP
-Loader->AddDriver(new CPpp);
+    Loader->AddDriver(new CPpp);
 #endif
 #ifdef WITH_TUNTAP
-Loader->AddDriver(new CTunTapDriver);
+    Loader->AddDriver(new CTunTapDriver);
 #endif
 #ifdef WITH_CABLE
-Loader->AddDriver(new CCableDriver);
+    Loader->AddDriver(new CCableDriver);
 #endif
 #ifdef WITH_MODEM
-Loader->AddDriver(new CModemDriver);
-#endif
-#ifdef WITH_WINTAP
-Loader->AddDriver(new CWinTap);
+    Loader->AddDriver(new CModemDriver);
 #endif
 
-// Traitement des options
+    UserManager = new CUserManager;
 
-if (Command->Check((char *) "-help"))
-	{
-	Msg->SetMessage(true);
-	for (i=100;i<121;i++)
-		Msg->Printf("%M%t\n",i);
-    exit(0);
-	}
+    if (!bReady) {
+	Msg = new CTextLinux;
+	MsgI = new CTextLinux;
+	MsgO = new CTextLinux;
 
-// sinon on les traites
-
-Command->Set(argc,argv);
-
-// Reconnection
-if (Command->Check((char *) "-Reconnect"))
-	sleep(10);
-
-// Active ou desactive les messages
-if (Command->Check((char *) "-Daemon"))
-	Msg->SetMessage(false);
-	else
-	Msg->SetMessage(true);
-
-
-#ifdef WITH_DEBUG
-// Active ou desactive les logs
-if (Command->Check((char *) "-Log"))
-	Msg->SetLog(true);
-	else
-	Msg->SetLog(false);
-
-// Active ou desactive les debug
-if (Command->Check((char *) "-Debug"))
-	Msg->SetDebug(true);
-	else
-	Msg->SetDebug(false);
-#else
-if (Command->Check((char *) "-Log"))
-	{
-	Msg->Printf("%M%t\n",18);
-    exit(0);
-	}
-
-if (Command->Check((char *) "-Debug"))
-	{
-	Msg->Printf("%M%t\n",18);
-    exit(0);
-	}
+	if (System == 1) {
+#ifndef WIN32
+	    /*Msg=new CTextLinux;
+	       MsgI=new CTextLinux;
+	       MsgO=new CTextLinux; */
+	    Routeur = new CRouteurLinux;
+	    (void) signal(SIGINT, Exit);
+	    (void) signal(SIGKILL, Exit);
 #endif
-
-// Ici la fonction Msg est configurer alors on clone
-// Cela permet d'economiser des ressources
-
-Msg->GetFastLoad(Status);
-MsgI->SetFastLoad(Status);
-MsgO->SetFastLoad(Status);
-UserManager->GetMsg(Msg);
-
-// et on les transmet au loader
-
-Loader->SetMessage(MsgI,MsgO);
-
-// definie le fichier config
-if (Command->CheckOpt((char *) "-LoadInit"))
-	Loader->SetConfigFile(Command->GetOpt());
-
-// Liste les drivers
-if (Command->Check((char *) "-ListDriver"))
-	{
-	Loader->ListDriver();
-	Loader->MakeConfig(false);
-   exit(0);
+	} else {
+	    /*Msg=new CMsgError;
+	       MsgI=new CMsgError;
+	       MsgO=new CMsgError; */
+	    //Routeur=new CRouteurWin;
 	}
 
-// genere le fichier d'init
-if (Command->Check((char *) "-MakeInit"))
-	{
-	if (!Loader->MakeConfig(true))
-		Msg->Printf("%M%t\n",Loader->GetErrorNbr());
-   		else
-		Msg->Printf("%M%t\n",50);
-	exit(0);
+	Lan = getenv("LANG");
+	if (Lan != NULL)
+	    memcpy(&Language, getenv("LANG"), 2);
+	else {
+	    memcpy(&Language, "en", 2);
 	}
 
-// Ajout d'un utilisateur
+	Language[2] = 0;
+	Language[0] = tolower(Language[0]);
+	Language[1] = tolower(Language[1]);
 
-if (Command->CheckOpt2((char *) "-AddUser"))
-	{
-	if (!(UserManager->AddUser(Command->GetOpt(),Command->GetOpt2())))
-	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
-       else
-		Msg->Printf("%M%t\n",143);
-   	 exit(0);
-	}
-
-// Efface un utilisateur
-
-if (Command->Check((char *) "-ListUser"))
-	{
-	if (!(UserManager->ListUser()))
-	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
-    exit(0);
-	}
-
-// Liste les utilisateur
-
-if (Command->CheckOpt((char *) "-DelUser"))
-	{
-	if (!(UserManager->DeleteUser(Command->GetOpt())))
-	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
-       else
-		Msg->Printf("%M%t\n",144);
-    exit(0);
-	}
-
-// restore les param par defauts
-if (Command->Check((char *) "-Restore"))
-	{
-	//charge les drivers
-	if (!Loader->LoadDriver())
-		{
-		Msg->Printf("%M%t\n",51);
-		exit(0);	
-		}
-
-	// Memorise les drivers recut
-
-	Input=Loader->GetDriverIn();
-	Output=Loader->GetDriverOut();
-
-	Routeur->SetDriver(Input,Output);
-	Routeur->SetInfo(sIp,sDns,sDomain);
-	Routeur->SetMsg(Msg);
-
-	Routeur->Stop();
-	exit(0);
-	}
-
-// Si on demande pas une connection alors arrete
-if (Command->CheckOpt2((char *) "-User"))
-	{
-	Login=Command->GetOpt();
-	PassWord=Command->GetOpt2();
-	}
-	else
-if (Command->CheckOpt((char *) "-Connect"))
-	{
-	Login=Command->GetOpt();
-	if ((PassWord=UserManager->GetPass(Login))==NULL)
-		{
-		Msg->Printf("%M%t\n",146);
+	if (!Msg->
+	    Load("/etc/Pengaol/PengMessages.txt", (char *) &Language)) {
+	    printf("Error loading Msg for your lang assuming English\n");
+	    if (!Msg->Load("/etc/Pengaol/PengMessages.txt", "en")) {
+		printf("Error loading Msg FATAL !!\n");
 		exit(0);
-		}
+	    }
 	}
-	else
-	#ifndef WIN32
-	{
-	bGui=true;
-	StartGui(Gui);
+    }
+
+    bReady = true;
+
+    // Traitement des options
+
+    Command->Set(argc, argv);
+    Msg->GetFastLoad(Status);
+    MsgI->SetFastLoad(Status);
+    MsgO->SetFastLoad(Status);
+    UserManager->GetMsg(Msg);
+    Loader->SetMessage(MsgI, MsgO);
+    Msg->SetMessage(true);	// mode verbose
+    Msg->SetDebug(true);	// mode debug
+
+
+    while ((option =
+	    getopt_long(argc, argv, optstring, longopts,
+			&longindex)) != -1) {
+	switch (option) {
+	case 'a':
+	    if (!(UserManager->AddUser(argv[2], argv[3])))
+		Msg->Printf("%M%t\n", UserManager->GetErrorNbr());
+	    else
+		Msg->Printf("%M%t\n", 143);
+	    exit(0);
+
+	case 'b':
+	    Loader->SetConfigFile(optarg);
+	    exit(0);
+
+	case 'c':
+	    Login = optarg;
+	    if ((PassWord = UserManager->GetPass(Login)) == NULL) {
+		Msg->Printf("%M%t\n", 146);
+		exit(0);
+	    }
+	    break;
+
+	case 'd':
+	    if (!(UserManager->DeleteUser(optarg)))
+		Msg->Printf("%M%t\n", UserManager->GetErrorNbr());
+	    else
+		Msg->Printf("%M%t\n", 144);
+	    exit(0);
+
+	case 'i':
+	    fprintf(stdout, "Drivers list\n");
+	    Loader->ListDriver();
+	    Loader->MakeConfig(false);
+	    exit(0);
+
+	case 'k':
+	    Killpid();
+	    exit(0);
+
+	case 'l':
+	    fprintf(stdout, "User list: \n");
+	    if (!(UserManager->ListUser()))
+		Msg->Printf("%M%t\n", UserManager->GetErrorNbr());
+	    exit(0);
+
+	case 'm':
+	    if (!Loader->MakeConfig(true))
+		Msg->Printf("%M%t\n", Loader->GetErrorNbr());
+	    else
+		Msg->Printf("%M%t\n", 50);
+	    exit(0);
+
+	case 'r':
+	    if (!Loader->LoadDriver()) {
+		Msg->Printf("%M%t\n", 51);
+		exit(0);
+	    }
+
+	    Input = Loader->GetDriverIn();
+	    Output = Loader->GetDriverOut();
+
+	    Routeur->SetDriver(Input, Output);
+	    Routeur->SetInfo(sIp, sDns, sDomain);
+	    Routeur->SetMsg(Msg);
+
+	    Routeur->Stop();
+	    exit(0);
+
+	case 's':
+	    sleep(10);
+	    break;
+
+	case 'v':
+	    fprintf(stdout, "Peng lite 1.0.4 (GPL)\n");
+	    exit(0);
+
+	case 'x':
+# ifdef WITH_DEBUG
+	    Msg->SetLog(true);
+	    Msg->SetDebug(true);
+# else
+	    fprintf(stderr, "Compilez avec Debug pour loguer\n");
+	    exit(0);
+# endif
+	    break;
+
+	case '?':
+	    fprintf(stdout,
+		    "usage: peng [-c login] [-a login password] [-d login password] [-b Configfile] [-ilmrvx] \n");
+	    exit(0);
+
 	}
-	#else
+    }
+
+
+    // charge les drivers
+    if (!Loader->LoadDriver()) {
+	Msg->Printf("%M%t\n", 51);
 	exit(0);
-	#endif
+    }
+    // Memorise les drivers recut
+    Input = Loader->GetDriverIn();
+    Output = Loader->GetDriverOut();
 
-#ifndef WIN32
-if (bGui)
-	{
-	while (!bStart)
-	sleep(1);
-	}
-#endif
+    bDriver = true;
 
-//charge les drivers
+    // Lance la connection
+    Msg->Printf("%M%S%t\n", 52);
 
+    if (!Input->Connect()) {
+	Msg->Printf("%M%S%t\n", 5);
+	unlink(Pid_Filename);
+	exit(0);
+    }
 
-if (!Loader->LoadDriver())
-	{
-	Msg->Printf("%M%t\n",51);
-	exit(0);	
-	}
-
-// Memorise les drivers recut
-
-Input=Loader->GetDriverIn();
-Output=Loader->GetDriverOut();
-
-bDriver=true;
-
-// Lance la connection
-#ifndef WIN32
-// Demmande la 2 eme fenetre
-Gui->SetWindow(2);
-#endif
-
-Msg->Printf("%M%S%t\n",52);
-
-
-if (!Input->Connect())
-	{
-	Msg->Printf("%M%S%t\n",5);
-    exit(0);
-	}
-
-
-if (!Output->Connect())
-	{
-	Msg->Printf("%M%S%t\n",21);
+    if (!Output->Connect()) {
+	Msg->Printf("%M%S%t\n", 21);
 	Input->Disconnect();
-    exit(0);
-	}
+	unlink(Pid_Filename);
+	exit(0);
+    }
+    // Donne la vitesse de connection si possible
+    if (Input->GetSpeed())
+	Msg->Printf("%M%S%t:%d\n", 53, Input->GetSpeed());
+    Msg->Printf("%CT4%d", Input->GetSpeed());
 
+    // Charge et initialise le noyau
 
-// Donne la vitesse de connection si possible
-if (Input->GetSpeed())
-	Msg->Printf("%M%S%t:%d\n",53,Input->GetSpeed());
-
-
-// Charge et initialise le noyau
-
-if (LKernel==1)	
-	Kernel=new Kernel30;
-	else
-	Kernel=new CKernel;	
-
-//Kernel->SetSpeed(Input->GetSpeed());
-Kernel->SetSpeed(56600);
-Kernel->SetDriver(Input,Output);
-Kernel->SetMessage(MsgI,MsgO);
-
-
-// Negociation de la connection  et connection au drivers
-Input->Flush();
-
-
-if (!Kernel->Connect(Login,PassWord))
-	{
-   	Msg->Printf("%M%S%t\n",Kernel->GetErrorNbr());
-	Input->Disconnect();
-	Output->Disconnect();	
-	}
+    if (LKernel == 1)
+	Kernel = new Kernel30;
     else
-	{
+	Kernel = new CKernel;
+
+    Kernel->SetSpeed(56600);
+    Kernel->SetDriver(Input, Output);
+    Kernel->SetMessage(MsgI, MsgO);
+
+
+    // Negociation de la connection et connection au drivers
+    Input->Flush();
+
+
+    if (!Kernel->Connect(Login, PassWord)) {
+	Msg->Printf("%M%S%t\n", Kernel->GetErrorNbr());
+	Input->Disconnect();
+	Output->Disconnect();
+    } else {
 	Kernel->GetIp(sIp);
 	Kernel->GetDns(sDns);
 	Kernel->GetDomainName(sDomain);
 
-	Msg->Printf("%M%t%s\n",74,sIp);
-	Msg->Printf("%M%t%s\n",75,sDns);
-	Msg->Printf("%M%t%s\n",76,sDomain);
-	#ifndef WIN32
-	sprintf((char *) &sTmp,"Ip:\n%s\n",sIp);
-	SendInfo((char *) &sTmp);
-	sprintf((char *) &sTmp,"Dns:\n%s\n",sDns);
-	SendInfo((char *) &sTmp);
-	sprintf((char *) &sTmp,"Domain:\n%s\n",sDomain);
-	SendInfo((char *) &sTmp);
-	#endif
-	// Lance le routage
-	//if (Loader->GetDns()!=NULL)
-	//	sDns=Loader->GetDns();
+	Msg->Printf("%M%t%s\n", 74, sIp);
+	Msg->Printf("%M%t%s\n", 75, sDns);
+	Msg->Printf("%M%t%s\n", 76, sDomain);
 
-	Routeur->SetDriver(Input,Output);
-	Routeur->SetInfo(sIp,sDns,sDomain);
+	Regpid();
+
+	Routeur->SetDriver(Input, Output);
+	Routeur->SetInfo(sIp, sDns, sDomain);
 	Routeur->SetMsg(Msg);
-	if (!Routeur->Start())
-		{
-		Input->Disconnect();
-		Output->Disconnect();	
-		Msg->Printf("%M%S%t\n",Routeur->GetErrorNbr());
-		}
-		else
-	    {
-		// Demmarer le kernel
-	   Msg->Printf("%M%S%t%s\n",57,Kernel->GetName());
-		bKernel=true;
-		system("wavplay -q /usr/share/sound/welcome.wav &");
-       // Demmarrage du prog auto
-		if (strstr(Loader->GetStart(),"None")==NULL)
-			{
-		    sprintf((char *) &sTmp,"%s &\n",Loader->GetStart());
-			 system((char *) &sTmp);
-			}
+	if (!Routeur->Start()) {
+	    Input->Disconnect();
+	    Output->Disconnect();
+	    Msg->Printf("%M%S%t\n", Routeur->GetErrorNbr());
+	} else {
+	    // Demarrer le kernel
+	    Msg->Printf("%M%S%t%s\n", 57, Kernel->GetName());
+	    bKernel = true;
+	    // Demarrage du prog auto
+	    if (strstr(Loader->GetStart(), "None") == NULL) {
+		sprintf((char *) &sTmp, "%s &\n", Loader->GetStart());
+		system((char *) &sTmp);
+	    }
 
-		#ifndef WIN32
-		// Demmande la 2 eme fenetre
-		Gui->SetWindow(3);
-		#endif
-       Kernel->SetLoader(Loader);
-		Kernel->Start();
-		if (bStop)
-		   Msg->Printf("%M%S%t\n",79);
-			else
-		   Msg->Printf("%M%S%t\n",80);
-		Kernel->Stop();
-		system("wavplay -q /usr/share/sound/goodbye.wav &");
-		Input->Disconnect();
-		Output->Disconnect();	
-		if (!Routeur->Stop())
-			Msg->Printf("%M%S%t\n",73);
-		}
-  }
-Loader->MakeConfig(false);
-Loader->KillDriver();
+	    Kernel->SetLoader(Loader);
+	    Kernel->Start();
+	    if (bStop)
+		Msg->Printf("%M%S%t\n", 79);
+	    else
+		Msg->Printf("%M%S%t\n", 80);
+	    Kernel->Stop();
+	    Input->Disconnect();
+	    Output->Disconnect();
+	    if (!Routeur->Stop())
+		Msg->Printf("%M%S%t\n", 73);
+	}
+    }
+    Loader->MakeConfig(false);
+    Loader->KillDriver();
 
-if (bGui)
+    if (bGui)
 	StopGui();
 
-delete Loader;
-delete Routeur;
-delete Msg;
-delete MsgI;
-delete MsgO;
-delete UserManager;
-delete Kernel;
+    delete Loader;
+    delete Routeur;
+    delete Msg;
+    delete MsgI;
+    delete MsgO;
+    delete UserManager;
+    delete Kernel;
 
-if (bAolMerde)
-	exit(-1);
-	
-exit(0);
+    if (bAolMerde)
+	unlink(Pid_Filename);
+    exit(-1);
+
+    exit(0);
 
 }

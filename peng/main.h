@@ -17,14 +17,17 @@
 
 void Exit(int sig);
 #ifndef WIN32
-void SaveUser(char *Login,char *PassWord);
+void SaveUser(char *Login, char *PassWord);
 void Start(char *sLogin);
-void KillUser(char *Login,char *PassWord);
+void KillUser(char *Login, char *PassWord);
 void GuiMess(char *stexte);
 void BuddyClear();
 void BuddyAdd(char *stexte);
 void DonneUser();
 void AddGuiUser(char *stexte);
 void SendInfo(char *stexte);
+void SendSpeedIn();
+void SendSpeedOut();
+void Killpid();
+void Regpid();
 #endif
-

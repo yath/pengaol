@@ -1,36 +1,26 @@
 #!/bin/sh
 
-if [ -e "/usr/bin/wavplay" ];
-	then
-	echo "Wavplay exist , ok"
-	else
-	cd wavplay-1.4
-	make clean
-	if make wavplay
-		then
-		cp wavplay /usr/bin
-		mkdir /usr/share/sound
-		cp *.wav /usr/share/sound
-		else
-		echo "Compilation Error at WavPlay !"
-		exit 0
-		fi
-	cd ..
-fi
-
 export CXXFLAGS="-D_REENTRANT"
 	
 mv configure configure.tmp
-rm configure
 cp configure.ori configure
-./configure
+./configure --host i386 --target i386
 rm configure
 mv configure.tmp configure
 make clean
 
 clear
-echo "PengAol V1.0 By Guth Stephane (birdy57)"
-echo "---------------------------------------"
+echo "Peng lite 1.0.4"
+echo "---------------"
+echo 
+if [ $LANG ];
+then
+	echo "Assuming language: $LANG"
+else
+	export LANG=eng
+	echo "Assuming default language: $LANG"
+fi
+
 echo 
 echo "In this version you can conditinal compilation making"
 echo "(May not compile all drivers that you don't need)"
@@ -93,54 +83,64 @@ else
 	echo "#define WITH_TUNTAP" >> config.h
 	echo "#define WITH_CABLE" >> config.h
 fi
-	
-if make
+
+echo '#define CONFIG_DIR "/etc/Pengaol"' >> config.h
+
+clear	
+echo "Please wait while Peng lite 1.0.4 is compiling -> make.log"
+echo " "
+echo "Peng's commands (log you as root to use peng)"
+echo ""
+echo "-a --adduser [login] [password]"
+echo "-c --connect [login]"
+echo "-d --deluser [login]"
+echo "-i --listdriver"
+echo "-k --kill"
+echo "-l --listuser"
+echo "-m --makeinit"
+echo "-r --restore"
+echo "-s --still"
+echo "-v --version"
+echo "-x --log"
+echo ""
+echo "Extra: do a make in XCounter-1.0.6/ and monitoring your bandwith"
+echo ""
+echo "Configuration files location: /etc/PengAol/"
+
+
+if make > make.log 2> make.log 
 	then
-	echo "Compilation Ok"
+	echo "Compilation, Ok"
 	else
-	echo "Error by compilation !!!"
+	echo "Compilation Error, please consult: make.log"
 	exit 1
 	fi
-
-
-if cat /proc/version | grep -q 2.2.
-then
- if [ -e "/dev/tap0" ];
- then
- echo "/dev/tap0 exist : OK"
- else
- echo "Creating /dev/tap0"
- mknod /dev/tap0 c 36 16
- fi
-fi
 
 # on change les droit de pengaol et on copie
 
 if [ -e "/etc/Pengaol" ];
  	then
-	echo "/etc/Pengaol exist , all right"
+	chmod -R 600 /etc/Pengaol 
 else
 	mkdir /etc/Pengaol
+	chmod -R 600 /etc/Pengaol
 fi
 
-
-
 cd peng
-chmod 755 peng
-chmod +s peng
+chmod 700 peng
 
-echo "copy pengaol --> /usr/bin"
-cp peng /usr/bin/pengaol
-echo "copy PengMessages.txt --> /etc/Pengaol"
-cp PengMessages.txt /etc/Pengaol
-echo "copy Dns --> /etc/Pengaol"
-cp Dns /etc/Pengaol
-echo "Creating Drivers Configuration file"
-pengaol -MakeInit
-chown root /usr/bin/pengaol
-chmod +s /usr/bin/pengaol
-chmod 600 /dev/ttyS0
-chmod 600 /dev/ttyS1
+if [ -e "/usr/bin/pengaol" ];
+	then
+	rm /usr/bin/pengaol
+	echo "Delete old Peng Binary, Ok"
+fi
+
+echo "pengaol binary: /usr/sbin/peng"
+cp peng /usr/sbin/peng
+cp ../Doc/PengMessages.txt /etc/Pengaol
+cp ../Doc/Dns /etc/Pengaol
+
+peng -m
 cd ..
 
 #langue allemande
@@ -160,59 +160,17 @@ if echo $LANG | grep -q de
 
 #login password
 
-if pengaol -ListUser | grep -q "No User" 
+if peng -l | grep -q "No User" 
 	then
 	echo "You must at first add one user"
 	echo "Please enter your login"
 	read Login
 	echo "Please enter you password"
 	read PassWord
-	pengaol -AddUser "$Login" "$PassWord"
-	echo "You can add another User with pengaol -AddUSer [login] [password]"
+	peng -a "$Login" "$PassWord"
 	fi
-echo "Voulez-vous visualiser la documentation ? (y/n)"
-read Rep
-if [ "$Rep" = "y" ];
-then
-	echo "Quel nagivateur souhaitez-vous utilisez (1-netscape, 2-konqueror, 3-opera) ??"
-	read Rep
-	cd Doc
-	cd fr
-	if [ "$Rep" = "1" ];
-	then
-	netscape index.html &
-	fi	
-	if [ "$Rep" = "2" ];
-	then
-	konqueror index.html &
-	fi	
-	if [ "$Rep" = "3" ];
-	then
-	opera index.html &
-	fi	
-fi
 
-echo "Installtion successfull"
-echo "You can verify that pengaol is correctly configured"
-echo "by editing /etc/Pengaol/PengAol.conf"
-echo " "
-echo "To connect you tape : pengaol -Connect [Login]"
-echo " "
+echo "Installation Success"
+echo ""
 echo "Have a lot of fun !! "
-echo "Birdy57"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+exit 0

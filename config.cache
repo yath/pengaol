@@ -47,6 +47,9 @@ ac_cv_prog_gnu_ld=${ac_cv_prog_gnu_ld=yes}
 ac_cv_prog_gxx=${ac_cv_prog_gxx=yes}
 ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
 kde_cv_prog_cxx_fexceptions=${kde_cv_prog_cxx_fexceptions=yes}
+kde_cv_prog_cxx_fno_check_new=${kde_cv_prog_cxx_fno_check_new=yes}
+kde_cv_prog_cxx_fno_exceptions=${kde_cv_prog_cxx_fno_exceptions=yes}
+kde_cv_prog_cxx_fno_rtti=${kde_cv_prog_cxx_fno_rtti=yes}
 kde_cv_prog_cxx_frepo=${kde_cv_prog_cxx_frepo=yes}
 kde_cv_prog_cxx_frtti=${kde_cv_prog_cxx_frtti=yes}
 lt_cv_deplibs_check_method=${lt_cv_deplibs_check_method=pass_all}

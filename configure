@@ -1,4 +1,3 @@
 #!/bin/sh
-
-echo "To compile pengaol , Please tape ./recompile !!!"
+echo "you must tape ./recompile !!"
 

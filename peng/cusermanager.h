@@ -33,38 +33,38 @@
   */
 
 class CUserManager {
-public: 
-	CUserManager();
+  public:
+    CUserManager();
   /** Ajoute un utilisateur à la liste */
-  bool AddUser(char *Login,char *Password);
-	~CUserManager();
+    bool AddUser(char *Login, char *Password);
+    ~CUserManager();
   /** Ajoute une ligne au fichier */
-  bool AddToFile(char *sFile,char *sText);
+    bool AddToFile(char *sFile, char *sText);
   /** teste la presence du fichier */
-  bool FileExist(char *sFile);
+    bool FileExist(char *sFile);
   /** Fournit le numero de l'erreur */
-  int GetErrorNbr();
+    int GetErrorNbr();
   /** Efface un utilisateur de la base de donnee */
-  bool DeleteUser(char *sUser);
+    bool DeleteUser(char *sUser);
   /** copie un fichier */
-  bool FileCopy(char *sSource,char *sDestination);
+    bool FileCopy(char *sSource, char *sDestination);
   /** Affiche tous les utilisateur connu */
-  bool ListUser();
-	#ifndef WIN32
+    bool ListUser();
+#ifndef WIN32
   /** Affiche tous les utilisateur connu */
-  bool ListUserGui();
-	#endif
+    bool ListUserGui();
+#endif
   /** fournit la structure */
-  void GetMsg(CMsgError *Mess);
+    void GetMsg(CMsgError * Mess);
   /** fournit le mot de passe de l'utilisateur */
-  char* GetPass(char *sUser);
+    char *GetPass(char *sUser);
   /** efface les \n */
-  void KillRet(char *sLigne);
-protected: // Protected attributes
+    void KillRet(char *sLigne);
+  protected:			// Protected attributes
   /** gestion des message */
-  CMsgError *Msg;
+     CMsgError * Msg;
   /** Numero de l'erreur */
-  int NbError;
+    int NbError;
 };
 
 #endif

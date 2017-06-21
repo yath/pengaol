@@ -19,129 +19,128 @@
 
 #include "ctextlinux.h"
 
-CTextLinux::CTextLinux(){
-}
-CTextLinux::~CTextLinux(){
-}
-/** Affiche un texte à l'ecran */
-void CTextLinux::MessPrint(char *buffer)
+CTextLinux::CTextLinux()
 {
-printf((const char *) buffer);
+}
+
+CTextLinux::~CTextLinux()
+{
+}
+
+/** Affiche un texte à l'ecran */
+void
+ CTextLinux::MessPrint(char *buffer)
+{
+    printf((const char *) buffer);
 }
 
 /** affiche le texte Nbr */
 void CTextLinux::PrintMsg(int Nbr)
 {
-char *Msg;
-if (m_bWriteTexte)
-	if ((Msg=GetMsg(Nbr))!=NULL)
-		printf("%s",Msg);
+    char *Msg;
+    if (m_bWriteTexte)
+	if ((Msg = GetMsg(Nbr)) != NULL)
+	    printf("%s", Msg);
 }
 
 /** Clone de la fonctione printf */
 void CTextLinux::Printf(char *texte, ...)
 {
 
-int     d;
-bool bCommand=false;
-bool bMess=false;
-bool bLog=false;
-bool bSysLog=false;
-bool bDebugLog=false;
-bool bGuiMess=false;
-char buffer[200];
-char *buf=&buffer[0];
-char *StartBuf=buf;
-char    c;
-char *s;
-va_list ap;
+    int d;
+    bool bCommand = false;
+    bool bMess = false;
+    bool bLog = false;
+    bool bSysLog = false;
+    bool bDebugLog = false;
+    bool bGuiMess = false;
+    char buffer[200];
+    char *buf = &buffer[0];
+    char *StartBuf = buf;
+    char c;
+    char *s;
+    va_list ap;
 
-va_start  (ap, texte);
+    va_start(ap, texte);
 
-while     (*texte)
-	{
-	if (*texte=='%')	bCommand=true;
-		else
-	   {
-		if (bCommand)	
-			{
-			switch  (*texte)
-				{
-          	case 's': // chaîne
-				s = va_arg (ap,char *);
-				sprintf(buf,"%s",s);
-				buf+=strlen(buf);
-				break;
+    while (*texte) {
+	if (*texte == '%')
+	    bCommand = true;
+	else {
+	    if (bCommand) {
+		switch (*texte) {
+		case 's':	// chaîne
+		    s = va_arg(ap, char *);
+		    sprintf(buf, "%s", s);
+		    buf += strlen(buf);
+		    break;
 
-				case 'd':  // entier
-				d = va_arg (ap, int);
-				sprintf(buf,"%d",d);
-				buf+=strlen(buf);
-				break;
+		case 'd':	// entier
+		    d = va_arg(ap, int);
+		    sprintf(buf, "%d", d);
+		    buf += strlen(buf);
+		    break;
 
-				case 'x':  // entier
-				d = va_arg (ap, int);
-				sprintf(buf,"%x",d);
-				buf+=strlen(buf);
-				break;
+		case 'x':	// entier
+		    d = va_arg(ap, int);
+		    sprintf(buf, "%x", d);
+		    buf += strlen(buf);
+		    break;
 
-				case 'c':     // caractère
-				c = va_arg (ap,int);
-				sprintf(buf,"%c",c);
-				buf+=strlen(buf);
-				break;
+		case 'c':	// caractère
+		    c = va_arg(ap, int);
+		    sprintf(buf, "%c", c);
+		    buf += strlen(buf);
+		    break;
 
-				case 'C':     // active/desactive les messages
-				bGuiMess=!bGuiMess;
-				break;
+		case 'C':	// active/desactive les messages
+		    bGuiMess = !bGuiMess;
+		    break;
 
-				case 'M':     // active/desactive les messages
-				bMess=!bMess;
-				break;
+		case 'M':	// active/desactive les messages
+		    bMess = !bMess;
+		    break;
 
-				case 'L':     // active/desactive les LOGS
-				bLog=!bLog;
-				break;
+		case 'L':	// active/desactive les LOGS
+		    bLog = !bLog;
+		    break;
 
-				case 'S':     // active/desactive les LOGS
-				bSysLog=!bSysLog;
-				break;
+		case 'S':	// active/desactive les LOGS
+		    bSysLog = !bSysLog;
+		    break;
 
-				case 'D':     // active/desactive les LOGS
-				bDebugLog=!bDebugLog;
-				break;
+		case 'D':	// active/desactive les LOGS
+		    bDebugLog = !bDebugLog;
+		    break;
 
-				case 't':     // affiche un texte traduit
-				d = va_arg (ap,int);
-				sprintf(buf,"%s",GetMsg(d));
-				buf+=strlen(buf);
-				break;
-				
-      			}
-			bCommand=false;
-			}
-		else
-		{
-		sprintf(buf,"%c",*texte);
+		case 't':	// affiche un texte traduit
+		    d = va_arg(ap, int);
+		    sprintf(buf, "%s", GetMsg(d));
+		    buf += strlen(buf);
+		    break;
+
+		}
+		bCommand = false;
+	    } else {
+		sprintf(buf, "%c", *texte);
 		buf++;
-		}
+	    }
 
-		}
-	texte++;
 	}
+	texte++;
+    }
 
-if ((bMess) && (m_bWriteTexte))
-			MessPrint(StartBuf);
-if ((bLog) && (m_bWriteLog))
-			MessPrint(StartBuf);
-if ((bDebugLog) && (m_bWriteDebug))
-			MessPrint(StartBuf);
-if (bSysLog)
-			syslog(LOG_INFO,StartBuf);
+    if ((bMess) && (m_bWriteTexte) && (!bGuiMess))
+	MessPrint(StartBuf);
+    if ((bLog) && (m_bWriteLog) && (!bGuiMess))
+	MessPrint(StartBuf);
+    if ((bDebugLog) && (m_bWriteDebug))
+	MessPrint(StartBuf);
+    if (bSysLog)
+	syslog(LOG_INFO, StartBuf);
 #ifndef WIN32
-if (bGuiMess)
-			GuiMess(StartBuf);
+    if (bGuiMess)
+	GuiMess(StartBuf);
 #endif
-va_end (ap);
+    va_end(ap);
 }
-

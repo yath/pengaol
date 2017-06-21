@@ -14,3 +14,4 @@
 #define WITH_MODEM
 #define WITH_TUNTAP
 #define WITH_CABLE
+#define CONFIG_DIR "/etc/Pengaol"

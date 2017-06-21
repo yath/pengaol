@@ -27,17 +27,17 @@
   *@author stephane (birdy57)
   */
 
-class CTextLinux : public CMsgError  {
-public: 
-	CTextLinux();
-	~CTextLinux();
+class CTextLinux:public CMsgError {
+  public:
+    CTextLinux();
+    ~CTextLinux();
 /** affiche le texte Nbr */
-void PrintMsg(int Nbr);
+    void PrintMsg(int Nbr);
 /** Clone de la fonctione printf */
-void Printf(char *texte, ...);
-private:
+    void Printf(char *texte, ...);
+  private:
 /** Affiche un texte à l'ecran */
-void MessPrint(char *buffer);
+    void MessPrint(char *buffer);
 };
 
 #endif
