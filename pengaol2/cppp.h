@@ -15,44 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef WIN32
+#include "..\config.h"
+#else
 #include "config.h"
+#endif
 
 #ifdef WITH_PPP
 
 #ifndef CPPP_H
 #define CPPP_H
 
-#include <nulldriver.h>
-#include <cppptools.h>
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/errno.h>
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <sys/un.h>
-#include <sys/utsname.h>
-#include <sys/sysmacros.h>
+#include "linuxconf.h"
+#include "nulldriver.h"
+#include "cppptools.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <syslog.h>
 #include <string.h>
 #include <time.h>
 #include <memory.h>
-#include <utmp.h>
-#include <mntent.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <ctype.h>
-#include <termios.h>
-#include <unistd.h>
 
 /* This is in netdevice.h. However, this compile will fail miserably if
    you attempt to include netdevice.h because it has so many references
@@ -81,24 +66,7 @@
 #define PPP_DRV_NAME	"ppp"
 #endif /* !defined(PPP_DRV_NAME) */
 
-#if __GLIBC__ >= 2
-#include <asm/types.h>		/* glibc 2 conflicts with linux/types.h */
-#include <net/if.h>
-#include <net/if_arp.h>
-#include <net/route.h>
-#include <netinet/if_ether.h>
-#else
-#include <linux/types.h>
-#include <linux/if.h>
-#include <linux/if_arp.h>
-#include <linux/route.h>
-#include <linux/if_ether.h>
-#endif
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-#include <linux/ppp_defs.h>
-#include <linux/if_ppp.h>
+#include "if_ppp.h"
 
 #define ok_error(num) ((num)==EIO)
 #define KVERSION(j,n,p)	((j)*1000000 + (n)*1000 + (p))

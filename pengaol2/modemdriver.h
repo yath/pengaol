@@ -14,38 +14,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifdef WIN32
+#include "..\config.h"
+#else
 #include "config.h"
+#endif
+
 
 #ifdef WITH_MODEM
 
 #ifndef MODEMDRIVER_H
 #define MODEMDRIVER_H
 
-#include <nulldriver.h>
-#include <cparamconfig.h>
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <limits.h>
-#include <errno.h>
-#include <syslog.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <termios.h>
+#include "nulldriver.h"
+#include "cparamconfig.h"
+#include "globals.h"
 #include "type.h"
-#include <ctype.h>
-#include <termios.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
 
 /**Driver Modem pour pengaol
   *@author Birdy57 (Stephane)
   */
+#undef ERROR
 #define ERROR -1
 #define SSTRING "AT"
 
@@ -58,6 +47,7 @@ public:
 	// lecture */
 	int Read(char *pData,int nSize);
 	// Deconnection */
+
 	bool Disconnect();
 	// Demmarre la connection 
 	bool Connect();
@@ -126,8 +116,9 @@ protected: // Protected attributes
   /** id port */
   int m_nFdPort;
   /** force la detection du modem */
+
   char *m_sForceDetect;
-	struct termios  t,oldt;
+  struct termios  t,oldt;
   /** device auto
  */
   char* m_sAutoDev;

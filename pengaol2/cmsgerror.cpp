@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           cmsgerror.cpp  -  description
                              -------------------
@@ -62,6 +64,7 @@ if ((fFichier=fopen((const char*) fichier,"r"))!=NULL)
 		{
 		if (cBuffer[0]=='[') bStartFind=false;
 		if (cBuffer[0]=='#') continue;
+
 		if ((strstr(cBuffer,language)!=NULL) && (cBuffer[0]=='[')) bStartFind=true;
 		if (bStartFind) { StrToMem(cBuffer); bRet=true; }
 		}
@@ -92,6 +95,7 @@ if ((pPosEgal=strstr(sBuffer,(char *) "="))!=NULL)
 	memcpy(m_pError->m_sErrorStr,pPosEgal,nLong);
 	// suprime le \n
 	if ((pPosEgal=strstr(m_pError->m_sErrorStr,(char *) "\n"))!=NULL) *pPosEgal='\0';
+	if ((pPosEgal=strstr(m_pError->m_sErrorStr,(char *) "\r"))!=NULL) *pPosEgal='\0' ;
 	m_pError->m_pNextError=new m_cError;
 
 	// deplace le pointeur

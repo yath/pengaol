@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/xltwavplay.h,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/xltwavplay.h,v 1.1.1.1 2001/08/22 12:56:59 birdy57 Exp $
  * Warren W. Gay VE3WWG		Thu Feb 13 21:08:14 1997
  *
  * X LessTif WAV Play :
@@ -29,6 +29,9 @@
  * 	bx249@freenet.toronto.on.ca	(backup)
  *
  * $Log: xltwavplay.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:56:59  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -58,4 +61,4 @@ extern XmString sRecorded_wav;					/* XmString() of RECORD_PATH */
 
 #endif /* _xltwavplay_h_ */
 
-/* $Source: /home/cvs/wavplay/xltwavplay.h,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/xltwavplay.h,v $ */

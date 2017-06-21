@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/msg.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/msg.c,v 1.1.1.1 2001/08/22 12:58:14 birdy57 Exp $
  * Warren W. Gay VE3WWG		Tue Feb 25 22:45:09 1997
  *
  * MESSAGE QUEUE FUNCTIONS:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: msg.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:58:14  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -39,7 +42,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)msg.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)msg.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -175,4 +178,4 @@ msg_name(MSGTYP mtyp) {
 	return msg_names[x];			/* Proper message type */
 }
 
-/* $Source: /home/cvs/wavplay/msg.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/msg.c,v $ */

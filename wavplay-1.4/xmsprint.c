@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/xmsprint.c,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/xmsprint.c,v 1.1.1.1 2001/08/22 12:57:08 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sat Mar  1 14:04:46 1997
  *
  * Format a string: XmString XmSprintf(format,...)
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: xmsprint.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:08  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -143,4 +146,4 @@ StrDate(time_t td) {
 	return stbuf;
 }
 
-/* $Source: /home/cvs/wavplay/xmsprint.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/xmsprint.c,v $ */

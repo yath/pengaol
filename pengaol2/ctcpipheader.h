@@ -20,7 +20,6 @@
 
 #include "ciptools.h"
 #include <string.h>
-#include <netinet/in.h>
 
 /**Header Tcp/Ip standart
   *@author stephane (birdy57)

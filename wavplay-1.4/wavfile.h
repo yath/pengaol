@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/wavfile.h,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/wavfile.h,v 1.1.1.1 2001/08/22 12:56:59 birdy57 Exp $
  * Copyright:	wavfile.h (c) Erik de Castro Lopo  erikd@zip.com.au
  *
  * This  program is free software; you can redistribute it and/or modify it
@@ -15,6 +15,9 @@
  * 675 Mass Ave, Cambridge, MA 02139, USA.
  * 
  * $Log: wavfile.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:56:59  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -50,4 +53,4 @@ extern char *WaveFileError(int error);
 
 #endif /* _wavfile_h_ */
 
-/* $Source: /home/cvs/wavplay/wavfile.h,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/wavfile.h,v $ */

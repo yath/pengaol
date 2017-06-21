@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/file.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/file.c,v 1.1.1.1 2001/08/22 12:58:24 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sun Feb 16 20:43:59 1997
  *
  * WAV FILE OPERATIONS:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: file.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:58:24  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -48,7 +51,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)file.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)file.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -794,4 +797,4 @@ errxit:	wfile->wavinfo.Samples = bytes_written & ~(bytes_per_sample-1);
 	return -1;	/* Indicate error return */
 }
 
-/* $Source: /home/cvs/wavplay/file.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/file.c,v $ */

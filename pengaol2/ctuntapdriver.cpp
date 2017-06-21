@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           ctuntapdriver.cpp  -  description
                              -------------------
@@ -27,7 +29,7 @@
 #include        <sys/fcntl.h>
 #include        <sys/ioctl.h>
 #include        <net/if.h>
-#include        <linux/if_tun.h>
+#include        "if_tun.h"
 #endif
 
 

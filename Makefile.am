@@ -1,6 +1,6 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 
-SUBDIRS = pengaol2 
+SUBDIRS = pengaol2 Doc&Aide 
 
 EXTRA_DIST = pengaol2.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO pengaol2.lsm 
 

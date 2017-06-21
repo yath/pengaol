@@ -18,8 +18,8 @@
 #ifndef CAolHeader30_H
 #define CAolHeader30_H
 
+
 #include <string.h>
-#include <netinet/in.h>
 #include "ciptools.h"
 
 /**Header AOL V3.0

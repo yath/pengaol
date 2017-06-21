@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           cclienttoaol30.cpp  -  description
                              -------------------
@@ -94,11 +96,11 @@ if (bFirstTrame)
 if (nSeq>0x7f) nSeq=0x10;
 
 //if (bFirstTrame)
-	AolHeader->SetSeq(m_CKernel->m_nLastAolSeq);
+	AolHeader->SetSeq((unsigned char)m_CKernel->m_nLastAolSeq);
 //	else
 //	AolHeader->SetSeq(nSeq);
 
-AolHeader->SetAck(m_CKernel->m_nLastAolAck);
+AolHeader->SetAck((unsigned char)m_CKernel->m_nLastAolAck);
 AolHeader->SetTyp(0xa0);
 
 if (!bTooBig || bFirstTrame)
@@ -112,7 +114,7 @@ if (bTooBig && !bFirstTrame)
 	AolHeader->SetExtra();
 	}
 
-AolHeader->SetInNum(m_CKernel->m_nLastAolInet);
+AolHeader->SetInNum((unsigned char)m_CKernel->m_nLastAolInet);
 nSize=(AolHeader->GetPayload()-sBuffer)+nLon-5;
 AolHeader->SetTotalSize(nSize);
 memcpy(AolHeader->GetPayload(),sTrame,nLon);

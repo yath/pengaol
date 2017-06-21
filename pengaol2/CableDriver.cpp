@@ -1,4 +1,4 @@
-
+#include "globals.h"
 
 #include "CableDriver.h"
 #ifdef WITH_CABLE
@@ -16,7 +16,7 @@ CCableDriver::CCableDriver()
 	m_sFull=new char[30];
 	m_sConnectIp=new char[30];
 
-	m_cParam=new CParamConfig[6];
+	m_cParam=new CParamConfig[7];
 	m_cParam[0].DriverClass="CCableDriver";
 	m_cParam[0].Msg="Vers 0.5 Multi";
 	m_cParam[0].Author="birdy57 & surfufu";
@@ -66,6 +66,7 @@ delete []m_cParam;
 }
 
 //  Connection
+
 bool CCableDriver::Connect()
 {
 	bool bRet=false;

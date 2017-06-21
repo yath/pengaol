@@ -1,0 +1,60 @@
+
+
+		 QpThread Library for C++
+                 ------------------------
+		 
+Designed and Implemented by Pavel Krauz Copyright (C) 1999
+----------------------------------------------------------
+
+
+Overview
+--------
+The QpThread Library provides object oriented framework in C++ for threads 
+and Unix signals on top of system level threads (currently POSIX Threads). 
+Moreover it supports deferred cancellation through C++ exception, timer, 
+producent/consumer containers, thread pool and much more. 
+
+
+Documentation
+-------------
+Refer to QpThread documentation in README.html file
+
+
+Instalation
+-----------
+For Unix platforms refer to INSTALL
+For Win NT platform refer to INSTALL.win32
+
+
+Supported Platforms
+-------------------
+
+Linux 2.0,2.2/Intel/Alpha/Sparc		EGCS at least 1.1.2 with GLIBC-2.1.1
+Solaris 2.5/Intel/Sparc			SUNWspro 4.2 with STLport-3.12.3
+Digital OSF1 4.0/Alpha			DEC C++ 6.0
+Windows NT				Visual C++ 6.0
+
+The dependency for architecture specific code was removed so it
+should be easier to port it. But the architecture specific code
+is still present for better performance and SpinLock feature.
+If you do not have the arch specific code simply do not define
+-DARCH_TAS in your Makefile.
+
+QpSpinLock is supported on Intel, Alpha and Sparc HW architectures
+
+You are more than welcome to port it to other platforms and/or compilers.
+
+
+Download
+--------
+You can download QpThread source code or binary code from:
+ftp://ftp.gncz.cz/pub/qpthread/
+or from
+http://www.gncz.cz/kra/index.html
+
+
+Patches, Bug Reports, Suggestions
+---------------------------------
+Please send bug descriptions, patches, suggestions or successful stories to:
+Pavel Krauz <kra@gncz.cz>
+

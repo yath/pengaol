@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/client.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/client.c,v 1.1.1.1 2001/08/22 12:56:59 birdy57 Exp $
  * Warren W. Gay VE3WWG		Tue Feb 25 22:43:40 1997
  *
  * CLIENT RELATED FUNCTIONS:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: client.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:56:59  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -38,7 +41,7 @@
  * Revision 1.1  1997/04/14 00:11:03  wwg
  * Initial revision
  */
-static const char rcsid[] = "@(#)client.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)client.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -361,4 +364,4 @@ tosvr_debug(int flags,ErrFunc erf,int bDebugMode) {
 	return z;
 }
 
-/* $Source: /home/cvs/wavplay/client.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/client.c,v $ */

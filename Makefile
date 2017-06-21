@@ -151,7 +151,7 @@ USER_LDFLAGS =
 USE_EXCEPTIONS = -fexceptions
 USE_NLS = @USE_NLS@
 USE_RTTI = -frtti
-VERSION = 1.0
+VERSION = 0.55
 XGETTEXT = @XGETTEXT@
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
@@ -185,7 +185,7 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-SUBDIRS = pengaol2 
+SUBDIRS = pengaol2 Doc&Aide 
 
 EXTRA_DIST = pengaol2.kdevprj AUTHORS COPYING ChangeLog INSTALL README TODO pengaol2.lsm 
 

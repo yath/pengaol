@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           CAolHeader30.cpp  -  description
                              -------------------
@@ -191,7 +193,7 @@ if (IpLen>0x7f)
 	m_sHeader[12]=(IpLen & 0xFF);
 	}
 	else
-	m_sHeader[11]=IpLen;
+		m_sHeader[11]=(unsigned char)IpLen;
 
 }
 

@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           cusermanager.cpp  -  description
                              -------------------
@@ -199,6 +201,41 @@ if (FileExist(sFichier))
 
 return bRet;
 }
+
+#ifndef WIN32
+bool CUserManager::ListUserGui()
+{
+bool bRet=false;
+char *sHome;
+char sLigne[200];
+bool bPair=true;
+char sFichier[200];
+FILE *fFichier;
+
+sHome=getenv("HOME");
+sprintf(sFichier,"%s/.PengUser",sHome);
+
+if (FileExist(sFichier))
+	{
+	if ((fFichier=fopen(sFichier,"rw")	)!=NULL)
+		{
+		while (fgets(sLigne,200,fFichier))
+			{
+			if (bPair)
+				AddGuiUser((char *) sLigne);
+   			bPair=(!bPair);
+			}		
+		bRet=true;
+		fclose(fFichier);
+		}
+	}
+	else
+	NbError=145;
+
+return bRet;
+}
+#endif
+
 /** fournit la structure */
 void CUserManager::GetMsg(CMsgError *Mess)
 {
@@ -250,42 +287,4 @@ char *p;
 
 if ((p=strchr(sLigne,'\n'))!=NULL)
 	*p=0;
-}
-/** retourne la liste des user */
-char** CUserManager::GetLogin()
-{
-char *sHome;
-FILE *fFichier;
-char sFichier[200];
-char sLigne[200];
-int nUserNbr=0;
-
-sHome=getenv("HOME");
-sprintf(sFichier,"%s/.PengUser",sHome);
-
-if (FileExist(sFichier))
-	{
-	// On recherche l'utilisateur
-	if ((fFichier=fopen(sFichier,"rw")	)!=NULL)
-		{
-		while (fgets(sLigne,200,fFichier))
-			{
-				if (sUser[nUserNbr]!=NULL)
-					delete(sUser[nUserNbr]);
-				sUser[nUserNbr]=new char[strlen(sLigne)+2];
-				KillRet(sLigne);
-				strcpy(sUser[nUserNbr],sLigne);
-				nUserNbr++;				
-				fgets(sLigne,200,fFichier);
-				
-			}		
-		fclose(fFichier);
-		}
-	}
-if (sUser[nUserNbr]!=NULL)
-		delete(sUser[nUserNbr]);
-sUser[nUserNbr]=new char[sizeof(NULL)];
-sUser[nUserNbr]=NULL;
-
-return sUser;
 }

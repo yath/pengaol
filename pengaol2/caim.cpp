@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           caim.cpp  -  description
                              -------------------
@@ -7,6 +9,7 @@
  ***************************************************************************/
 
 /***************************************************************************
+
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,7 +30,6 @@ CAim::~CAim(){
 int CAim::Buddy(unsigned char *sBuffer,int nLen,int nCode)
 {
 int nRet=-1;
-unsigned char *sPtr;
 unsigned char sNom[200];
 unsigned char sStr[4]={0,0,0x10,0x18};
 int nI;
@@ -48,6 +50,9 @@ if ((sBuffer[10]==0x01) && (sBuffer[11]==0) && (sBuffer[12]==0))
 			if (nCode!=0x6174)
 				{
 				printf("----------------------\n");
+				#ifndef WIN32
+				BuddyClear();
+				#endif
 				system("wavplay -q /usr/share/sound/waw.wav &");
 				}
 			nCode=0x6174;
@@ -55,6 +60,9 @@ if ((sBuffer[10]==0x01) && (sBuffer[11]==0) && (sBuffer[12]==0))
 			memcpy(&sNom,&sBuffer[nI+2],nLon);
 			sNom[nLon]=0;
 			printf(" %s \n",&sNom);
+			#ifndef WIN32
+			BuddyAdd((char *) &sNom);
+			#endif
 			nPos=0;
 		   }
 		}

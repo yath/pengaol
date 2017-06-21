@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/save_as.c,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/save_as.c,v 1.1.1.1 2001/08/22 12:57:20 birdy57 Exp $
  * Warren W. Gay VE3WWG		Thu Apr 10 21:36:07 1997
  *
  * 	Save record.wav As... Dialog Callback [OK button]
@@ -27,6 +27,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: save_as.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:20  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -208,4 +211,4 @@ xit:	if ( stat(path,&dest_stat) == 0 ) {
 	XtFree(path);				/* Free the allocated string and leave popped up */
 }
 
-/* $Source: /home/cvs/wavplay/save_as.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/save_as.c,v $ */

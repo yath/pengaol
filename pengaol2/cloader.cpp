@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           cloader.cpp  -  description
                              -------------------
@@ -17,10 +19,21 @@
 
 #include <string.h>
 #include "cloader.h"
+#ifdef WITH_MODEM
 #include "modemdriver.h"
+#endif
+#ifdef WITH_CABLE
 #include "CableDriver.h"
+#endif
+#ifdef WITH_TUNTAP
 #include "ctuntapdriver.h"
+#endif
+#ifdef WITH_PPP
 #include "cppp.h"
+#endif
+#ifdef WITH_WINTAP
+#include "cwintap.h"
+#endif
 
 CLoader::CLoader()
 {
@@ -89,6 +102,7 @@ CLoader::~CLoader(){
 while (m_pFirstDriver!=NULL)
 	{
 	m_pActualDriver=m_pFirstDriver->m_pNextDriver;
+
 	delete (m_pFirstDriver);
 	m_pFirstDriver=m_pActualDriver;
 	};

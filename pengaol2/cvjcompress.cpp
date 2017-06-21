@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           cvjcompress.cpp  -  description
                              -------------------
@@ -86,7 +88,7 @@ nType=sl_compress_tcp(&mBuf,vjstruct,1);
  if ((nType!=TYPE_IP) && (nType!=TYPE_ERROR)) {
       nRet=mBuf.m_len;
       // Type non compresser ? 0x75 sinon +0x80
-      (nType==TYPE_UNCOMPRESSED_TCP) ? (sBuffer[0]=0x75) : /* ici c du compresser*/ (sBuffer[0]+=0x80);
+      (nType==TYPE_UNCOMPRESSED_TCP) ? (sBuffer[0]=0x75) : /* ici c du compresser*/ (sBuffer[0]+=(char)0x80);
    }
 
 

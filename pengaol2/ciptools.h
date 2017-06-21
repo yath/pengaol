@@ -18,7 +18,7 @@
 #ifndef CIPTOOLS_H
 #define CIPTOOLS_H
 
-#include <netinet/in.h>
+
 
 /**
   *@author stephane (birdy57)

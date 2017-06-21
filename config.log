@@ -43,7 +43,7 @@ configure:2520: checking for ranlib
 configure:2587: checking for strip
 ltconfig:563:checking for g++ option to produce PIC
 ltconfig:693:checking that g++ PIC flag  -fPIC works.
-ltconfig:754: checking if g++ static flag  works
+ltconfig:754: checking if g++ static flag -static works
 ltconfig:799: checking if g++ supports -c -o file.o
 ltconfig:800: g++ -c -D_REENTRANT -o out/conftest2.o  conftest.c 1>&5
 ltconfig:832: checking if g++ supports -c -o file.lo

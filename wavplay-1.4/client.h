@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/client.h,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/client.h,v 1.1.1.1 2001/08/22 12:57:08 birdy57 Exp $
  * Warren W. Gay VE3WWG		Wed Feb 26 22:01:36 1997
  *
  * CLIENT.C HEADER FILE:
@@ -31,6 +31,9 @@
  * 	bx249@freenet.toronto.on.ca	(backup)
  *
  * $Log: client.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:08  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -44,6 +47,9 @@
  * Initial revision
  *
  * $Log: client.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:08  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -55,7 +61,7 @@
  *
  */
 #ifndef _client_h_
-#define _client_h_ "@(#)client.h $Revision: 1.2 $"
+#define _client_h_ "@(#)client.h $Revision: 1.1.1.1 $"
 
 extern int tosvr_cmd(MSGTYP cmd,int flags,ErrFunc erf);		/* Simple server command */
 extern int tosvr_start(ErrFunc erf);				/* Start server */
@@ -82,4 +88,4 @@ extern int svrIPC;						/* IPC ID of message queue */
 
 #endif /* _client_h_ */
 
-/* $Source: /home/cvs/wavplay/client.h,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/client.h,v $ */

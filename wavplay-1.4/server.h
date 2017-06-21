@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/server.h,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/server.h,v 1.1.1.1 2001/08/22 12:57:02 birdy57 Exp $
  * Warren W. Gay VE3WWG		Wed Feb 26 21:58:08 1997
  *
  * SERVER.C HEADER FILE:
@@ -32,6 +32,9 @@
  * 	bx249@freenet.toronto.on.ca	(backup)
  *
  * $Log: server.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:02  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -73,4 +76,4 @@ extern struct S_SVR svr;
 
 #endif /* _server_h */
 
-/* $Source: /home/cvs/wavplay/server.h,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/server.h,v $ */

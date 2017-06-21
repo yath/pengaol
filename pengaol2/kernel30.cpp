@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           kernel30.cpp  -  description
                              -------------------
@@ -20,7 +22,7 @@
 
 Kernel30::Kernel30()
 {
-
+m_nLastAolInet=0;
 CData=new m_CData;
 m_bWriting=false;
 CData->dat1="7f,7f,a3,03,8b,6d,00,10,00,00,00,05,0f,00,00,25,6e,b2,4d,c0,00,14,c0,08,%c,0,0,0,0,4,a,0,0,1,0,4,0,3,ff,ff,0,0,0,0,1,0,0,ff,fe,0,0,17";
@@ -58,7 +60,6 @@ bStopTunneling=false;
 bNeedAck=false;
 VjcompressOut=new CVjcompress;
 KernelName="Kernel ELV3 V0.5";
-m_nLastAolInet=0;
 }
 
 Kernel30::~Kernel30()
@@ -93,7 +94,7 @@ memcpy(sLogin,Login,nLoginLen);
 if (nLoginLen<10) nLoginLen=10;
 sLogin[nLoginLen]='\0';
 
-m_cMsgIn->Printf("%M%C%t\n",54);
+m_cMsgIn->Printf("%C%M%t\n",54);
 
 // Envoie la premiere trame
 nLon=HexToSeq(sBuffer,(char *) CData->dat1,(m_nSpeed/10000));
@@ -106,14 +107,14 @@ ReadAolTrame(sBuffer,1500);
 
 //Verification du mot de passe
 
-m_cMsgIn->Printf("%M%C%t\n",55);
+m_cMsgIn->Printf("%C%M%t\n",55);
 nLon=HexToSeq(sBuffer,(char *) CData->dat2,nLoginLen,sLogin,nPassLen,PassWord);
 WriteRawIn(sBuffer,nLon);
 
 nLon=HexToSeq(sBuffer,(char *) CData->dat5);
 WaitForIn(sBuffer,nLon);
 
-m_cMsgIn->Printf("%M%C%t\n",56);
+m_cMsgIn->Printf("%C%M%t\n",56);
 
 //Envoie la requete IP
 
@@ -357,6 +358,7 @@ m_nLastAolAck=0x21;
 
 StartELV3Sub(m_cCmd,m_cAolToClient,m_cClientToAol);
 
+
 // Maintenant on attend la fin des threads en bloquant
 
 
@@ -410,7 +412,9 @@ m_Ip->GetDnsStr(sBuffer);
 /** donne le nom de domaine */
 void Kernel30::GetDomainName(char *sBuffer)
 {
-memcpy(sBuffer,m_Ip->DomainName,strlen(m_Ip->DomainName));
+	int nLen=strlen(m_Ip->DomainName);
+	memcpy(sBuffer,m_Ip->DomainName,nLen);
+	sBuffer[nLen]=0;
 }
 /** arrete le noyau */
 void Kernel30::Stop()

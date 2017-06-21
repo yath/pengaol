@@ -1,0 +1,28 @@
+
+Win32 installation of QpThread library
+(tested for Visual C++ 6.0 SP3 and WNT 4.0 SP6)
+(J.Antony)
+
+1.	Unpack QpThread (e.g. in c:\qp)
+
+2.	Download and unpack pthread-win32 library from 
+	http://sourceware.cygnus.com/pthreads-win32/ or from its mirrors
+	http://sourceware.cygnus.com/mirrors/
+	Set PTHREADS variable in makefile.mak according to pthread unpack path.
+	Make sure pthread.dll can be found by your application(s).
+
+3.  Check makefile.mak and 'Win32 related' section. Change MSVCBASE, PTHREADS and 
+	other variables if necesary.
+
+4.  Check settings for Visual C++ compiler (or run $MSVCBASE\bin\vcvars32.bat)
+
+5.  Build QpThread library (qptw32.lib) - in c:\qp directory run: nmake -f makefile.mak 
+
+6.  Build examles: change to 'ex' directory and run : nmake -f makefile.mak
+
+7.  For QpThread library and examples use:
+	nmake -f makefile.mak CLEAN				to delete built files
+	nmake -f makefile.mak			or
+	nmake -f makefile.mak CFG=Debug			to build debug version (debug is default)
+	nmake -f makefile.mak CFG=Release		to build release version
+

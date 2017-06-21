@@ -1,0 +1,38 @@
+/CHANGES/1.1.1.1/Thu Aug 02 13:02:02 2001//
+/COPYING/1.1.1.1/Thu Aug 02 13:01:12 2001//
+/INSTALL/1.1.1.1/Thu Aug 02 13:01:02 2001//
+/INSTALL.win32/1.1.1.1/Thu Aug 02 13:02:02 2001//
+/Make.def/1.1.1.1/Thu Aug 02 13:00:54 2001//
+/Make.def.base/1.1.1.1/Thu Aug 02 13:00:46 2001//
+/Makefile/1.1.1.1/Thu Aug 02 13:00:46 2001//
+/Makefile.mak/1.1.1.1/Thu Aug 02 13:00:54 2001//
+/README/1.1.1.1/Thu Aug 02 13:02:02 2001//
+/README.html/1.1.1.1/Thu Aug 02 13:01:48 2001//
+/TODO/1.1.1.1/Thu Aug 02 13:00:52 2001//
+/configure/1.1.1.1/Thu Aug 02 13:01:50 2001//
+/libqpthr.so.1.1.0/1.1.1.1/Thu Aug 02 13:03:28 2001//
+/qp.cc/1.1.1.1/Thu Aug 02 13:01:54 2001//
+/qp.h/1.1.1.1/Thu Aug 02 13:00:42 2001//
+/qp_base.cc/1.1.1.1/Thu Aug 02 13:01:00 2001//
+/qp_base.h/1.1.1.1/Thu Aug 02 13:01:50 2001//
+/qp_except.h/1.1.1.1/Thu Aug 02 13:00:52 2001//
+/qp_misc.cc/1.1.1.1/Thu Aug 02 13:01:02 2001//
+/qp_misc.h/1.1.1.1/Thu Aug 02 13:01:00 2001//
+/qp_pthread_rwlock.h/1.1.1.1/Thu Aug 02 13:00:42 2001//
+/qp_queue.h/1.1.1.1/Thu Aug 02 13:01:50 2001//
+/qp_rwlock.cc/1.1.1.1/Thu Aug 02 13:00:38 2001//
+/qp_rwlock.h/1.1.1.1/Thu Aug 02 13:01:48 2001//
+/qp_sig.cc/1.1.1.1/Thu Aug 02 13:01:58 2001//
+/qp_sig.h/1.1.1.1/Thu Aug 02 13:00:46 2001//
+/qp_spinlock.h/1.1.1.1/Thu Aug 02 13:01:02 2001//
+/qp_synch.cc/1.1.1.1/Thu Aug 02 13:00:52 2001//
+/qp_synch.h/1.1.1.1/Thu Aug 02 13:02:00 2001//
+/qp_thr.cc/1.1.1.1/Thu Aug 02 13:01:00 2001//
+/qp_thr.h/1.1.1.1/Thu Aug 02 13:01:20 2001//
+/qp_timer.cc/1.1.1.1/Thu Aug 02 13:00:38 2001//
+/qp_timer.h/1.1.1.1/Thu Aug 02 13:00:42 2001//
+/qp_work.h/1.1.1.1/Thu Aug 02 13:01:20 2001//
+/rpm.spec/1.1.1.1/Thu Aug 02 13:00:42 2001//
+D/arch////
+D/ex////
+D/qpthr////

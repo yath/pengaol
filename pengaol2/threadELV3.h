@@ -14,18 +14,20 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- #include "config.h"
+
 #ifndef PTHREADELV3_H
 #define PTHREADELV3_H
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <pthread.h>
 
-#include <caolcmd30.h>
-#include <caoltoclient30.h>
-#include <cclienttoaol30.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "caolcmd30.h"
+#include "caoltoclient30.h"
+#include "cclienttoaol30.h"
+#include "cgui.h"
 
 void StartELV3Sub(CAolCmd30 *Cmd,CAolToClient30 *AolClient,CClientToAol30  *ClientAol);
 void KillELV3Sub();
+void StartGui(CGui *Gui);
+void StopGui();
 #endif

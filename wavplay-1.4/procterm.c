@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/procterm.c,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/procterm.c,v 1.1.1.1 2001/08/22 12:57:05 birdy57 Exp $
  * Warren W. Gay VE3WWG		Wed Feb 26 22:43:33 1997
  *
  * INTERPRET PROCESS TERMINATION:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: procterm.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:05  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -75,4 +78,4 @@ ProcTerm(int ProcStat) {
 	return buf;
 }
 
-/* $Source: /home/cvs/wavplay/procterm.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/procterm.c,v $ */

@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/wavfile.c,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/wavfile.c,v 1.1.1.1 2001/08/22 12:57:55 birdy57 Exp $
  * Copyright: wavfile.c (c) Erik de Castro Lopo  erikd@zip.com.au
  *
  * wavfile.c - Functions for reading and writing MS-Windoze .WAV files.
@@ -18,6 +18,9 @@
  *	enhancements to : erikd@zip.com.au
  *	
  * $Log: wavfile.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:55  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -269,4 +272,4 @@ char* findchunk  (char* pstart, char* fourcc, size_t n)
 	return  NULL ;
 } ; /* findchuck*/
 
-/* $Source: /home/cvs/wavplay/wavfile.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/wavfile.c,v $ */

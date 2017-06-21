@@ -23,9 +23,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <sys/stat.h>
 #include "cmsgerror.h"
+#ifndef WIN32
+#include "main.h"
+#endif
 
 /**Gere les droit des utilisateur
   *@author stephane (birdy57)
@@ -49,21 +50,21 @@ public:
   bool FileCopy(char *sSource,char *sDestination);
   /** Affiche tous les utilisateur connu */
   bool ListUser();
+	#ifndef WIN32
+  /** Affiche tous les utilisateur connu */
+  bool ListUserGui();
+	#endif
   /** fournit la structure */
   void GetMsg(CMsgError *Mess);
   /** fournit le mot de passe de l'utilisateur */
   char* GetPass(char *sUser);
   /** efface les \n */
   void KillRet(char *sLigne);
-  /** retourne la liste des user */
-  char** GetLogin();
 protected: // Protected attributes
   /** gestion des message */
   CMsgError *Msg;
   /** Numero de l'erreur */
   int NbError;
-  /** utilisateurs */
-  char *sUser[100];
 };
 
 #endif

@@ -19,7 +19,6 @@
 #define CAOLCMD30_H
 
 #include "kernel30.h"
-#include <netdb.h>
 
 /**Commande AOL
   *@author stephane (birdy57)

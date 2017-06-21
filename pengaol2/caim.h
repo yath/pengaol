@@ -17,11 +17,9 @@
 
 #ifndef CAIM_H
 #define CAIM_H
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
+
+#include "main.h"
+
 /**on gere l'aim maintenant
   *@author stephane (birdy57)
   */

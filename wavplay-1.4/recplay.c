@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/recplay.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/recplay.c,v 1.1.1.1 2001/08/22 12:58:27 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sun Feb 16 20:14:02 1997
  *
  * RECORD/PLAY MODULE FOR WAVPLAY :
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: recplay.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:58:27  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -47,7 +50,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)recplay.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)recplay.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -257,4 +260,4 @@ recplay(WavPlayOpts *wavopts,char **argv,ErrFunc erf) {
 	return rc;
 }
 
-/* $Source: /home/cvs/wavplay/recplay.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/recplay.c,v $ */

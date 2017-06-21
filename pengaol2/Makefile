@@ -151,7 +151,7 @@ USER_LDFLAGS =
 USE_EXCEPTIONS = -fexceptions
 USE_NLS = @USE_NLS@
 USE_RTTI = -frtti
-VERSION = 1.0
+VERSION = 0.55
 XGETTEXT = @XGETTEXT@
 XPMINC = @XPMINC@
 XPMLIB = @XPMLIB@
@@ -187,12 +187,12 @@ x_libraries = @x_libraries@
 
 ####### kdevelop will overwrite this part!!! (end)############
 bin_PROGRAMS = pengaol2
-pengaol2_SOURCES = window3.c window2.c window1.c pengemul.c caim.cpp threadELV3.cpp cppptools.cpp cppp.cpp ccrypto.cpp cusermanager.cpp crouteurlinux.cpp crouteur.cpp caolcmd30.cpp cclienttoaol30.cpp caolheader30.cpp caoltoclient30.cpp ctcpipheader.cpp vjcompress.c cvjcompress.cpp ckernel.cpp kernel30.cpp ctextlinux.cpp ciptools.cpp ccommand.cpp cmsgerror.cpp cloader.cpp nulldriver.cpp cparamconfig.cpp cconfig.cpp modemdriver.cpp ctuntapdriver.cpp TunTapErrors.cpp CableDriver.cpp main.cpp 
+pengaol2_SOURCES = cgui.cpp globals.cpp caim.cpp threadELV3.cpp cppptools.cpp cppp.cpp ccrypto.cpp cusermanager.cpp crouteurlinux.cpp crouteur.cpp caolcmd30.cpp cclienttoaol30.cpp caolheader30.cpp caoltoclient30.cpp ctcpipheader.cpp vjcompress.c cvjcompress.cpp ckernel.cpp kernel30.cpp ctextlinux.cpp ciptools.cpp ccommand.cpp cmsgerror.cpp cloader.cpp nulldriver.cpp cparamconfig.cpp cconfig.cpp modemdriver.cpp ctuntapdriver.cpp TunTapErrors.cpp CableDriver.cpp main.cpp 
 pengaol2_LDADD = -lstdc++ -lpthread
 
 SUBDIRS = docs 
 
-EXTRA_DIST = main.cpp CableDriver.cpp CableDriver.h TunTapErrors.cpp ctuntapdriver.cpp ctuntapdriver.h modemdriver.cpp modemdriver.h type.h cconfig.cpp cconfig.h cparamconfig.cpp cparamconfig.h nulldriver.cpp nulldriver.h cloader.cpp cloader.h cmsgerror.cpp cmsgerror.h PengMessages.txt ccommand.cpp ccommand.h ciptools.cpp ciptools.h ctextlinux.cpp ctextlinux.h kernel30.cpp kernel30.h ckernel.cpp ckernel.h cvjcompress.cpp cvjcompress.h vjcompress.c vjcompress.h ctcpipheader.cpp ctcpipheader.h caoltoclient30.cpp caoltoclient30.h caolheader30.cpp caolheader30.h cclienttoaol30.cpp cclienttoaol30.h caolcmd30.cpp caolcmd30.h crouteur.cpp crouteur.h crouteurlinux.cpp crouteurlinux.h cusermanager.cpp cusermanager.h ccrypto.cpp ccrypto.h cppp.cpp cppp.h cppptools.cpp cppptools.h threadELV3.cpp threadELV3.h caim.cpp caim.h main.h connect.xpm left.xpm pengemul.c pengemul.h up.xpm window1.c window1.h window2.c window2.h window3.c window3.h window.h 
+EXTRA_DIST = main.cpp CableDriver.cpp CableDriver.h TunTapErrors.cpp ctuntapdriver.cpp ctuntapdriver.h if_tun.h modemdriver.cpp modemdriver.h type.h cconfig.cpp cconfig.h cparamconfig.cpp cparamconfig.h nulldriver.cpp nulldriver.h cloader.cpp cloader.h cmsgerror.cpp cmsgerror.h PengMessages.txt ccommand.cpp ccommand.h ciptools.cpp ciptools.h ctextlinux.cpp ctextlinux.h kernel30.cpp kernel30.h ckernel.cpp ckernel.h cvjcompress.cpp cvjcompress.h vjcompress.c vjcompress.h ppp_defs.h ctcpipheader.cpp ctcpipheader.h caoltoclient30.cpp caoltoclient30.h caolheader30.cpp caolheader30.h cclienttoaol30.cpp cclienttoaol30.h caolcmd30.cpp caolcmd30.h crouteur.cpp crouteur.h crouteurlinux.cpp crouteurlinux.h cusermanager.cpp cusermanager.h ccrypto.cpp ccrypto.h cppp.cpp cppp.h cppptools.cpp cppptools.h threadELV3.cpp threadELV3.h caim.cpp caim.h if_ppp.h main.h globals.cpp globals.h linuxconf.h cgui.cpp cgui.h 
 
 # set the include path found by configure
 INCLUDES = $(all_includes)
@@ -210,8 +210,7 @@ DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I..
 CPPFLAGS = 
 LDFLAGS = -s
 LIBS = 
-pengaol2_OBJECTS =  window3.$(OBJEXT) window2.$(OBJEXT) \
-window1.$(OBJEXT) pengemul.$(OBJEXT) caim.$(OBJEXT) \
+pengaol2_OBJECTS =  cgui.$(OBJEXT) globals.$(OBJEXT) caim.$(OBJEXT) \
 threadELV3.$(OBJEXT) cppptools.$(OBJEXT) cppp.$(OBJEXT) \
 ccrypto.$(OBJEXT) cusermanager.$(OBJEXT) crouteurlinux.$(OBJEXT) \
 crouteur.$(OBJEXT) caolcmd30.$(OBJEXT) cclienttoaol30.$(OBJEXT) \
@@ -243,13 +242,13 @@ GZIP_ENV = --best
 DEP_FILES =  .deps/CableDriver.P .deps/TunTapErrors.P .deps/caim.P \
 .deps/caolcmd30.P .deps/caolheader30.P .deps/caoltoclient30.P \
 .deps/cclienttoaol30.P .deps/ccommand.P .deps/cconfig.P .deps/ccrypto.P \
-.deps/ciptools.P .deps/ckernel.P .deps/cloader.P .deps/cmsgerror.P \
-.deps/cparamconfig.P .deps/cppp.P .deps/cppptools.P .deps/crouteur.P \
-.deps/crouteurlinux.P .deps/ctcpipheader.P .deps/ctextlinux.P \
-.deps/ctuntapdriver.P .deps/cusermanager.P .deps/cvjcompress.P \
-.deps/kernel30.P .deps/main.P .deps/modemdriver.P .deps/nulldriver.P \
-.deps/pengemul.P .deps/threadELV3.P .deps/vjcompress.P .deps/window1.P \
-.deps/window2.P .deps/window3.P
+.deps/cgui.P .deps/ciptools.P .deps/ckernel.P .deps/cloader.P \
+.deps/cmsgerror.P .deps/cparamconfig.P .deps/cppp.P .deps/cppptools.P \
+.deps/crouteur.P .deps/crouteurlinux.P .deps/ctcpipheader.P \
+.deps/ctextlinux.P .deps/ctuntapdriver.P .deps/cusermanager.P \
+.deps/cvjcompress.P .deps/globals.P .deps/kernel30.P .deps/main.P \
+.deps/modemdriver.P .deps/nulldriver.P .deps/threadELV3.P \
+.deps/vjcompress.P
 SOURCES = $(pengaol2_SOURCES)
 OBJECTS = $(pengaol2_OBJECTS)
 

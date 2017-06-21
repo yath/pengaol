@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/menu.c,v 1.1.1.1 1999/11/21 19:50:56 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/menu.c,v 1.1.1.1 2001/08/22 12:56:53 birdy57 Exp $
  * Warren W. Gay VE3WWG		Thu Feb 13 21:10:04 1997
  *
  * Menu related functions:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: menu.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:56:53  birdy57
+ *
+ *
  * Revision 1.1.1.1  1999/11/21 19:50:56  wwg
  * Import wavplay-1.3 into CVS
  *
@@ -111,4 +114,4 @@ CreateMenu(
 	va_end(ap);
 }
 
-/* $Source: /home/cvs/wavplay/menu.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/menu.c,v $ */

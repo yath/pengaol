@@ -9,24 +9,12 @@ cp *.wav /usr/share/sound
 cd ..
 
 export CXXFLAGS="-D_REENTRANT"
-#clear
-
-
-#echo "Souhaitez vous integrer l'interface graphique ? (y/n)"
-#read Rep
-#if [ "$Rep" = "y" ]
-#	then
-#	echo "#define WITH_GUI" >> config.h
-#	export CXXFLAGS="-D_REENTRANT -I/usr/include/gtk-1.2 -I/usr/include/glib-1.2 -I/usr/lib/glib/include -I/usr/X11R6/include"
-#	export LDFLAGS="-L/usr/lib -L/usr/X11R6/lib -lgtk -lgdk -rdynamic -lgmodule -lglib -ldl -lXi -lXext -lX11 -lm"
-
-#fi
 	
 ./configure
 make clean
 
 clear
-echo "PengAol V0.9 By Guth Stephane (birdy57)"
+echo "PengAol V1.0 By Guth Stephane (birdy57)"
 echo "---------------------------------------"
 echo 
 echo "Cette version permet une compilation conditionnelle"
@@ -95,8 +83,7 @@ then
 	fi
 
 fi
-	echo "#define WITH_GUI" >> config.h
-
+	
 make
 
 if cat /proc/version | grep -q 2.2.
@@ -126,7 +113,29 @@ chown root /usr/bin/pengaol
 chmod +s /usr/bin/pengaol
 chmod 600 /dev/ttyS0
 chmod 600 /dev/ttyS1
+cd ..
 
+echo "Voulez-vous visualiser la documentation ? (y/n)"
+read Rep
+if [ "$Rep" = "y" ]
+then
+	echo "Quel nagivateur souhaitez-vous utilisez (1-netscape, 2-konqueror, 3-opera) ??"
+	read Rep
+	cd Doc\&Aide
+	cd fr
+	if [ "$Rep" = "1" ]
+	then
+	netscape index.html &
+	fi	
+	if [ "$Rep" = "2" ]
+	then
+	konqueror index.html &
+	fi	
+	if [ "$Rep" = "3" ]
+	then
+	opera index.html &
+	fi	
+fi
 
 
 

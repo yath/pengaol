@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.2 1999/12/04 00:01:20 wwg Exp $
+# $Id: Makefile,v 1.1.1.1 2001/08/22 12:57:05 birdy57 Exp $
 #----------------------------------------------------------------------
 # C O M P I L A T I O N :
 #----------------------------------------------------------------------
@@ -264,6 +264,9 @@ zonk:   clobber
 	rm -fr $(DISTRELEASE) $(DISTRELEASE).tar $(DISTRELEASE).tar.gz
 
 # $Log: Makefile,v $
+# Revision 1.1.1.1  2001/08/22 12:57:05  birdy57
+#
+#
 # Revision 1.2  1999/12/04 00:01:20  wwg
 # Implement wavplay-1.4 release changes
 #

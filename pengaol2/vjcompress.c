@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           vjcompress.c  -  description
 				modifie pour une utilisation sous linux
@@ -46,39 +48,10 @@
  * This version is used under SunOS 4.x, Digital UNIX, AIX 4.x,
  * and SVR4 systems including Solaris 2.
  *
- * $Id: vjcompress.c,v 1.10 1999/09/15 23:49:06 masputra Exp $
+ * $Id: vjcompress.c,v 1.1.1.1 2001/08/02 12:59:14 birdy57 Exp $
  */
-#include <features.h>
-#include <sys/types.h>
-#include <sys/param.h>
 
-#ifdef SVR4
-#ifndef __GNUC__
-#include <sys/byteorder.h>	/* for ntohl, etc. */
-#else
-/* make sure we don't get the gnu "fixed" one! */
-#include "/usr/include/sys/byteorder.h"
-#endif
-#endif
-
-//<net/net_globals.h>
-#include <netinet/in.h>
-
-#ifdef AIX4
-#define _NETINET_IN_SYSTM_H_
-typedef u_long  n_long;
-#else
-#include <netinet/in_systm.h>
-#endif
-
-#include <netinet/ip.h>
-
-#if __GLIBC__ >= 2
-#include <asm/types.h>
-#else		/* glibc 2 conflicts with linux/types.h */
-#include <linux/types.h>
-#endif
-#include <linux/ppp_defs.h>
+#include "ppp_defs.h"
 #include "vjcompress.h"
 
 

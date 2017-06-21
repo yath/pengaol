@@ -18,16 +18,30 @@
 #ifndef KERNEL30_H
 #define KERNEL30_H
 
+#ifdef WIN32
+	#include <winsock.h>
+#else
+	#include <unistd.h>
+	#include <stdlib.h>
+	#include <stdio.h>
+	#include <termios.h>
+	#include <sys/fcntl.h>
+	#include <sys/ioctl.h>
+	#include <sys/types.h>
+	#include <sys/socket.h>
+	#include <sys/un.h>
+	#include <sys/time.h>
+	#include <netinet/in.h>
+	#include <netdb.h>
+	#include <arpa/inet.h>
+	#define SOCKET int
+	#define closesocket close
+#endif
 
 #include "nulldriver.h"
 #include "ckernel.h"
 #include "caolheader30.h"
 #include "cvjcompress.h"
-#include <netdb.h>
-#include <unistd.h>
-#include <termios.h>
-#include <sys/fcntl.h>
-#include <sys/ioctl.h>
 #include "caoltoclient30.h"
 #include "caolcmd30.h"
 #include "cclienttoaol30.h"

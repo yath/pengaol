@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           ckernel.cpp  -  description
                              -------------------
@@ -76,7 +78,7 @@ while     (bScan)
 			if (!bIgnoreNext)
 				{
 				*stmp='\0';
-				*sbuf=strtol(ptmp,NULL,16);
+				*sbuf=(char)strtol(ptmp,NULL,16);
 				sbuf++;
 				}
 			bIgnoreNext=false;
@@ -118,7 +120,6 @@ m_cMsgOut=MOut;
 /** Ecrit sur le peripherique d'entree avec log si possible */
 void CKernel::InputWrite(char *buffer,int Long)
 {
-int i;
 
 #ifdef WITH_DEBUG
 m_cMsgIn->Printf("%LAol<-");
@@ -193,7 +194,6 @@ void CKernel::Stop()
 /** ecrit sur le driver de sortie */
 void CKernel::OutputWrite(char *sBuffer,int nLen)
 {
-unsigned short i;
 unsigned short nCrcIn,nCrcOut;
 CIpTools IpTools;
 

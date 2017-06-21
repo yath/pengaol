@@ -1,3 +1,6 @@
+#include "globals.h"
+#include "linuxconf.h"
+
 /***************************************************************************
                           crouteurlinux.cpp  -  description
                              -------------------
@@ -641,6 +644,7 @@ int CRouteurLinux::sifdefaultroute (int unit, u_int32_t ouraddr, u_int32_t gatew
 
     rt.rt_flags = RTF_UP | RTF_GATEWAY;
     if (ioctl(sock_fd, SIOCADDRT, &rt) < 0) {
+
 //	if ( ! ok_error ( errno ))
 //	    error("default route ioctl(SIOCADDRT): %m(%d)", errno);
 	return 0;

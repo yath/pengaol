@@ -1,0 +1,99 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: PENGAOL - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E3.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "HAVE_CONFIG_H" /FR"Debug/" /Fp"Debug/PENGAOL.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\prog\pengaol\pengaol\pengaol2\crouteurWin.cpp"
+]
+Creating command line "cl.exe @D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E3.tmp" 
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E4.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib snmpapi.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/PENGAOL.pdb" /debug /machine:I386 /out:"Debug/PENGAOL.exe" /pdbtype:sept 
+.\Debug\CableDriver.obj
+.\Debug\caim.obj
+.\Debug\caolcmd30.obj
+.\Debug\caolheader30.obj
+.\Debug\caoltoclient30.obj
+.\Debug\cclienttoaol30.obj
+.\Debug\ccommand.obj
+.\Debug\cconfig.obj
+.\Debug\ccrypto.obj
+.\Debug\ciptools.obj
+.\Debug\ckernel.obj
+.\Debug\cloader.obj
+.\Debug\cmsgerror.obj
+.\Debug\cparamconfig.obj
+.\Debug\cppptools.obj
+.\Debug\crouteur.obj
+.\Debug\ctcpipheader.obj
+.\Debug\ctextlinux.obj
+.\Debug\cusermanager.obj
+.\Debug\cvjcompress.obj
+.\Debug\CWinTap.obj
+.\Debug\globals.obj
+.\Debug\kernel30.obj
+.\Debug\main.obj
+.\Debug\nulldriver.obj
+.\Debug\threadELV3.obj
+.\Debug\TunTapErrors.obj
+.\Debug\vjcompress.obj
+.\Debug\winconf.obj
+.\Debug\crouteurWin.obj
+.\Debug\SnmpWin.obj
+]
+Creating command line "link.exe @D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E4.tmp"
+<h3>Output Window</h3>
+Compiling...
+crouteurWin.cpp
+Linking...
+Creating temporary file "D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E6.tmp" with contents
+[
+/nologo /o"Debug/PENGAOL.bsc" 
+.\Debug\CableDriver.sbr
+.\Debug\caim.sbr
+.\Debug\caolcmd30.sbr
+.\Debug\caolheader30.sbr
+.\Debug\caoltoclient30.sbr
+.\Debug\cclienttoaol30.sbr
+.\Debug\ccommand.sbr
+.\Debug\cconfig.sbr
+.\Debug\ccrypto.sbr
+.\Debug\ciptools.sbr
+.\Debug\ckernel.sbr
+.\Debug\cloader.sbr
+.\Debug\cmsgerror.sbr
+.\Debug\cparamconfig.sbr
+.\Debug\cppptools.sbr
+.\Debug\crouteur.sbr
+.\Debug\ctcpipheader.sbr
+.\Debug\ctextlinux.sbr
+.\Debug\cusermanager.sbr
+.\Debug\cvjcompress.sbr
+.\Debug\CWinTap.sbr
+.\Debug\globals.sbr
+.\Debug\kernel30.sbr
+.\Debug\main.sbr
+.\Debug\nulldriver.sbr
+.\Debug\threadELV3.sbr
+.\Debug\TunTapErrors.sbr
+.\Debug\vjcompress.sbr
+.\Debug\winconf.sbr
+.\Debug\crouteurWin.sbr
+.\Debug\SnmpWin.sbr]
+Creating command line "bscmake.exe @D:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP1E6.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+PENGAOL.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

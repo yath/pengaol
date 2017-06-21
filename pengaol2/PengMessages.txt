@@ -81,7 +81,7 @@
 108=              par defaut des pilotes .
 109=              Par defaut le fichier s'appelle /etc/PengAOL.conf
 110=-LoadInit   : Permet de specifier le fichier de configuration à utiliser.
-111=-Debug     : Mode log avance
+111=-Debut     : Mode log avance
 112=-Log        : Active les logs
 113=-Connect  [login]  : Demmarre la connexion sur le compte definie
 114=-User [login] [Password] : Permet de lancer la connexion directement
@@ -206,7 +206,7 @@
 108=		  of the drivers
 109=		  By default the file is called /etc/PengAOL.conf
 110=-LoadInit	: Allows the specifying of the configuration file to use
-111=-Debug	: Advanced logging mode
+111=-Debut	: Advanced logging mode
 112=-Log	: Activate the logs
 113=-Connect [login]  : Connect using the specified account
 114=-User [login] [password] : Launching of direct connection
@@ -333,7 +333,7 @@
 108=		  of the drivers
 109=		  By default the file is called /etc/PengAOL.conf
 110=-LoadInit	: Allows the specifying of the configuration file to use
-111=-Debug	: Advanced logging mode
+111=-Debut	: Advanced logging mode
 112=-Log	: Activate the logs
 113=-Connect [login]  : Connect using the specified account
 114=-User [login] [password] : Launching of direct connection

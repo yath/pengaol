@@ -1,0 +1,24 @@
+Fichier d'aide au GUI
+---------------
+
+La connection entre pengaol et le GUI (interface graphique) se fait a traver un socket sur le port 8128 (actuellement)
+
+Voila les principales fonctions:
+
+<- designe pengaol vers Gui
+-> Gui vers pengaol
+
+<-Fx demande l'affichage de la fenetre x [1-3] : 1=general 2=connection 3=Aim+log
+<-C  Efface la liste des user [login]
+<-L Ajoute un user
+<-Mtexte Affiche texte dans la fenetre 2 lors de la connection
+<-D Efface la buddylist
+<-Ebuddy Ajoute Buddy dans la buddylist
+<-Itexte Ajoute texte dans la fenete d'info (fenetre 3)
+
+->Llogin Pengaol memorise login (dans une memoire interne)
+->Ppass Pengaol memorise Pass
+->S Pengaol enrigistre login, pass
+->K Pengaol efface login
+->D Demmarre la connection (utilise le Login login pour se connecter)
+->X Arrete la connection

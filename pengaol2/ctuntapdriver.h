@@ -14,7 +14,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifdef WIN32
+#include "..\config.h"
+#else
 #include "config.h"
+#endif
+
 
 #ifdef WITH_TUNTAP
 
@@ -22,14 +27,13 @@
 #define CTUNTAPDRIVER_H
 
 
-#include <nulldriver.h>
-#include <cparamconfig.h>
+#include "nulldriver.h"
+#include "cparamconfig.h"
 #include "type.h"
-#include <netinet/in.h>
-#include <arpa/inet.h>
 /**
   *@author Birdy57 & ManuD
   */
+#undef ERROR
 #define ERROR -1
 #define EthertapHeader {0x00,0x00,0xfe,0xfd,0x00,0x00,0x00,0x00,0xfe,0xfd,0x00,0x00,0x00,0x00,0x08,0x00};
 

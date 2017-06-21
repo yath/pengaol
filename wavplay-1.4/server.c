@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/server.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/server.c,v 1.1.1.1 2001/08/22 12:58:14 birdy57 Exp $
  * Warren W. Gay VE3WWG		Tue Feb 25 21:46:16 1997
  *
  * SERVER MODE FUNCTIONS:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: server.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:58:14  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -57,7 +60,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)server.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)server.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -650,4 +653,4 @@ toclnt_errmsg(int msg_errno,const char *message,int flags) {
 	}
 }
 
-/* $Source: /home/cvs/wavplay/server.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/server.c,v $ */

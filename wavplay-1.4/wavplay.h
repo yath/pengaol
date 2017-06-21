@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/wavplay.h,v 1.3 1999/12/04 00:05:34 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/wavplay.h,v 1.1.1.1 2001/08/22 12:58:04 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sun Feb 16 18:17:17 1997
  *
  * WAVPLAY OPTION SETTINGS:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: wavplay.h,v $
+ * Revision 1.1.1.1  2001/08/22 12:58:04  birdy57
+ *
+ *
  * Revision 1.3  1999/12/04 00:05:34  wwg
  * Fixed release number
  *
@@ -56,7 +59,7 @@
  *
  */
 #ifndef _wavplay_h_
-#define _wavplay_h_ "$Id: wavplay.h,v 1.3 1999/12/04 00:05:34 wwg Exp $"
+#define _wavplay_h_ "$Id: wavplay.h,v 1.1.1.1 2001/08/22 12:58:04 birdy57 Exp $"
 
 #define WAVPLAY_VERSION		"1.4"
 
@@ -523,4 +526,4 @@ extern int cmdopt_x;				/* Debug option flag */
 
 #endif /* _wavplay_h_ */
 
-/* $Source: /home/cvs/wavplay/wavplay.h,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/wavplay.h,v $ */

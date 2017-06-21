@@ -1,3 +1,4 @@
+#include "globals.h"
 
 /***************************************************************************
                           main.cpp  -  description
@@ -16,9 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#ifdef WIN32
+#include "..\config.h"
+#else
+#include "config.h"
 #endif
+
 
 #ifdef WIN32
 	#define System 2
@@ -30,32 +34,38 @@
 
 #include <iostream.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "nulldriver.h"
-#include "modemdriver.h"
-#include "CableDriver.h"
-#include "ctuntapdriver.h"
 #include "cloader.h"
 #include "cmsgerror.h"
 #include "ctextlinux.h"
 #include "ccommand.h"
 #include "ckernel.h"
 #include "kernel30.h"
-#include "crouteur.h"
+#include "crouteurWin.h"
 #include "crouteurlinux.h"
 #include "cusermanager.h"
-#include "cppp.h"
-#include <signal.h>
-#include <arpa/inet.h>
-#include <pthread.h>
+#include "threadELV3.h"
 
-// GUI
-//#include "pfdoc.h"
-#ifdef WITH_GUI
-#include "window1.h"
-#include "window2.h"
-#include "window3.h"
+#ifndef WIN32
+#include "cgui.h"
 #endif
+
+#ifdef WITH_MODEM
+#include "modemdriver.h"
+#endif
+#ifdef WITH_CABLE
+#include "CableDriver.h"
+#endif
+#ifdef WITH_TUNTAP
+#include "ctuntapdriver.h"
+#endif
+#ifdef WITH_PPP
+#include "cppp.h"
+#endif
+#ifdef WITH_WINTAP
+#include "cwintap.h"
+#endif
+#include <signal.h>
 
 //#include "cnewparamconfig.h"
 
@@ -85,70 +95,11 @@ char Language[3];
 char sTmp[200];
 struct in_addr adresse;
 char *Lan;
-char *Login=NULL;
-char *PassWord=NULL;
-pthread_t ThreadGUI;
-bool Started=false;
-int res;
-
-#ifdef WITH_GUI
-
-void DelUser(char *login)
-{
-if (!(UserManager->DeleteUser(login)))
-	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
-       else
-		Msg->Printf("%M%t\n",144);
-}
-
-void AddUser(char *login, char *password)
-{
-	if (!(UserManager->AddUser(login,password)))
-	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
-       else
-		Msg->Printf("%M%t\n",143);
-}
-
-void QuitPeng()
-{
-Exit(0);
-}
-
-void disconnect()
-{
-Exit(0);
-}
-
-char** LoginList()
-{
- return(UserManager->GetLogin());
-}
-
-char* GetPass(char *login)
-{
-return(UserManager->GetPass(login));
-}
-
-void EcritConnect(char *texte)
-{
-connect_window_set_text(texte);
-}
-
-void connection()
-{
-printf("Connection !!!\n");
-if (!Started)
-	{
-	Started=true;
-	}
-return;
-}
-
-void *StartKernel(void *)
-{
-RunGTK();
-}
-#endif
+bool bGui=false;
+bool bStart=false;
+char *Login;
+char *PassWord;
+CGui *Gui= new CGui;
 
 void Exit(int sig)
 {
@@ -172,6 +123,81 @@ if (!bStop)
 	}
 }
 
+#ifndef WIN32
+void SendInfo(char *stexte)
+{
+char sTmp[200];
+if (strlen(stexte)<190)
+	{
+	sprintf((char *) &sTmp,"I%s",stexte);
+	Gui->SendCommand((char *) &sTmp);
+	}
+}
+
+
+void DonneUser()
+{
+Gui->SendCommand("C");
+UserManager->ListUserGui();
+ }
+
+void AddGuiUser(char *stexte)
+{
+char sTmp[200];
+if (strlen(stexte)<190)
+	{
+	sprintf((char *) &sTmp,"L%s",stexte);
+	Gui->SendCommand((char *) &sTmp);
+	}
+}
+
+
+void BuddyClear()
+{
+Gui->SendCommand("D");
+}
+
+void BuddyAdd(char *stexte)
+{
+char sTmp[200];
+if (strlen(stexte)<190)
+	{
+	sprintf((char *) &sTmp,"E%s",stexte);
+	Gui->SendCommand((char *) &sTmp);
+	}
+}
+
+void GuiMess(char *stexte)
+{
+char sTmp[200];
+if (strlen(stexte)<190)
+	{
+	sprintf((char *) &sTmp,"M%s",stexte);
+	Gui->SendCommand((char *) &sTmp);
+	}
+}
+
+void Start(char *sLogin)
+{
+Login=sLogin;
+if ((PassWord=UserManager->GetPass(Login))==NULL)
+	Msg->Printf("%M%t\n",146);
+	else
+	bStart=true;
+}
+
+void KillUser(char *Login,char *PassWord)
+{
+UserManager->DeleteUser(Login);
+}
+
+void SaveUser(char *Login,char *PassWord)
+{
+UserManager->AddUser(Login,PassWord);
+}
+
+#endif
+
 int main(int argc, char *argv[])
 {
 int i;
@@ -181,20 +207,26 @@ UserManager=new CUserManager;
 
 if (!bReady)
 {
-	if (System==1)
-		{
 		Msg=new CTextLinux;
 		MsgI=new CTextLinux;
 		MsgO=new CTextLinux;
+	if (System==1)
+		{
+#ifndef WIN32
+		/*Msg=new CTextLinux;
+		MsgI=new CTextLinux;
+		MsgO=new CTextLinux;*/
 		Routeur=new CRouteurLinux;
 		(void) signal(SIGINT,Exit);
+		(void) signal(SIGKILL,Exit);
+#endif
 		}
 		else
 		{
-		Msg=new CMsgError;
+		/*Msg=new CMsgError;
 		MsgI=new CMsgError;
-		MsgO=new CMsgError;
-		Routeur=new CRouteur;
+		MsgO=new CMsgError;*/
+		Routeur=new CRouteurWin;
 	    }
 
 	Lan=getenv("LANG");
@@ -223,7 +255,6 @@ if (!bReady)
 
 bReady=true;
 
-
 #ifdef WITH_PPP
 Loader->AddDriver(new CPpp);
 #endif
@@ -236,18 +267,19 @@ Loader->AddDriver(new CCableDriver);
 #ifdef WITH_MODEM
 Loader->AddDriver(new CModemDriver);
 #endif
+#ifdef WITH_WINTAP
+Loader->AddDriver(new CWinTap);
+#endif
 
 // Traitement des options
 
-#ifndef WITH_GUI
-if (argc==1) // Pas d'options alors liste
+if (Command->Check((char *) "-help"))
 	{
 	Msg->SetMessage(true);
 	for (i=100;i<121;i++)
 		Msg->Printf("%M%t\n",i);
     exit(0);
 	}
-#endif
 
 // sinon on les traites
 
@@ -327,24 +359,33 @@ if (Command->Check((char *) "-MakeInit"))
 // Ajout d'un utilisateur
 
 if (Command->CheckOpt2((char *) "-AddUser"))
+	{
 	if (!(UserManager->AddUser(Command->GetOpt(),Command->GetOpt2())))
 	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
        else
 		Msg->Printf("%M%t\n",143);
-   	
+   	 exit(0);
+	}
+
 // Efface un utilisateur
 
 if (Command->Check((char *) "-ListUser"))
+	{
 	if (!(UserManager->ListUser()))
 	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
+    exit(0);
+	}
 
 // Liste les utilisateur
 
 if (Command->CheckOpt((char *) "-DelUser"))
+	{
 	if (!(UserManager->DeleteUser(Command->GetOpt())))
 	   	Msg->Printf("%M%t\n",UserManager->GetErrorNbr());
        else
 		Msg->Printf("%M%t\n",144);
+    exit(0);
+	}
 
 // restore les param par defauts
 if (Command->Check((char *) "-Restore"))
@@ -369,7 +410,6 @@ if (Command->Check((char *) "-Restore"))
 	exit(0);
 	}
 
-
 // Si on demande pas une connection alors arrete
 if (Command->CheckOpt2((char *) "-User"))
 	{
@@ -386,35 +426,33 @@ if (Command->CheckOpt((char *) "-Connect"))
 		exit(0);
 		}
 	}
-#ifndef WITH_GUI
 	else
+	#ifndef WIN32
+	{
+	bGui=true;
+	StartGui(Gui);
+	}
+	#else
 	exit(0);
+	#endif
+
+#ifndef WIN32
+if (bGui)
+	{
+	while (!bStart)
+	sleep(1);
+	}
 #endif
 
 //charge les drivers
 
-#ifdef WITH_GUI
-res=pthread_create(&ThreadGUI,NULL,StartKernel,NULL);
-
-while (!Started)
-	{
-	printf("wait !! \n");
-	sleep(1);
-	}
-
-Login=selected_user();
-	if ((PassWord=UserManager->GetPass(Login))==NULL)
-		{
-		Msg->Printf("%M%t\n",146);
-		Exit(0);
-		}
-#endif
 
 if (!Loader->LoadDriver())
 	{
 	Msg->Printf("%M%t\n",51);
 	exit(0);	
 	}
+
 // Memorise les drivers recut
 
 Input=Loader->GetDriverIn();
@@ -423,12 +461,13 @@ Output=Loader->GetDriverOut();
 bDriver=true;
 
 // Lance la connection
-Msg->Printf("%M%S%C%t\n",52);
-
-#ifdef WITH_GUI
-Window1_hide();
-connect_window_show();
+#ifndef WIN32
+// Demmande la 2 eme fenetre
+Gui->SetWindow(2);
 #endif
+
+Msg->Printf("%M%S%t\n",52);
+
 
 if (!Input->Connect())
 	{
@@ -447,7 +486,7 @@ if (!Output->Connect())
 
 // Donne la vitesse de connection si possible
 if (Input->GetSpeed())
-	Msg->Printf("%M%S%C%t:%d\n",53,Input->GetSpeed());
+	Msg->Printf("%M%S%t:%d\n",53,Input->GetSpeed());
 
 
 // Charge et initialise le noyau
@@ -482,7 +521,14 @@ if (!Kernel->Connect(Login,PassWord))
 	Msg->Printf("%M%t%s\n",74,sIp);
 	Msg->Printf("%M%t%s\n",75,sDns);
 	Msg->Printf("%M%t%s\n",76,sDomain);
-
+	#ifndef WIN32
+	sprintf((char *) &sTmp,"Ip:\n%s\n",sIp);
+	SendInfo((char *) &sTmp);
+	sprintf((char *) &sTmp,"Dns:\n%s\n",sDns);
+	SendInfo((char *) &sTmp);
+	sprintf((char *) &sTmp,"Domain:\n%s\n",sDomain);
+	SendInfo((char *) &sTmp);
+	#endif
 	// Lance le routage
 	if (Loader->GetDns()!=NULL)
 		sDns=Loader->GetDns();
@@ -499,7 +545,7 @@ if (!Kernel->Connect(Login,PassWord))
 		else
 	    {
 		// Demmarer le kernel
-	   Msg->Printf("%M%S%C%t%s\n",57,Kernel->GetName());
+	   Msg->Printf("%M%S%t%s\n",57,Kernel->GetName());
 		bKernel=true;
 		system("wavplay -q /usr/share/sound/welcome.wav &");
        // Demmarrage du prog auto
@@ -508,10 +554,12 @@ if (!Kernel->Connect(Login,PassWord))
 		    sprintf((char *) &sTmp,"%s &\n",Loader->GetStart());
 			 system((char *) &sTmp);
 			}
-		#ifdef WITH_GUI
-		connect_window_hide();
-		active_window_show();
+
+		#ifndef WIN32
+		// Demmande la 2 eme fenetre
+		Gui->SetWindow(3);
 		#endif
+
 		Kernel->Start();
 		if (bStop)
 		   Msg->Printf("%M%S%t\n",79);
@@ -527,6 +575,10 @@ if (!Kernel->Connect(Login,PassWord))
   }
 Loader->MakeConfig(false);
 Loader->KillDriver();
+
+if (bGui)
+	StopGui();
+
 delete Loader;
 delete Routeur;
 delete Msg;
@@ -534,12 +586,10 @@ delete MsgI;
 delete MsgO;
 delete UserManager;
 delete Kernel;
+
 if (bAolMerde)
 	exit(-1);
-#ifdef WITH_GUI
-gtk_main_quit();
-_exit(0);
-#else	
+	
 exit(0);
-#endif
+
 }

@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/locks.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/locks.c,v 1.1.1.1 2001/08/22 12:57:32 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sat May 11 15:01:58 1996
  * 
  * MANAGE LOCKS ON THE AUDIO DEVICE:
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: locks.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:32  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -39,7 +42,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)locks.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)locks.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -238,4 +241,4 @@ UnlockDSP(int ipc,int playrecx,ErrFunc erf) {
 	return s;
 }
 
-/* $Source: /home/cvs/wavplay/locks.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/locks.c,v $ */

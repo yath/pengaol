@@ -45,7 +45,7 @@ public:
   int Encode_Lcp(Byte *buffer,int Longueur);
 protected: // Protected attributes
   /** pour le calcul du checksum */
-  unsigned short  *fcstab;
+  static unsigned short  fcstab[256];
 };
 
 #endif

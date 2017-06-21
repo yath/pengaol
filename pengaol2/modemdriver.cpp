@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           CModemDriver.cpp  -  description
                              -------------------
@@ -158,7 +160,7 @@ bool CModemDriver::Connect()
 	// Numerote
 			if (Dial())
 			{
-			m_cMsg->Printf("%M%C%t\n",131);
+			m_cMsg->Printf("%C%M%t\n",131);
 				if (!WaitFor("ogin:",800,NULL,NULL))					
 				{
 						m_nErrorNbr=13;
@@ -459,7 +461,7 @@ Byte *sTempBuffer= new Byte[200];
 int nLongueur;
 int nLon;
 
-m_cMsg->Printf("%M%C%t%s\n",130,m_sPhoneNbr);
+m_cMsg->Printf("%C%M%t%s\n",130,m_sPhoneNbr);
 
 // Normalise la ligne
 sprintf((char *) sTempBuffer,"%s%s",(char*) m_sDialCommand,(char *) m_sPhoneNbr);
@@ -667,6 +669,7 @@ if (strstr(m_sDEV,"Auto")==NULL)
 			}
 		tcflush (m_nFdPort, TCIOFLUSH);
 		tcsetattr(m_nFdPort, TCSANOW, &oldt);
+
 		tcsetattr(m_nFdPort, TCSANOW, &oldt);
 		close(m_nFdPort);
 	}

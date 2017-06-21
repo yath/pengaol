@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           ctextlinux.cpp  -  description
                              -------------------
@@ -14,7 +16,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
 
 #include "ctextlinux.h"
 
@@ -47,7 +48,7 @@ bool bMess=false;
 bool bLog=false;
 bool bSysLog=false;
 bool bDebugLog=false;
-bool bGuiConnect=false;
+bool bGuiMess=false;
 char buffer[200];
 char *buf=&buffer[0];
 char *StartBuf=buf;
@@ -90,6 +91,10 @@ while     (*texte)
 				buf+=strlen(buf);
 				break;
 
+				case 'C':     // active/desactive les messages
+				bGuiMess=!bGuiMess;
+				break;
+
 				case 'M':     // active/desactive les messages
 				bMess=!bMess;
 				break;
@@ -105,16 +110,6 @@ while     (*texte)
 				case 'D':     // active/desactive les LOGS
 				bDebugLog=!bDebugLog;
 				break;
-
-				#ifdef WITH_GUI
-				case 'C':     // active/desactive les LOGS
-				bGuiConnect=!bGuiConnect;
-				bMess=false;
-				break;
-				#else
-				case 'C':     // active/desactive les LOGS
-				break;
-				#endif				
 
 				case 't':     // affiche un texte traduit
 				d = va_arg (ap,int);
@@ -143,11 +138,10 @@ if ((bDebugLog) && (m_bWriteDebug))
 			MessPrint(StartBuf);
 if (bSysLog)
 			syslog(LOG_INFO,StartBuf);
-#ifdef WITH_GUI
-if (bGuiConnect)
-			EcritConnect(StartBuf);
+#ifndef WIN32
+if (bGuiMess)
+			GuiMess(StartBuf);
 #endif
-
 va_end (ap);
 }
 

@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/main.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/main.c,v 1.1.1.1 2001/08/22 12:57:32 birdy57 Exp $
  * Warren W. Gay VE3WWG		Sun Feb 16 20:12:22 1997#include <stdio.h>
  *
  * WAVPLAY SHELL MODE MAIN PROGRAM :
@@ -29,6 +29,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: main.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:32  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -48,7 +51,7 @@
  * Initial revision
  *
  */
-static const char rcsid[] = "@(#)main.c $Revision: 1.2 $";
+static const char rcsid[] = "@(#)main.c $Revision: 1.1.1.1 $";
 
 #include <stdio.h>
 #include <errno.h>
@@ -509,4 +512,4 @@ main(int argc,char **argv) {
 	return rc;
 }
 
-/* $Source: /home/cvs/wavplay/main.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/main.c,v $ */

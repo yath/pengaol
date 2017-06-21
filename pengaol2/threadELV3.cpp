@@ -1,3 +1,5 @@
+#include "globals.h"
+
 /***************************************************************************
                           threadELV3.cpp  -  description
                              -------------------
@@ -15,13 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #include "threadELV3.h"
+
+#ifndef WIN32
 CAolCmd30 *GCmd;
 CAolToClient30 *GAolClient;
 CClientToAol30 *GClientAol;
+CGui *GGui;
+
 pthread_t Thread1;
 pthread_t Thread2;
 pthread_t Thread3;
+pthread_t Thread4;
+
+void *StartGui(void *)
+{
+pthread_setcanceltype(PTHREAD_CANCEL_ENABLE,NULL);
+GGui->Receiver();
+return 0;
+}
 
 void *StartCmd(void *)
 {
@@ -59,9 +74,70 @@ res=pthread_create(&Thread3,NULL,StartCTA,NULL);
 res=pthread_join(Thread1,NULL);
 }
 
+void StartGui(CGui *Gui)
+{
+int res;
+GGui=Gui;
+res=pthread_create(&Thread4,NULL,StartGui,NULL);
+}
+
+void StopGui()
+{
+pthread_cancel(Thread4);
+}
+
+
 void KillELV3Sub()
 {
 pthread_cancel(Thread2);
 pthread_cancel(Thread3);
 }
+#else
 
+HANDLE g_nThread[3];
+
+CAolCmd30 *GCmd;
+CAolToClient30 *GAolClient;
+CClientToAol30 *GClientAol;
+
+void StartCmd(void *)
+{
+	GCmd->Main();
+	_endthread();
+}
+
+void StartATC(void *)
+{
+	GAolClient->Main();
+	_endthread();
+}
+
+void StartCTA(void *)
+{
+	GClientAol->Main();
+	_endthread();
+}
+
+
+void StartELV3Sub(CAolCmd30 *Cmd,CAolToClient30 *AolClient,CClientToAol30  *ClientAol)
+{
+	GCmd=Cmd;
+	GAolClient=AolClient;
+	GClientAol=ClientAol;
+
+	g_nThread[0]=(HANDLE)_beginthread(StartCmd,0,NULL);
+	g_nThread[1]=(HANDLE)_beginthread(StartATC,0,NULL);
+	g_nThread[2]=(HANDLE)_beginthread(StartCTA,0,NULL);
+
+
+	//WaitForMultipleObjects(3,g_nThread,TRUE,INFINITE);
+	WaitForSingleObject(g_nThread[0], INFINITE);
+}
+
+void KillELV3Sub()
+{
+	//TerminateProcess(g_nThread[0]);
+	TerminateProcess(g_nThread[2],0);
+	TerminateProcess(g_nThread[3],0);
+}
+#endif

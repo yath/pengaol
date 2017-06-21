@@ -1,0 +1,36 @@
+
+To install QpThread library for C++ perform following tasks:
+Quick Install:
+
+./configure
+make    or    make all   for static linked library also
+make install
+
+
+Description:
+1. Run ./configure or copy Make.def.base to Make.def and edit Make.def to 
+   match your platform (the DEST variable) and your installation directory 
+   (the INST_PREFIX variable)
+   
+   For Solaris SUNWspro 4.2 compiler you need to download STL implementation.
+   The QpThread library is supported with STLport-3.12.tgz which is available 
+   from http://www.stlport.org or from QpThread archive. Untar STLport-3.XX.tgz
+   and set STL_INC variable in Make.def. You will need this STL for QpThread
+   further so install it in some common place.
+   
+2. Make sure you have GNU make installed
+
+3. type make all            (or   gmake all       for GNU make)
+   plain make will build only dynamic library
+
+4. type make install        (or   gmake install   for GNU make)
+
+5. optionally you can compile and run some test programs available in ex
+   directory
+   
+enjoy
+
+
+Please send bug descriptions, patches, suggestions or successful stories to
+Pavel Krauz <kra@gncz.cz>
+

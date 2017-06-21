@@ -1,4 +1,4 @@
-/* $Header: /home/cvs/wavplay/xltwavplay.c,v 1.2 1999/12/04 00:01:20 wwg Exp $
+/* $Header: /cvsroot/pengaol/pengaol/wavplay-1.4/xltwavplay.c,v 1.1.1.1 2001/08/22 12:57:52 birdy57 Exp $
  * Warren W. Gay VE3WWG		Thu Feb 13 21:11:22 1997
  *
  * 	X LessTif WAV Play :
@@ -27,6 +27,9 @@
  *	wgay@mackenziefinancial.com
  *
  * $Log: xltwavplay.c,v $
+ * Revision 1.1.1.1  2001/08/22 12:57:52  birdy57
+ *
+ *
  * Revision 1.2  1999/12/04 00:01:20  wwg
  * Implement wavplay-1.4 release changes
  *
@@ -95,7 +98,7 @@
 #include "client.h"
 
 static char * const rcsid[] = {
-	"@(#)xltwavplay.c $Revision: 1.2 $",
+	"@(#)xltwavplay.c $Revision: 1.1.1.1 $",
 	_wavplay_h_,
 	"@(#)xltwavplay version " WAVPLAY_VERSION
 };
@@ -1518,4 +1521,4 @@ main(int argc,char **argv) {
 	return 0;						/* A cookie for the compiler */
 }                       
 
-/* $Source: /home/cvs/wavplay/xltwavplay.c,v $ */
+/* $Source: /cvsroot/pengaol/pengaol/wavplay-1.4/xltwavplay.c,v $ */

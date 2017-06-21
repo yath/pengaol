@@ -1,0 +1,29 @@
+
+#############################################
+
+###### Solaris 2.5/Intel/Sparc with SUNWspro 4.2
+#DEST=Solaris_Intel
+#DEST=Solaris_Sparc
+
+###### Solaris 2.6 Sparc with egcs
+#DEST=Solaris_Sparc_egcs
+
+
+###### Linux/Intel/Alpha/Sparc/Other with GlibC and EGCS-1.1.1
+#DEST=Linux_Intel
+#DEST=Linux_Alpha
+#DEST=Linux_Sparc
+#DEST=Linux_Other
+
+###### Digital Unix (aka OSF1) 4.0 with DEC C++ 6.0
+#DEST=OSF1_Alpha
+
+
+###### for Solaris + SUNWspro 4.2 only
+STL_INC=../STLport-3.12.3/stl
+
+
+###### Install directory if installed with make install
+INST_PREFIX=/usr/
+
+#############################################
